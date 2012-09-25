@@ -1,0 +1,4 @@
+OutcoldSolutions-Framework
+==========================
+
+Framework library
