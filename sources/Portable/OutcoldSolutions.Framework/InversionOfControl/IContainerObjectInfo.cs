@@ -14,6 +14,9 @@ namespace OutcoldSolutions
         /// <summary>
         /// The implementation.
         /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
         /// <returns>
         /// The <see cref="IContainerObjectInfo"/>.
         /// </returns>
@@ -22,9 +25,6 @@ namespace OutcoldSolutions
         /// <summary>
         /// The as singleton.
         /// </summary>
-        /// <returns>
-        /// The <see cref="IContainerObjectInfo"/>.
-        /// </returns>
         void AsSingleton();
 
         /// <summary>
@@ -33,9 +33,6 @@ namespace OutcoldSolutions
         /// <param name="instance">
         /// The instance.
         /// </param>
-        /// <returns>
-        /// The <see cref="IContainerObjectInfo"/>.
-        /// </returns>
         void AsSingleton(object instance);
     }
 }
