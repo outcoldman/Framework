@@ -47,6 +47,7 @@
     <Compile Include="InversionOfControl\IDependencyResolverContainer.cs" />
     <Compile Include="InversionOfControl\IContainerObjectInfo.cs" />
     <Compile Include="InversionOfControl\IDependencyResolverContainerEx.cs" />
+    <Compile Include="InversionOfControl\InjectAttribute.cs" />
     <Compile Include="InversionOfControl\IRegistrationContext.cs" />
     <Compile Include="InversionOfControl\RegistrationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

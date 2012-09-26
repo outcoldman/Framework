@@ -7,18 +7,17 @@ namespace OutcoldSolutions.Framework.InversionOfControl
     using System;
     using System.Text;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Moq;
 
-    [TestClass]
+    using NUnit.Framework;
+
     public class ContainerObjectInfoSuites
     {
         private Type registeredType;
         private Mock<IDependencyResolverContainerEx> container;
         private Mock<IRegistrationContext> registrationContext;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialization()
         {
             this.registeredType = typeof(Encoding);
@@ -26,7 +25,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             this.registrationContext = new Mock<IRegistrationContext>();
         }
 
-        [TestMethod]
+        [Test]
         public void Ctor_ClassShouldSelfRegister()
         {
             // Arrange + Act
@@ -36,20 +35,20 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             this.container.Verify(c => c.Add(this.registeredType, objectInfo, this.registrationContext.Object), Times.Once());
         }
 
-        [TestMethod]
+        [Test]
         public void For_PassNullInstance_ThrowsException()
         {
             // Arrange
             var objectInfo = new ContainerObjectInfo(this.registeredType, this.container.Object, this.registrationContext.Object);
 
             // Act
-            Action act = () => objectInfo.And(null);
+            TestDelegate act = () => objectInfo.And(null);
 
             // Assert
-            AssertEx.Throws<ArgumentNullException>(act);
+            Assert.Throws<ArgumentNullException>(act);
         }
 
-        [TestMethod]
+        [Test]
         public void For_PassNewType_ShouldPassItToContainer()
         {
             // Arrange

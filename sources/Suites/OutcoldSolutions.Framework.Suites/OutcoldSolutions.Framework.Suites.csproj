@@ -40,6 +40,9 @@
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -48,15 +51,13 @@
         <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
       </ItemGroup>
     </When>
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-      </ItemGroup>
-    </Otherwise>
+    <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="InversionOfControl\ContainerObjectInfoResolveSuites.cs" />
     <Compile Include="InversionOfControl\ContainerObjectInfoSuites.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainerSuites.cs" />
+    <Compile Include="InversionOfControl\Stubs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,10 +65,6 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OutcoldSolutions.MsTestExtensions\OutcoldSolutions.MsTestExtensions.csproj">
-      <Project>{ad1682e6-78cb-4d29-80c5-f190e2e2a32b}</Project>
-      <Name>OutcoldSolutions.MsTestExtensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Portable\OutcoldSolutions.Framework\OutcoldSolutions.Framework.csproj">
       <Project>{1b2dc586-ab06-48cd-ad91-2d699a43725e}</Project>
       <Name>OutcoldSolutions.Framework</Name>

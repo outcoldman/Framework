@@ -6,6 +6,7 @@ namespace OutcoldSolutions
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Threading;
 
     /// <summary>
@@ -13,7 +14,7 @@ namespace OutcoldSolutions
     /// </summary>
     public class DependencyResolverContainer : IDependencyResolverContainerEx
     {
-        private readonly Dictionary<Type, IContainerObjectInfo> registeredObjects = new Dictionary<Type, IContainerObjectInfo>();
+        private readonly Dictionary<Type, ContainerObjectInfo> registeredObjects = new Dictionary<Type, ContainerObjectInfo>();
         private readonly object registractionContextLocker = new object();
         private IRegistrationContext currentRegistrationContext;
 
@@ -37,7 +38,27 @@ namespace OutcoldSolutions
         /// <inheritdoc />
         public bool IsRegistered(Type type)
         {
-            return this.registeredObjects.ContainsKey(type);
+            lock (this.registractionContextLocker)
+            {
+                return this.registeredObjects.ContainsKey(type);
+            }
+        }
+
+        /// <inheritdoc />
+        public object Resolve(Type type, object[] arguments = null)
+        {
+            lock (this.registractionContextLocker)
+            {
+                ContainerObjectInfo objectInfo;
+                if (this.registeredObjects.TryGetValue(type, out objectInfo))
+                {
+                    return objectInfo.Resolve(arguments);
+                }
+
+                throw new ArgumentOutOfRangeException(
+                    "type",
+                    string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_TypeIsNotRegistered, type));
+            }
         }
 
         void IDependencyResolverContainerEx.RemoveRegistrationContext(IRegistrationContext registrationContext)

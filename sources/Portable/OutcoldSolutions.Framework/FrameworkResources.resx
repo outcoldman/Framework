@@ -117,13 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrMsg_CannotFindConstructorForType" xml:space="preserve">
+    <value>Cannot find constructor for type '{0}'. If type has more than one constructor - use InjectAttribute to mark the constructor which you want to use for injection.</value>
+  </data>
   <data name="ErrMsg_CannotSetMoreThanOneBehavior" xml:space="preserve">
     <value>Cannot set more than one behavior for registration.</value>
+  </data>
+  <data name="ErrMsg_CircularResolving" xml:space="preserve">
+    <value>Cannot resolve type '{0}'. Circular resolving.</value>
   </data>
   <data name="ErrMsg_ParentRegistrationContextIsDisposed" xml:space="preserve">
     <value>Parent registration context is disposed.</value>
   </data>
   <data name="ErrMsg_PreviosCreatedContextIsNotDisposed" xml:space="preserve">
     <value>Previous created registration context is not disposed.</value>
+  </data>
+  <data name="ErrMsg_TypeIsNotRegistered" xml:space="preserve">
+    <value>Type '{0}' is not registered.</value>
   </data>
 </root>

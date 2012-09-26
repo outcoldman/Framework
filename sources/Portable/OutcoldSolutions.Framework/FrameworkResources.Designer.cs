@@ -61,11 +61,29 @@ namespace OutcoldSolutions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find constructor for type &apos;{0}&apos;. If type has more than one constructor - use InjectAttribute to mark the constructor which you want to use for injection..
+        /// </summary>
+        internal static string ErrMsg_CannotFindConstructorForType {
+            get {
+                return ResourceManager.GetString("ErrMsg_CannotFindConstructorForType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot set more than one behavior for registration..
         /// </summary>
         internal static string ErrMsg_CannotSetMoreThanOneBehavior {
             get {
                 return ResourceManager.GetString("ErrMsg_CannotSetMoreThanOneBehavior", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot resolve type &apos;{0}&apos;. Circular resolving..
+        /// </summary>
+        internal static string ErrMsg_CircularResolving {
+            get {
+                return ResourceManager.GetString("ErrMsg_CircularResolving", resourceCulture);
             }
         }
         
@@ -84,6 +102,15 @@ namespace OutcoldSolutions {
         internal static string ErrMsg_PreviosCreatedContextIsNotDisposed {
             get {
                 return ResourceManager.GetString("ErrMsg_PreviosCreatedContextIsNotDisposed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; is not registered..
+        /// </summary>
+        internal static string ErrMsg_TypeIsNotRegistered {
+            get {
+                return ResourceManager.GetString("ErrMsg_TypeIsNotRegistered", resourceCulture);
             }
         }
     }

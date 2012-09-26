@@ -6,12 +6,11 @@ namespace OutcoldSolutions.Framework.InversionOfControl
 {
     using System;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
     public class DependencyResolverContainerSuites
     {
-        [TestMethod]
+        [Test]
         public void Register_AsInstance_ShouldBeRegistered()
         {
             // Arrange
@@ -20,16 +19,16 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(IService1))
-                        .AsSingleton(new Service());
+                registrationContext.Register(typeof(IServiceStub1))
+                        .AsSingleton(new ServiceStub());
             }
 
             // Assert
-            Assert.IsTrue(container.IsRegistered(typeof(IService1)));
-            Assert.IsFalse(container.IsRegistered(typeof(Service)));
+            Assert.IsTrue(container.IsRegistered(typeof(IServiceStub1)));
+            Assert.IsFalse(container.IsRegistered(typeof(ServiceStub)));
         }
 
-        [TestMethod]
+        [Test]
         public void Register_AsSingleton_ShouldBeRegistered()
         {
             // Arrange
@@ -38,18 +37,18 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(IService1))
-                    .And(typeof(IService2))
-                    .AsSingleton(typeof(Service));
+                registrationContext.Register(typeof(IServiceStub1))
+                    .And(typeof(IServiceStub2))
+                    .AsSingleton(typeof(ServiceStub));
             }
 
             // Assert
-            Assert.IsTrue(container.IsRegistered(typeof(IService1)));
-            Assert.IsTrue(container.IsRegistered(typeof(IService2)));
-            Assert.IsFalse(container.IsRegistered(typeof(Service)));
+            Assert.IsTrue(container.IsRegistered(typeof(IServiceStub1)));
+            Assert.IsTrue(container.IsRegistered(typeof(IServiceStub2)));
+            Assert.IsFalse(container.IsRegistered(typeof(ServiceStub)));
         }
 
-        [TestMethod]
+        [Test]
         public void Register_ForTwoInterfaces_ShouldBeRegistered()
         {
             // Arrange
@@ -58,18 +57,18 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(IService1))
-                        .And(typeof(IService2))
-                        .AsSingleton(new Service());
+                registrationContext.Register(typeof(IServiceStub1))
+                        .And(typeof(IServiceStub2))
+                        .AsSingleton(new ServiceStub());
             }
 
             // Assert
-            Assert.IsTrue(container.IsRegistered(typeof(IService1)));
-            Assert.IsTrue(container.IsRegistered(typeof(IService2)));
-            Assert.IsFalse(container.IsRegistered(typeof(Service)));
+            Assert.IsTrue(container.IsRegistered(typeof(IServiceStub1)));
+            Assert.IsTrue(container.IsRegistered(typeof(IServiceStub2)));
+            Assert.IsFalse(container.IsRegistered(typeof(ServiceStub)));
         }
 
-        [TestMethod]
+        [Test]
         public void GetRegistrationContext_TryToGetSecondContext_ThrowsException()
         {
             // Arrange
@@ -78,16 +77,16 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             var registrationContext1 = container.GetRegistrationContext();
 
-            Action act = () =>
+            TestDelegate act = () =>
                 {
                     var registrationContext2 = container.GetRegistrationContext();
                 };
 
             // Assert
-            AssertEx.Throws<NotSupportedException>(act);
+            Assert.Throws<NotSupportedException>(act);
         }
 
-        [TestMethod]
+        [Test]
         public void GetRegistrationContext_TryToGetSecondContextAfterFirstDisposed_ShouldProvideContext()
         {
             // Arrange
@@ -103,7 +102,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             Assert.IsNotNull(registrationContext2);
         }
 
-        [TestMethod]
+        [Test]
         public void Register_UseTwoRegistrationContextes_ShouldBeRegistered()
         {
             // Arrange
@@ -112,32 +111,37 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(IService1))
-                        .AsSingleton(typeof(Service));
+                registrationContext.Register(typeof(IServiceStub1))
+                        .AsSingleton(typeof(ServiceStub));
             }
 
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(IService2))
-                        .AsSingleton(typeof(Service));
+                registrationContext.Register(typeof(IServiceStub2))
+                        .AsSingleton(typeof(ServiceStub));
             }
 
             // Assert
-            Assert.IsTrue(container.IsRegistered(typeof(IService1)));
-            Assert.IsTrue(container.IsRegistered(typeof(IService2)));
-            Assert.IsFalse(container.IsRegistered(typeof(Service)));
-        }
-        
-        public interface IService1
-        {
+            Assert.IsTrue(container.IsRegistered(typeof(IServiceStub1)));
+            Assert.IsTrue(container.IsRegistered(typeof(IServiceStub2)));
+            Assert.IsFalse(container.IsRegistered(typeof(ServiceStub)));
         }
 
-        public interface IService2
+        [Test]
+        public void Resolve_CircularType_ShouldThrowException()
         {
-        }
+            // Arrange
+            var container = new DependencyResolverContainer();
+            using (var registrationContext = container.GetRegistrationContext())
+            {
+                registrationContext.Register(typeof(ServiceCircularStub));
+            }
 
-        public class Service : IService1, IService2
-        {
+            // Act
+            TestDelegate act = () => container.Resolve(typeof(ServiceCircularStub));
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(act);
         }
     }
 }

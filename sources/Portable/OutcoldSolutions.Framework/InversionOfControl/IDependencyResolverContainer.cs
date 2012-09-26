@@ -30,5 +30,13 @@ namespace OutcoldSolutions
         /// Is current type <paramref name="type"/> is registered.
         /// </returns>
         bool IsRegistered(Type type);
+
+        /// <summary>
+        /// Resolve type.
+        /// </summary>
+        /// <param name="type">The type for resolve.</param>
+        /// <param name="arguments">The list of arguments for constructor.</param>
+        /// <returns>Resolved object.</returns>
+        object Resolve(Type type, object[] arguments = null);
     }
 }
