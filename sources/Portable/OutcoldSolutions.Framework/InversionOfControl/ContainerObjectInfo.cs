@@ -175,7 +175,7 @@ namespace OutcoldSolutions
                     {
                         if (this.constructorInfo == null)
                         {
-                            this.Compile();
+                            this.InitializeConstructor();
                         }
 
                         var ctorParameters = this.requiredInjections.Select(
@@ -215,7 +215,7 @@ namespace OutcoldSolutions
             }
         }
 
-        private void Compile()
+        private void InitializeConstructor()
         {
             if (this.factory == null && this.instance == null)
             {
