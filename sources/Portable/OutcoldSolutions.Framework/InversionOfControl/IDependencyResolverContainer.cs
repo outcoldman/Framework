@@ -7,26 +7,27 @@ namespace OutcoldSolutions
     using System;
 
     /// <summary>
-    /// The DependencyResolverContainer interface.
+    /// The dependency resolver container.
     /// </summary>
     public interface IDependencyResolverContainer
     {
         /// <summary>
-        /// The get registration context.
+        /// Get registration context to register types and instances in container. This operation
+        /// blocks all resolve operation untill <see cref="IRegistrationContext"/> will be disposed.
         /// </summary>
         /// <returns>
-        /// The <see cref="IRegistrationContext"/>.
+        /// The <see cref="IRegistrationContext"/>. Allows to register types and instances in container.
         /// </returns>
         IRegistrationContext GetRegistrationContext();
 
         /// <summary>
-        /// The is registered.
+        /// Check if <paramref name="type"/> is registered and can be resolved with current container.
         /// </summary>
         /// <param name="type">
         /// The type.
         /// </param>
         /// <returns>
-        /// The <see cref="bool"/>.
+        /// Is current type <paramref name="type"/> is registered.
         /// </returns>
         bool IsRegistered(Type type);
     }

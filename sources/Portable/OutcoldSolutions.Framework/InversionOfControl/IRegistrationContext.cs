@@ -7,19 +7,26 @@ namespace OutcoldSolutions
     using System;
 
     /// <summary>
-    /// The RegistrationContext interface.
+    /// The registration context for <see cref="IDependencyResolverContainer"/>.
     /// </summary>
     public interface IRegistrationContext : IDisposable
     {
         /// <summary>
-        /// The register.
+        /// Gets a value indicating whether is disposed.
         /// </summary>
-        /// <param name="typeImplementation">
-        /// The type implementation.
+        bool IsDisposed { get; }
+
+        /// <summary>
+        /// Start registration process for type <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">
+        /// The type implementation. 
         /// </param>
         /// <returns>
-        /// The <see cref="IContainerObjectInfo"/>.
+        /// Instance of <see cref="IContainerObjectInfo"/>, which allows you to specify registration settings 
+        /// for <paramref name="type"/>.
         /// </returns>
-        IContainerObjectInfo Register(Type typeImplementation);
+        /// <exception cref="ArgumentNullException">If <paramref name="type"/> is null.</exception>
+        IContainerObjectInfo Register(Type type);
     }
 }

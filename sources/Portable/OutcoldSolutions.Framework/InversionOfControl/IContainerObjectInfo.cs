@@ -20,19 +20,38 @@ namespace OutcoldSolutions
         /// <returns>
         /// The <see cref="IContainerObjectInfo"/>.
         /// </returns>
-        IContainerObjectInfo For(Type type);
+        IContainerObjectInfo And(Type type);
 
         /// <summary>
-        /// The as singleton.
+        /// Set implementation type for registered types.
         /// </summary>
-        void AsSingleton();
+        /// <param name="typeImplementation">
+        /// The type implementation. Cannot be interface or abstracted class.
+        /// </param>
+        void As(Type typeImplementation);
 
         /// <summary>
-        /// The as singleton.
+        /// Set factory which can constructs registered types.
         /// </summary>
-        /// <param name="instance">
+        /// <param name="factoryFunction">
+        /// The function which can construct registered types.
+        /// </param>
+        void As(Func<object> factoryFunction);
+
+        /// <summary>
+        /// Set implementation for registered types and mark it as singleton.
+        /// </summary>
+        /// <param name="typeImplementation">
+        /// The type Implementation.
+        /// </param>
+        void AsSingleton(Type typeImplementation);
+
+        /// <summary>
+        /// Set singleton implementation for registered types.
+        /// </summary>
+        /// <param name="instanceObject">
         /// The instance.
         /// </param>
-        void AsSingleton(object instance);
+        void AsSingleton(object instanceObject);
     }
 }

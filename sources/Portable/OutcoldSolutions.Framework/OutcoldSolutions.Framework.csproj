@@ -37,14 +37,25 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InversionOfControl\Container.cs" />
+    <Compile Include="FrameworkResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FrameworkResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="InversionOfControl\ContainerObjectInfo.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainer.cs" />
     <Compile Include="InversionOfControl\IDependencyResolverContainer.cs" />
     <Compile Include="InversionOfControl\IContainerObjectInfo.cs" />
+    <Compile Include="InversionOfControl\IDependencyResolverContainerEx.cs" />
     <Compile Include="InversionOfControl\IRegistrationContext.cs" />
     <Compile Include="InversionOfControl\RegistrationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FrameworkResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FrameworkResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

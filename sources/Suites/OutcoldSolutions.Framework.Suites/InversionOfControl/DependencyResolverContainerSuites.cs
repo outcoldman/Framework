@@ -20,16 +20,13 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(Service))
-                    .For(typeof(IService1))
-                    .For(typeof(IService2))
+                registrationContext.Register(typeof(IService1))
                         .AsSingleton(new Service());
             }
 
             // Assert
             Assert.IsTrue(container.IsRegistered(typeof(IService1)));
-            Assert.IsTrue(container.IsRegistered(typeof(IService2)));
-            Assert.IsTrue(container.IsRegistered(typeof(Service)));
+            Assert.IsFalse(container.IsRegistered(typeof(Service)));
         }
 
         [TestMethod]
@@ -41,16 +38,15 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(Service))
-                    .For(typeof(IService1))
-                    .For(typeof(IService2))
-                        .AsSingleton();
+                registrationContext.Register(typeof(IService1))
+                    .And(typeof(IService2))
+                    .AsSingleton(typeof(Service));
             }
 
             // Assert
             Assert.IsTrue(container.IsRegistered(typeof(IService1)));
             Assert.IsTrue(container.IsRegistered(typeof(IService2)));
-            Assert.IsTrue(container.IsRegistered(typeof(Service)));
+            Assert.IsFalse(container.IsRegistered(typeof(Service)));
         }
 
         [TestMethod]
@@ -62,16 +58,15 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Act
             using (var registrationContext = container.GetRegistrationContext())
             {
-                registrationContext.Register(typeof(Service))
-                    .For(typeof(IService1))
-                    .For(typeof(IService2))
-                        .AsSingleton();
+                registrationContext.Register(typeof(IService1))
+                        .And(typeof(IService2))
+                        .AsSingleton(new Service());
             }
 
             // Assert
             Assert.IsTrue(container.IsRegistered(typeof(IService1)));
             Assert.IsTrue(container.IsRegistered(typeof(IService2)));
-            Assert.IsTrue(container.IsRegistered(typeof(Service)));
+            Assert.IsFalse(container.IsRegistered(typeof(Service)));
         }
 
         [TestMethod]
@@ -106,6 +101,31 @@ namespace OutcoldSolutions.Framework.InversionOfControl
 
             // Assert
             Assert.IsNotNull(registrationContext2);
+        }
+
+        [TestMethod]
+        public void Register_UseTwoRegistrationContextes_ShouldBeRegistered()
+        {
+            // Arrange
+            var container = new DependencyResolverContainer();
+
+            // Act
+            using (var registrationContext = container.GetRegistrationContext())
+            {
+                registrationContext.Register(typeof(IService1))
+                        .AsSingleton(typeof(Service));
+            }
+
+            using (var registrationContext = container.GetRegistrationContext())
+            {
+                registrationContext.Register(typeof(IService2))
+                        .AsSingleton(typeof(Service));
+            }
+
+            // Assert
+            Assert.IsTrue(container.IsRegistered(typeof(IService1)));
+            Assert.IsTrue(container.IsRegistered(typeof(IService2)));
+            Assert.IsFalse(container.IsRegistered(typeof(Service)));
         }
         
         public interface IService1
