@@ -55,6 +55,11 @@ namespace OutcoldSolutions
             return new ContainerInstance(type, this.store, this, this.container);
         }
 
+        public IContainerInstance Register<TType>()
+        {
+            return this.Register(typeof(TType));
+        }
+
         private void Dispose(bool disposing)
         {
             if (!this.isDisposed)
