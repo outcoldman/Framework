@@ -96,5 +96,16 @@ namespace OutcoldSolutions
 
             this.registeredObjects.Add(type, objectInfo);
         }
+
+        ContainerObjectInfo IDependencyResolverContainerEx.Get(Type type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            ContainerObjectInfo objectInfo;
+            return this.registeredObjects.TryGetValue(type, out objectInfo) ? objectInfo : null;
+        }
     }
 }

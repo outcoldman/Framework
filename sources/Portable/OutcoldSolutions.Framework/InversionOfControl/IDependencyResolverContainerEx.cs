@@ -24,5 +24,7 @@ namespace OutcoldSolutions
         /// <param name="objectInfo">Object info for current type.</param>
         /// <param name="registrationContext">Registration context, which was asked to register this type.</param>
         void Add(Type type, ContainerObjectInfo objectInfo, IRegistrationContext registrationContext);
+
+        ContainerObjectInfo Get(Type type);
     }
 }
