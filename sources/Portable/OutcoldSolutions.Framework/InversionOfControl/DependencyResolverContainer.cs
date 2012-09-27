@@ -29,11 +29,11 @@ namespace OutcoldSolutions
         /// </summary>
         public DependencyResolverContainer()
         {
-        }
-
-        ~DependencyResolverContainer()
-        {
-            this.Dispose(disposing: false);
+            // Self register
+            using (var registration = this.Registration())
+            {
+                registration.Register(typeof(IDependencyResolverContainer)).And<DependencyResolverContainer>().AsSingleton(this);
+            }
         }
 
         /// <summary>
@@ -49,9 +49,8 @@ namespace OutcoldSolutions
         /// The context.
         /// </param>
         internal DependencyResolverContainer(IDependencyResolverContainer parentContainer, IContainerStore containerStore, string containerContext)
+            : this()
         {
-            this.CheckDisposed();
-
             if (parentContainer == null)
             {
                 throw new ArgumentNullException("parentContainer");
@@ -65,6 +64,11 @@ namespace OutcoldSolutions
             this.parentContainer = parentContainer;
             this.containerStore = containerStore;
             this.containerContext = containerContext;
+        }
+
+        ~DependencyResolverContainer()
+        {
+            this.Dispose(disposing: false);
         }
 
         /// <inheritdoc />
