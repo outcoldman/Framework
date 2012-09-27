@@ -9,7 +9,7 @@ namespace OutcoldSolutions
     /// <summary>
     /// The dependency resolver container.
     /// </summary>
-    public interface IDependencyResolverContainer
+    public interface IDependencyResolverContainer : IDisposable
     {
         /// <summary>
         /// Get registration context to register types and instances in container. This operation
@@ -18,7 +18,18 @@ namespace OutcoldSolutions
         /// <returns>
         /// The <see cref="IRegistrationContext"/>. Allows to register types and instances in container.
         /// </returns>
-        IRegistrationContext GetRegistration();
+        IRegistrationContext Registration();
+
+        /// <summary>
+        /// The context based dependency resolver container.
+        /// </summary>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        /// <returns>
+        /// The instance of dependency resolver container <see cref="IDependencyResolverContainer"/>.
+        /// </returns>
+        IDependencyResolverContainer Context(string context);
 
         /// <summary>
         /// Check if <paramref name="type"/> is registered and can be resolved with current container.

@@ -88,6 +88,33 @@ namespace OutcoldSolutions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Container is disposed..
+        /// </summary>
+        internal static string ErrMsg_ContainerDisposed {
+            get {
+                return ResourceManager.GetString("ErrMsg_ContainerDisposed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container with context &apos;{0}&apos; is disposed..
+        /// </summary>
+        internal static string ErrMsg_ContainerDisposedContext {
+            get {
+                return ResourceManager.GetString("ErrMsg_ContainerDisposedContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot resolve type when container is locked by IRegistrationContext..
+        /// </summary>
+        internal static string ErrMsg_ContainerLocked {
+            get {
+                return ResourceManager.GetString("ErrMsg_ContainerLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parent registration context is disposed..
         /// </summary>
         internal static string ErrMsg_ParentRegistrationContextIsDisposed {
@@ -111,6 +138,24 @@ namespace OutcoldSolutions {
         internal static string ErrMsg_TypeIsNotRegistered {
             get {
                 return ResourceManager.GetString("ErrMsg_TypeIsNotRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown container..
+        /// </summary>
+        internal static string ErrMsg_UnknownContainer {
+            get {
+                return ResourceManager.GetString("ErrMsg_UnknownContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown context &apos;{0}&apos;..
+        /// </summary>
+        internal static string ErrMsg_UnknownContext {
+            get {
+                return ResourceManager.GetString("ErrMsg_UnknownContext", resourceCulture);
             }
         }
     }

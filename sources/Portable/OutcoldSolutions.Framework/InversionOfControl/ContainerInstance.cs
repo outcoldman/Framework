@@ -15,7 +15,7 @@ namespace OutcoldSolutions
     /// <summary>
     /// Internal implementation for <see cref="IContainerInstance"/>.
     /// </summary>
-    internal class ContainerInstance : IContainerInstance
+    internal class ContainerInstance : IContainerInstance, IDisposable
     {
         private const string CompiledExpressionInputParameterName = "a";
 
@@ -33,6 +33,8 @@ namespace OutcoldSolutions
         private object instance;
 
         private List<InjectInfo> requiredInjections;
+
+        private bool isDisposed;
 
         public ContainerInstance(Type type, IContainerInstanceStore store, IRegistrationContext registrationContext, IDependencyResolverContainer container)
         {
@@ -56,6 +58,11 @@ namespace OutcoldSolutions
             this.container = container;
 
             this.And(type);
+        }
+
+        ~ContainerInstance()
+        {
+            this.Dispose(disposing: false);
         }
 
         public IContainerInstance And(Type type)
@@ -172,6 +179,8 @@ namespace OutcoldSolutions
         {
             lock (this.typeLocker)
             {
+                this.CheckDisposed();
+
                 if (this.isResolving)
                 {
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_CircularResolving, this.implementation));
@@ -256,6 +265,12 @@ namespace OutcoldSolutions
             }
         }
 
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
         private void Compile()
         {
             if (this.factory == null && this.instance == null)
@@ -301,6 +316,7 @@ namespace OutcoldSolutions
 
         private void CheckState()
         {
+            this.CheckDisposed();
             this.CheckBehavior();
             this.CheckRegistrationContext();
         }
@@ -318,6 +334,38 @@ namespace OutcoldSolutions
             if (this.registrationContext == null || this.registrationContext.IsDisposed)
             {
                 throw new ObjectDisposedException(typeof(IRegistrationContext).Name);
+            }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            lock (this.typeLocker)
+            {
+                if (!this.isDisposed)
+                {
+                    if (disposing)
+                    {
+                        this.factory = null;
+
+                        var disposable = this.instance as IDisposable;
+                        if (disposable != null)
+                        {
+                            disposable.Dispose();
+                        }
+
+                        this.requiredInjections.Clear();
+                    }
+
+                    this.isDisposed = true;
+                }
+            }
+        }
+
+        private void CheckDisposed()
+        {
+            if (this.isDisposed)
+            {
+                throw new ObjectDisposedException(typeof(ContainerInstance).Name);
             }
         }
 

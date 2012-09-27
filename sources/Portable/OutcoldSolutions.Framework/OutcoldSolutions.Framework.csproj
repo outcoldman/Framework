@@ -44,6 +44,7 @@
     </Compile>
     <Compile Include="InversionOfControl\ContainerInstance.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainer.cs" />
+    <Compile Include="InversionOfControl\IContainerStore.cs" />
     <Compile Include="InversionOfControl\IDependencyResolverContainer.cs" />
     <Compile Include="InversionOfControl\IContainerInstance.cs" />
     <Compile Include="InversionOfControl\IContainerInstanceStore.cs" />

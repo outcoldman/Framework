@@ -17,7 +17,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistration())
+            using (var registrationContext = container.Registration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                         .AsSingleton(new ServiceStub());
@@ -35,7 +35,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistration())
+            using (var registrationContext = container.Registration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                     .And(typeof(IServiceStub2))
@@ -55,7 +55,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistration())
+            using (var registrationContext = container.Registration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                         .And(typeof(IServiceStub2))
@@ -69,34 +69,31 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         }
 
         [Test]
-        public void GetRegistrationContext_TryToGetSecondContext_ThrowsException()
+        public void Registration_TryToGetSecondContext_ThrowsException()
         {
             // Arrange
             var container = new DependencyResolverContainer();
 
             // Act
-            var registrationContext1 = container.GetRegistration();
+            container.Registration();
 
-            TestDelegate act = () =>
-                {
-                    var registrationContext2 = container.GetRegistration();
-                };
+            TestDelegate act = () => container.Registration();
 
             // Assert
             Assert.Throws<NotSupportedException>(act);
         }
 
         [Test]
-        public void GetRegistrationContext_TryToGetSecondContextAfterFirstDisposed_ShouldProvideContext()
+        public void Registration_TryToGetSecondContextAfterFirstDisposed_ShouldProvideContext()
         {
             // Arrange
             var container = new DependencyResolverContainer();
 
             // Act
-            var registrationContext1 = container.GetRegistration();
+            var registrationContext1 = container.Registration();
             registrationContext1.Dispose();
 
-            var registrationContext2 = container.GetRegistration();
+            var registrationContext2 = container.Registration();
 
             // Assert
             Assert.IsNotNull(registrationContext2);
@@ -109,13 +106,13 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistration())
+            using (var registrationContext = container.Registration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                         .AsSingleton(typeof(ServiceStub));
             }
 
-            using (var registrationContext = container.GetRegistration())
+            using (var registrationContext = container.Registration())
             {
                 registrationContext.Register(typeof(IServiceStub2))
                         .AsSingleton(typeof(ServiceStub));
@@ -132,7 +129,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         {
             // Arrange
             var container = new DependencyResolverContainer();
-            using (var registrationContext = container.GetRegistration())
+            using (var registrationContext = container.Registration())
             {
                 registrationContext.Register(typeof(ServiceCircularStub));
             }

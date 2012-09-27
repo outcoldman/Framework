@@ -126,6 +126,15 @@
   <data name="ErrMsg_CircularResolving" xml:space="preserve">
     <value>Cannot resolve type '{0}'. Circular resolving.</value>
   </data>
+  <data name="ErrMsg_ContainerDisposed" xml:space="preserve">
+    <value>Container is disposed.</value>
+  </data>
+  <data name="ErrMsg_ContainerDisposedContext" xml:space="preserve">
+    <value>Container with context '{0}' is disposed.</value>
+  </data>
+  <data name="ErrMsg_ContainerLocked" xml:space="preserve">
+    <value>Cannot resolve type when container is locked by IRegistrationContext.</value>
+  </data>
   <data name="ErrMsg_ParentRegistrationContextIsDisposed" xml:space="preserve">
     <value>Parent registration context is disposed.</value>
   </data>
@@ -134,5 +143,11 @@
   </data>
   <data name="ErrMsg_TypeIsNotRegistered" xml:space="preserve">
     <value>Type '{0}' is not registered.</value>
+  </data>
+  <data name="ErrMsg_UnknownContainer" xml:space="preserve">
+    <value>Unknown container.</value>
+  </data>
+  <data name="ErrMsg_UnknownContext" xml:space="preserve">
+    <value>Unknown context '{0}'.</value>
   </data>
 </root>
