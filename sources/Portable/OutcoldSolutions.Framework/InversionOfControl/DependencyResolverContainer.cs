@@ -47,18 +47,8 @@ namespace OutcoldSolutions
         /// <inheritdoc />
         public object Resolve(Type type, object[] arguments = null)
         {
-            lock (this.registractionContextLocker)
-            {
-                ContainerObjectInfo objectInfo;
-                if (this.registeredObjects.TryGetValue(type, out objectInfo))
-                {
-                    return objectInfo.Resolve(arguments);
-                }
-
-                throw new ArgumentOutOfRangeException(
-                    "type",
-                    string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_TypeIsNotRegistered, type));
-            }
+            ContainerObjectInfo objectInfo;
+            return ((IDependencyResolverContainerEx)this).ResolveAndGet(type, arguments, out objectInfo);
         }
 
         void IDependencyResolverContainerEx.RemoveRegistrationContext(IRegistrationContext registrationContext)
@@ -106,6 +96,21 @@ namespace OutcoldSolutions
 
             ContainerObjectInfo objectInfo;
             return this.registeredObjects.TryGetValue(type, out objectInfo) ? objectInfo : null;
+        }
+
+        object IDependencyResolverContainerEx.ResolveAndGet(Type type, object[] arguments, out ContainerObjectInfo objectInfo)
+        {
+            lock (this.registractionContextLocker)
+            {
+                if (this.registeredObjects.TryGetValue(type, out objectInfo))
+                {
+                    return objectInfo.Resolve(arguments);
+                }
+
+                throw new ArgumentOutOfRangeException(
+                    "type",
+                    string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_TypeIsNotRegistered, type));
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ namespace OutcoldSolutions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
@@ -13,6 +14,8 @@ namespace OutcoldSolutions
 
     internal class ContainerObjectInfo : IContainerObjectInfo
     {
+        private const string CompiledExpressionInputParameterName = "a";
+
         private readonly IDependencyResolverContainerEx container;
         private readonly List<Type> registeredTypes = new List<Type>();
         private readonly object typeLocker = new object();
@@ -23,8 +26,7 @@ namespace OutcoldSolutions
         private Func<object[], object> factory;
         private object instance;
 
-        private Dictionary<Type, ContainerObjectInfo> requiredInjections;
-        private Delegate compiledConstructor;
+        private List<InjectInfo> requiredInjections;
 
         public ContainerObjectInfo(Type type, IDependencyResolverContainerEx container, IRegistrationContext registrationContext)
         {
@@ -126,6 +128,7 @@ namespace OutcoldSolutions
                 this.CheckState();
 
                 this.instance = instanceObject;
+                this.IsSingleton = true;
             }
         }
 
@@ -162,68 +165,68 @@ namespace OutcoldSolutions
 
                     if (this.instance != null)
                     {
+                        Debug.Assert(this.IsSingleton, "this.IsSingleton");
                         return this.instance;
                     }
 
                     object result = null;
 
-                    if (this.factory != null)
+                    // If we don't have a factory and we don't initialized this.requiredInjections
+                    // we need to find a type which can construct objects and compile function
+                    // which can create new instances of this type.
+                    if (this.factory == null && this.requiredInjections == null)
                     {
-                        result = this.factory(arguments);
+                        this.Compile();
+                    }
+
+                    if (this.factory == null)
+                    {
+                        throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_CannotFindConstructorForType, this.implementation));
+                    }
+
+                    object[] ctorArguments;
+
+                    if (this.requiredInjections != null)
+                    {
+                        ctorArguments = this.requiredInjections.Select(
+                            p =>
+                                {
+                                    object value = null;
+                                    if (arguments != null)
+                                    {
+                                        value = arguments.FirstOrDefault(p.Type.IsInstanceOfType);
+                                    }
+
+                                    if (value == null)
+                                    {
+                                        if (p.ContainerObjectInfo == null)
+                                        {
+                                            ContainerObjectInfo objectInfo;
+                                            value = this.container.ResolveAndGet(p.Type, arguments, out objectInfo);
+                                            p.ContainerObjectInfo = objectInfo;
+                                        }
+                                        else
+                                        {
+                                            value = p.ContainerObjectInfo.Resolve(arguments);
+                                        }
+                                    }
+
+                                    return value;
+                                }).ToArray();
                     }
                     else
                     {
-                        if (this.compiledConstructor == null)
-                        {
-                            this.InitializeConstructor();
-                        }
-
-                        var parameterValues = this.requiredInjections.ToDictionary(
-                            p => p.Key,
-                            p =>
-                            {
-                                object value = null;
-                                if (arguments != null)
-                                {
-                                    value = arguments.FirstOrDefault(p.Key.IsInstanceOfType);
-                                }
-
-                                if (value == null)
-                                {
-                                    if (p.Value == null)
-                                    {
-                                        value = this.container.Resolve(p.Key, arguments);
-                                    }
-                                    else
-                                    {
-                                        value = p.Value.Resolve(arguments);
-                                    }
-                                }
-
-                                return value;
-                            });
-                        
-                        if (parameterValues.Values.Count == 0)
-                        {
-                            result = this.compiledConstructor.DynamicInvoke();
-
-                            if (this.requiredInjections.Count == 0)
-                            {
-                                var func = (Func<object>)this.compiledConstructor;
-                                this.factory = (a) => func();
-                            }
-                        }
-                        else
-                        {
-                            result = this.compiledConstructor.DynamicInvoke(parameterValues.Values.ToArray());
-                        }
+                        ctorArguments = arguments;
                     }
 
+                    result = this.factory(ctorArguments);
+                    
                     if (this.IsSingleton)
                     {
+                        // In case if this is singleton we will remember value
+                        // and will clear all unnecessary objects.
                         this.instance = result;
                         this.factory = null;
-                        this.compiledConstructor = null;
                         this.requiredInjections = null;
                     }
 
@@ -236,7 +239,7 @@ namespace OutcoldSolutions
             }
         }
 
-        private void InitializeConstructor()
+        private void Compile()
         {
             if (this.factory == null && this.instance == null)
             {
@@ -255,24 +258,27 @@ namespace OutcoldSolutions
                     }).ToArray();
                 }
 
-                if (constructorInfos.Length != 1)
+                // If we have more than 1 constructor we will not compile function
+                // and will throw exception because this.factory will be null.
+                if (constructorInfos.Length == 1)
                 {
-                    throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_CannotFindConstructorForType, this.implementation));
+                    var constructorInfo = constructorInfos[0];
+
+                    var parameterTypes = constructorInfo.GetParameters().Select(info => info.ParameterType).ToList();
+                    this.requiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.container.Get(t))).ToList();
+
+                    // Compile a new lambda expression:
+                    // ((object[]) a) => 
+                    // {
+                    //    return ctor((TType0)a[0], (TType1)a[1], ... , (TTypeN)a[N]);
+                    // }
+                    ParameterExpression parameterExpression = Expression.Parameter(typeof(object[]), CompiledExpressionInputParameterName);
+                    var expressions = parameterTypes.Select((t, i) => Expression.Convert(Expression.ArrayIndex(parameterExpression, Expression.Constant(i)), t)).Cast<Expression>().ToList();
+
+                    NewExpression newExp = Expression.New(constructorInfo, expressions);
+                    LambdaExpression lambda = Expression.Lambda(newExp, parameterExpression);
+                    this.factory = (Func<object[], object>)lambda.Compile();
                 }
-
-                var constructorInfo = constructorInfos[0];
-
-                this.requiredInjections = constructorInfo.GetParameters().Select(info => info.ParameterType).ToDictionary(t => t, t => this.container.Get(t));
-
-                var expressions = new List<ParameterExpression>();
-                foreach (var injection in this.requiredInjections)
-                {
-                    expressions.Add(Expression.Parameter(injection.Key, "p" + expressions.Count));
-                }
-
-                NewExpression newExp = Expression.New(constructorInfo, expressions.Cast<Expression>());
-                LambdaExpression lambda = Expression.Lambda(newExp, expressions.ToArray());
-                this.compiledConstructor = lambda.Compile();
             }
         }
 
@@ -296,6 +302,24 @@ namespace OutcoldSolutions
             {
                 throw new ObjectDisposedException(typeof(IRegistrationContext).Name);
             }
+        }
+
+        private class InjectInfo
+        {
+            public InjectInfo(Type type, ContainerObjectInfo containerObjectInfo)
+            {
+                if (type == null)
+                {
+                    throw new ArgumentNullException("type");
+                }
+
+                this.Type = type;
+                this.ContainerObjectInfo = containerObjectInfo;
+            }
+
+            public Type Type { get; private set; }
+
+            public ContainerObjectInfo ContainerObjectInfo { get; set; }
         }
     }
 }

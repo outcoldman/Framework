@@ -26,5 +26,7 @@ namespace OutcoldSolutions
         void Add(Type type, ContainerObjectInfo objectInfo, IRegistrationContext registrationContext);
 
         ContainerObjectInfo Get(Type type);
+
+        object ResolveAndGet(Type type, object[] arguments, out ContainerObjectInfo objectInfo);
     }
 }
