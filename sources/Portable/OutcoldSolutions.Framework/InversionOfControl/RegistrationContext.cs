@@ -11,6 +11,8 @@ namespace OutcoldSolutions
         private readonly IContainerInstanceStore store;
         private readonly IDependencyResolverContainer container;
 
+        private bool isDisposed;
+
         public RegistrationContext(IContainerInstanceStore store, IDependencyResolverContainer container)
         {
             if (store == null)
@@ -32,8 +34,6 @@ namespace OutcoldSolutions
             this.Dispose(disposing: false);
         }
 
-        public bool IsDisposed { get; private set; }
-
         public void Dispose()
         {
             this.Dispose(disposing: true);
@@ -42,7 +42,7 @@ namespace OutcoldSolutions
 
         public IContainerInstance Register(Type type)
         {
-            if (this.IsDisposed)
+            if (this.isDisposed)
             {
                 throw new ObjectDisposedException(typeof(IRegistrationContext).Name);
             }
@@ -57,14 +57,14 @@ namespace OutcoldSolutions
 
         private void Dispose(bool disposing)
         {
-            if (!this.IsDisposed)
+            if (!this.isDisposed)
             {
                 if (disposing)
                 {
                     this.store.OnRegistrationContextDisposing(this);
                 }
 
-                this.IsDisposed = true;
+                this.isDisposed = true;
             }
         }
     }

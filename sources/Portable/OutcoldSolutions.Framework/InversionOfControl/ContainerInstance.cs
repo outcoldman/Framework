@@ -331,7 +331,7 @@ namespace OutcoldSolutions
 
         private void CheckRegistrationContext()
         {
-            if (this.registrationContext == null || this.registrationContext.IsDisposed)
+            if (this.registrationContext == null)
             {
                 throw new ObjectDisposedException(typeof(IRegistrationContext).Name);
             }

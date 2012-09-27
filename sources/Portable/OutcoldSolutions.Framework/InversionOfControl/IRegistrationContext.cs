@@ -12,11 +12,6 @@ namespace OutcoldSolutions
     public interface IRegistrationContext : IDisposable
     {
         /// <summary>
-        /// Gets a value indicating whether is disposed.
-        /// </summary>
-        bool IsDisposed { get; }
-
-        /// <summary>
         /// Start registration process for type <paramref name="type"/>.
         /// </summary>
         /// <param name="type">
