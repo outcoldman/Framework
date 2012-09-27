@@ -23,10 +23,10 @@ namespace OutcoldSolutions
         /// The type implementation. 
         /// </param>
         /// <returns>
-        /// Instance of <see cref="IContainerObjectInfo"/>, which allows you to specify registration settings 
+        /// Instance of <see cref="IContainerInstance"/>, which allows you to specify registration settings 
         /// for <paramref name="type"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException">If <paramref name="type"/> is null.</exception>
-        IContainerObjectInfo Register(Type type);
+        IContainerInstance Register(Type type);
     }
 }

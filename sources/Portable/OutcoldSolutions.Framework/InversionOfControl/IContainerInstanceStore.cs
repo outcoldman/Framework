@@ -7,26 +7,29 @@ namespace OutcoldSolutions
     using System;
 
     /// <summary>
-    /// Internal addition methods for <see cref="IDependencyResolverContainer"/>.
+    /// Contains methods which allows to add / remove container instances.
     /// </summary>
-    internal interface IDependencyResolverContainerEx : IDependencyResolverContainer
+    internal interface IContainerInstanceStore 
     {
         /// <summary>
         /// Remove reference to <paramref name="registrationContext"/>.
         /// </summary>
         /// <param name="registrationContext">The registration context.</param>
-        void RemoveRegistrationContext(IRegistrationContext registrationContext);
+        void OnRegistrationContextDisposing(IRegistrationContext registrationContext);
 
         /// <summary>
-        /// Add new registered information.
+        /// Add new container instance.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <param name="objectInfo">Object info for current type.</param>
+        /// <param name="instance">Object info for current type.</param>
         /// <param name="registrationContext">Registration context, which was asked to register this type.</param>
-        void Add(Type type, ContainerObjectInfo objectInfo, IRegistrationContext registrationContext);
+        void Add(Type type, ContainerInstance instance, IRegistrationContext registrationContext);
 
-        ContainerObjectInfo Get(Type type);
-
-        object ResolveAndGet(Type type, object[] arguments, out ContainerObjectInfo objectInfo);
+        /// <summary>
+        /// Get container instance by type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>The container instance.</returns>
+        ContainerInstance Get(Type type);
     }
 }

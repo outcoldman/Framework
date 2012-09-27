@@ -12,32 +12,38 @@ namespace OutcoldSolutions
     using System.Linq.Expressions;
     using System.Reflection;
 
-    internal class ContainerObjectInfo : IContainerObjectInfo
+    /// <summary>
+    /// Internal implementation for <see cref="IContainerInstance"/>.
+    /// </summary>
+    internal class ContainerInstance : IContainerInstance
     {
         private const string CompiledExpressionInputParameterName = "a";
 
-        private readonly IDependencyResolverContainerEx container;
+        private readonly IContainerInstanceStore store;
+        private readonly IDependencyResolverContainer container;
         private readonly List<Type> registeredTypes = new List<Type>();
         private readonly object typeLocker = new object();
-
+        
         private bool isResolving;
         private IRegistrationContext registrationContext;
+
         private Type implementation;
+        private bool isSingleton;
         private Func<object[], object> factory;
         private object instance;
 
         private List<InjectInfo> requiredInjections;
 
-        public ContainerObjectInfo(Type type, IDependencyResolverContainerEx container, IRegistrationContext registrationContext)
+        public ContainerInstance(Type type, IContainerInstanceStore store, IRegistrationContext registrationContext, IDependencyResolverContainer container)
         {
             if (type == null)
             {
                 throw new ArgumentNullException("type");
             }
 
-            if (container == null)
+            if (store == null)
             {
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException("store");
             }
 
             if (registrationContext == null)
@@ -45,15 +51,14 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("registrationContext");
             }
 
-            this.container = container;
+            this.store = store;
             this.registrationContext = registrationContext;
+            this.container = container;
 
             this.And(type);
         }
 
-        public bool IsSingleton { get; private set; }
-
-        public IContainerObjectInfo And(Type type)
+        public IContainerInstance And(Type type)
         {
             if (type == null)
             {
@@ -64,7 +69,7 @@ namespace OutcoldSolutions
             {
                 this.CheckRegistrationContext();
 
-                this.container.Add(type, this, this.registrationContext);
+                this.store.Add(type, this, this.registrationContext);
                 this.registeredTypes.Add(type);
                 return this;
             }
@@ -112,7 +117,7 @@ namespace OutcoldSolutions
                 this.CheckState();
 
                 this.implementation = typeImplementation;
-                this.IsSingleton = true;
+                this.isSingleton = true;
             }
         }
 
@@ -128,7 +133,7 @@ namespace OutcoldSolutions
                 this.CheckState();
 
                 this.instance = instanceObject;
-                this.IsSingleton = true;
+                this.isSingleton = true;
             }
         }
 
@@ -144,7 +149,7 @@ namespace OutcoldSolutions
                 this.CheckState();
 
                 this.factory = factoryFunction;
-                this.IsSingleton = true;
+                this.isSingleton = true;
             }
         }
 
@@ -165,11 +170,9 @@ namespace OutcoldSolutions
 
                     if (this.instance != null)
                     {
-                        Debug.Assert(this.IsSingleton, "this.IsSingleton");
+                        Debug.Assert(this.isSingleton, "this.isSingleton");
                         return this.instance;
                     }
-
-                    object result = null;
 
                     // If we don't have a factory and we don't initialized this.requiredInjections
                     // we need to find a type which can construct objects and compile function
@@ -199,15 +202,14 @@ namespace OutcoldSolutions
 
                                     if (value == null)
                                     {
-                                        if (p.ContainerObjectInfo == null)
+                                        if (p.ContainerInstance == null)
                                         {
-                                            ContainerObjectInfo objectInfo;
-                                            value = this.container.ResolveAndGet(p.Type, arguments, out objectInfo);
-                                            p.ContainerObjectInfo = objectInfo;
+                                            value = this.container.Resolve(p.Type, arguments);
+                                            p.ContainerInstance = this.store.Get(p.Type);
                                         }
                                         else
                                         {
-                                            value = p.ContainerObjectInfo.Resolve(arguments);
+                                            value = p.ContainerInstance.Resolve(arguments);
                                         }
                                     }
 
@@ -219,9 +221,9 @@ namespace OutcoldSolutions
                         ctorArguments = arguments;
                     }
 
-                    result = this.factory(ctorArguments);
+                    object result = this.factory(ctorArguments);
                     
-                    if (this.IsSingleton)
+                    if (this.isSingleton)
                     {
                         // In case if this is singleton we will remember value
                         // and will clear all unnecessary objects.
@@ -265,7 +267,7 @@ namespace OutcoldSolutions
                     var constructorInfo = constructorInfos[0];
 
                     var parameterTypes = constructorInfo.GetParameters().Select(info => info.ParameterType).ToList();
-                    this.requiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.container.Get(t))).ToList();
+                    this.requiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.store.Get(t))).ToList();
 
                     // Compile a new lambda expression:
                     // ((object[]) a) => 
@@ -306,7 +308,7 @@ namespace OutcoldSolutions
 
         private class InjectInfo
         {
-            public InjectInfo(Type type, ContainerObjectInfo containerObjectInfo)
+            public InjectInfo(Type type, ContainerInstance containerInstance)
             {
                 if (type == null)
                 {
@@ -314,12 +316,12 @@ namespace OutcoldSolutions
                 }
 
                 this.Type = type;
-                this.ContainerObjectInfo = containerObjectInfo;
+                this.ContainerInstance = containerInstance;
             }
 
             public Type Type { get; private set; }
 
-            public ContainerObjectInfo ContainerObjectInfo { get; set; }
+            public ContainerInstance ContainerInstance { get; set; }
         }
     }
 }

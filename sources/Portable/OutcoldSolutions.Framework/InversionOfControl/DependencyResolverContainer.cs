@@ -10,11 +10,11 @@ namespace OutcoldSolutions
     using System.Threading;
 
     /// <summary>
-    /// The dependency resolver container.
+    /// Implementation of <see cref="IDependencyResolverContainer"/>.
     /// </summary>
-    public class DependencyResolverContainer : IDependencyResolverContainerEx
+    public class DependencyResolverContainer : IContainerInstanceStore, IDependencyResolverContainer
     {
-        private readonly Dictionary<Type, ContainerObjectInfo> registeredObjects = new Dictionary<Type, ContainerObjectInfo>();
+        private readonly Dictionary<Type, ContainerInstance> registeredObjects = new Dictionary<Type, ContainerInstance>();
         private readonly object registractionContextLocker = new object();
         private IRegistrationContext currentRegistrationContext;
 
@@ -24,7 +24,7 @@ namespace OutcoldSolutions
             bool monitorTaken;
             if ((monitorTaken = Monitor.TryEnter(this.registractionContextLocker)) && this.currentRegistrationContext == null)
             {
-                return this.currentRegistrationContext = new RegistrationContext(this);
+                return this.currentRegistrationContext = new RegistrationContext(this, this);
             }
 
             if (monitorTaken)
@@ -47,11 +47,21 @@ namespace OutcoldSolutions
         /// <inheritdoc />
         public object Resolve(Type type, object[] arguments = null)
         {
-            ContainerObjectInfo objectInfo;
-            return ((IDependencyResolverContainerEx)this).ResolveAndGet(type, arguments, out objectInfo);
+            lock (this.registractionContextLocker)
+            {
+                ContainerInstance instance;
+                if (this.registeredObjects.TryGetValue(type, out instance))
+                {
+                    return instance.Resolve(arguments);
+                }
+
+                throw new ArgumentOutOfRangeException(
+                    "type",
+                    string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_TypeIsNotRegistered, type));
+            }
         }
 
-        void IDependencyResolverContainerEx.RemoveRegistrationContext(IRegistrationContext registrationContext)
+        void IContainerInstanceStore.OnRegistrationContextDisposing(IRegistrationContext registrationContext)
         {
             if (registrationContext == null)
             {
@@ -67,16 +77,16 @@ namespace OutcoldSolutions
             Monitor.Exit(this.registractionContextLocker);
         }
 
-        void IDependencyResolverContainerEx.Add(Type type, ContainerObjectInfo objectInfo, IRegistrationContext registrationContext)
+        void IContainerInstanceStore.Add(Type type, ContainerInstance instance, IRegistrationContext registrationContext)
         {
             if (type == null)
             {
                 throw new ArgumentNullException("type");
             }
 
-            if (objectInfo == null)
+            if (instance == null)
             {
-                throw new ArgumentNullException("objectInfo");
+                throw new ArgumentNullException("instance");
             }
 
             if (this.currentRegistrationContext == null || this.currentRegistrationContext != registrationContext)
@@ -84,33 +94,18 @@ namespace OutcoldSolutions
                 throw new NotSupportedException(FrameworkResources.ErrMsg_ParentRegistrationContextIsDisposed);
             }
 
-            this.registeredObjects.Add(type, objectInfo);
+            this.registeredObjects.Add(type, instance);
         }
 
-        ContainerObjectInfo IDependencyResolverContainerEx.Get(Type type)
+        ContainerInstance IContainerInstanceStore.Get(Type type)
         {
             if (type == null)
             {
                 throw new ArgumentNullException("type");
             }
 
-            ContainerObjectInfo objectInfo;
-            return this.registeredObjects.TryGetValue(type, out objectInfo) ? objectInfo : null;
-        }
-
-        object IDependencyResolverContainerEx.ResolveAndGet(Type type, object[] arguments, out ContainerObjectInfo objectInfo)
-        {
-            lock (this.registractionContextLocker)
-            {
-                if (this.registeredObjects.TryGetValue(type, out objectInfo))
-                {
-                    return objectInfo.Resolve(arguments);
-                }
-
-                throw new ArgumentOutOfRangeException(
-                    "type",
-                    string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_TypeIsNotRegistered, type));
-            }
+            ContainerInstance instance;
+            return this.registeredObjects.TryGetValue(type, out instance) ? instance : null;
         }
     }
 }

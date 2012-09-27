@@ -9,7 +9,7 @@ namespace OutcoldSolutions
     /// <summary>
     /// The RegisteredObject interface.
     /// </summary>
-    public interface IContainerObjectInfo
+    public interface IContainerInstance
     {
         /// <summary>
         /// The implementation.
@@ -18,9 +18,9 @@ namespace OutcoldSolutions
         /// The type.
         /// </param>
         /// <returns>
-        /// The <see cref="IContainerObjectInfo"/>.
+        /// The <see cref="IContainerInstance"/>.
         /// </returns>
-        IContainerObjectInfo And(Type type);
+        IContainerInstance And(Type type);
 
         /// <summary>
         /// Set implementation type for registered types.

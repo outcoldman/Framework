@@ -42,11 +42,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FrameworkResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="InversionOfControl\ContainerObjectInfo.cs" />
+    <Compile Include="InversionOfControl\ContainerInstance.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainer.cs" />
     <Compile Include="InversionOfControl\IDependencyResolverContainer.cs" />
-    <Compile Include="InversionOfControl\IContainerObjectInfo.cs" />
-    <Compile Include="InversionOfControl\IDependencyResolverContainerEx.cs" />
+    <Compile Include="InversionOfControl\IContainerInstance.cs" />
+    <Compile Include="InversionOfControl\IContainerInstanceStore.cs" />
     <Compile Include="InversionOfControl\InjectAttribute.cs" />
     <Compile Include="InversionOfControl\IRegistrationContext.cs" />
     <Compile Include="InversionOfControl\RegistrationContext.cs" />

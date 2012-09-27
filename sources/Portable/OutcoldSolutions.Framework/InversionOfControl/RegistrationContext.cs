@@ -8,15 +8,22 @@ namespace OutcoldSolutions
 
     internal class RegistrationContext : IRegistrationContext
     {
-        private readonly IDependencyResolverContainerEx container;
+        private readonly IContainerInstanceStore store;
+        private readonly IDependencyResolverContainer container;
 
-        public RegistrationContext(IDependencyResolverContainerEx container)
+        public RegistrationContext(IContainerInstanceStore store, IDependencyResolverContainer container)
         {
+            if (store == null)
+            {
+                throw new ArgumentNullException("store");
+            }
+
             if (container == null)
             {
                 throw new ArgumentNullException("container");
             }
 
+            this.store = store;
             this.container = container;
         }
 
@@ -33,7 +40,7 @@ namespace OutcoldSolutions
             GC.SuppressFinalize(this);
         }
 
-        public IContainerObjectInfo Register(Type type)
+        public IContainerInstance Register(Type type)
         {
             if (this.IsDisposed)
             {
@@ -45,7 +52,7 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("type");
             }
 
-            return new ContainerObjectInfo(type, this.container, this);
+            return new ContainerInstance(type, this.store, this, this.container);
         }
 
         private void Dispose(bool disposing)
@@ -54,7 +61,7 @@ namespace OutcoldSolutions
             {
                 if (disposing)
                 {
-                    this.container.RemoveRegistrationContext(this);
+                    this.store.OnRegistrationContextDisposing(this);
                 }
 
                 this.IsDisposed = true;

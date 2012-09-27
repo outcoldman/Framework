@@ -11,59 +11,61 @@ namespace OutcoldSolutions.Framework.InversionOfControl
 
     using NUnit.Framework;
 
-    public class ContainerObjectInfoResolveSuites
+    public class ContainerInstanceResolveSuites
     {
         private Type registeredType;
-        private Mock<IDependencyResolverContainerEx> container;
+        private Mock<IContainerInstanceStore> store;
+        private Mock<IDependencyResolverContainer> container;
         private Mock<IRegistrationContext> registrationContext;
-        private ContainerObjectInfo objectInfo;
+        private ContainerInstance instance;
 
         [SetUp]
         public void TestInitialization()
         {
             this.registeredType = typeof(Encoding);
-            this.container = new Mock<IDependencyResolverContainerEx>();
+            this.store = new Mock<IContainerInstanceStore>();
+            this.container = new Mock<IDependencyResolverContainer>();
             this.registrationContext = new Mock<IRegistrationContext>();
-            this.objectInfo = new ContainerObjectInfo(this.registeredType, this.container.Object, this.registrationContext.Object);
+            this.instance = new ContainerInstance(this.registeredType, this.store.Object, this.registrationContext.Object, this.container.Object);
         }
 
         [Test]
         public void Resolve_SetFactory_ShouldBeResolvedWithFactory()
         {
             // Arrange
-            var instance = new UTF8Encoding();
-            this.objectInfo.As((arguments) => instance);
+            var obj = new UTF8Encoding();
+            this.instance.As(arguments => obj);
 
             // Act
-            object result = this.objectInfo.Resolve();
+            object result = this.instance.Resolve();
 
             // Assert
-            Assert.AreSame(instance, result);
+            Assert.AreSame(obj, result);
         }
 
         [Test]
         public void Resolve_SetFactoryAsSingleton_ShouldBeResolvedWithFactory()
         {
             // Arrange
-            var instance = new UTF8Encoding();
-            this.objectInfo.AsSingleton((arguments) => instance);
+            var obj = new UTF8Encoding();
+            this.instance.AsSingleton(arguments => obj);
 
             // Act
-            object result = this.objectInfo.Resolve();
+            object result = this.instance.Resolve();
 
             // Assert
-            Assert.AreSame(instance, result);
+            Assert.AreSame(obj, result);
         }
 
         [Test]
         public void Resolve_SetFactoryAsSingleton_ShouldReturnSingleton()
         {
             // Arrange
-            this.objectInfo.AsSingleton((arguments) => new UTF8Encoding());
+            this.instance.AsSingleton(arguments => new UTF8Encoding());
 
             // Act
-            object result1 = this.objectInfo.Resolve();
-            object result2 = this.objectInfo.Resolve();
+            object result1 = this.instance.Resolve();
+            object result2 = this.instance.Resolve();
 
             // Assert
             Assert.AreSame(result1, result2);
@@ -75,14 +77,14 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Arrange
             var arguments = new object[10];
             object[] factoryArguments = null;
-            this.objectInfo.As((a) =>
+            this.instance.As(a =>
                 { 
                     factoryArguments = a;
                     return new UTF8Encoding();
                 });
 
             // Act
-            this.objectInfo.Resolve(arguments);
+            this.instance.Resolve(arguments);
 
             // Assert
             Assert.AreSame(arguments, factoryArguments);
@@ -94,14 +96,14 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Arrange
             var arguments = new object[10];
             object[] factoryArguments = null;
-            this.objectInfo.AsSingleton((a) =>
+            this.instance.AsSingleton(a =>
             {
                 factoryArguments = a;
                 return new UTF8Encoding();
             });
 
             // Act
-            this.objectInfo.Resolve(arguments);
+            this.instance.Resolve(arguments);
 
             // Assert
             Assert.AreSame(arguments, factoryArguments);
@@ -111,25 +113,25 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetInstance_ShouldBeResolvedWithTheSameInstance()
         {
             // Arrange
-            var instance = new UTF8Encoding();
-            this.objectInfo.AsSingleton(instance);
+            var obj = new UTF8Encoding();
+            this.instance.AsSingleton(obj);
 
             // Act
-            object result = this.objectInfo.Resolve();
+            object result = this.instance.Resolve();
 
             // Assert
-            Assert.AreSame(instance, result);
+            Assert.AreSame(obj, result);
         }
 
         [Test]
         public void Resolve_SetInstance_ShouldReturnSingleton()
         {
             // Arrange
-            this.objectInfo.AsSingleton(new UTF8Encoding());
+            this.instance.AsSingleton(new UTF8Encoding());
 
             // Act
-            object result1 = this.objectInfo.Resolve();
-            object result2 = this.objectInfo.Resolve();
+            object result1 = this.instance.Resolve();
+            object result2 = this.instance.Resolve();
 
             // Assert
             Assert.AreSame(result1, result2);
@@ -140,10 +142,10 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         {
             // Arrange
             var type = typeof(ServiceStub);
-            this.objectInfo.AsSingleton(type);
+            this.instance.AsSingleton(type);
 
             // Act
-            object result = this.objectInfo.Resolve();
+            object result = this.instance.Resolve();
 
             // Assert
             Assert.AreSame(type, result.GetType());
@@ -153,11 +155,11 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetSingletonType_ShouldReturnSingleton()
         {
             // Arrange
-            this.objectInfo.AsSingleton(typeof(ServiceStub));
+            this.instance.AsSingleton(typeof(ServiceStub));
 
             // Act
-            object result1 = this.objectInfo.Resolve();
-            object result2 = this.objectInfo.Resolve();
+            object result1 = this.instance.Resolve();
+            object result2 = this.instance.Resolve();
 
             // Assert
             Assert.AreSame(result1, result2);
@@ -168,10 +170,10 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         {
             // Arrange
             var type = typeof(ServiceStub);
-            this.objectInfo.As(type);
+            this.instance.As(type);
 
             // Act
-            object result = this.objectInfo.Resolve();
+            object result = this.instance.Resolve();
 
             // Assert
             Assert.AreSame(type, result.GetType());
@@ -181,11 +183,11 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetType_ShouldReturnAlwaysNewInstance()
         {
             // Arrange
-            this.objectInfo.As(typeof(ServiceStub));
+            this.instance.As(typeof(ServiceStub));
 
             // Act
-            object result1 = this.objectInfo.Resolve();
-            object result2 = this.objectInfo.Resolve();
+            object result1 = this.instance.Resolve();
+            object result2 = this.instance.Resolve();
 
             // Assert
             Assert.AreNotSame(result1, result2);
@@ -195,30 +197,30 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_WithArguments_ShouldUseArguments()
         {
             // Arrange
-            string a = "Test";
-            int b = 10;
-            this.objectInfo.As(typeof(ServiceWithConstructorStub));
+            const string A = "Test";
+            const int B = 10;
+            this.instance.As(typeof(ServiceWithConstructorStub));
 
             // Act
-            var result = (ServiceWithConstructorStub)this.objectInfo.Resolve(new object[] { a, b });
+            var result = (ServiceWithConstructorStub)this.instance.Resolve(new object[] { A, B });
 
             // Assert
-            Assert.AreEqual(a, result.A);
-            Assert.AreEqual(b, result.B);
+            Assert.AreEqual(A, result.A);
+            Assert.AreEqual(B, result.B);
         }
 
         [Test]
         public void Resolve_TypeWithMoreThanOneConstructors_ShouldUseCtorWithAttribute()
         {
             // Arrange
-            string a = "Test";
-            this.objectInfo.As(typeof(ServiceWithConstructorsStub));
+            const string A = "Test";
+            this.instance.As(typeof(ServiceWithConstructorsStub));
 
             // Act
-            var result = (ServiceWithConstructorsStub)this.objectInfo.Resolve(new object[] { a, 10 });
+            var result = (ServiceWithConstructorsStub)this.instance.Resolve(new object[] { A, 10 });
 
             // Assert
-            Assert.AreEqual(a, result.A);
+            Assert.AreEqual(A, result.A);
             Assert.IsNull(result.B);
         }
     }
