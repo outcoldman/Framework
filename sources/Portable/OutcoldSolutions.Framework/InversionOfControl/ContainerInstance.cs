@@ -75,6 +75,11 @@ namespace OutcoldSolutions
             }
         }
 
+        public IContainerInstance And<TType>()
+        {
+            return this.And(typeof(TType));
+        }
+
         public void As(Type typeImplementation)
         {
             if (typeImplementation == null)
@@ -88,6 +93,11 @@ namespace OutcoldSolutions
 
                 this.implementation = typeImplementation;
             }
+        }
+
+        public void As<TType>()
+        {
+            this.As(typeof(TType));
         }
 
         public void As(Func<object[], object> factoryFunction)
@@ -119,6 +129,11 @@ namespace OutcoldSolutions
                 this.implementation = typeImplementation;
                 this.isSingleton = true;
             }
+        }
+
+        public void AsSingleton<TType>()
+        {
+            this.AsSingleton(typeof(TType));
         }
 
         public void AsSingleton(object instanceObject)

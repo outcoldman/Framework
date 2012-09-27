@@ -17,7 +17,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistrationContext())
+            using (var registrationContext = container.GetRegistration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                         .AsSingleton(new ServiceStub());
@@ -35,7 +35,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistrationContext())
+            using (var registrationContext = container.GetRegistration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                     .And(typeof(IServiceStub2))
@@ -55,7 +55,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistrationContext())
+            using (var registrationContext = container.GetRegistration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                         .And(typeof(IServiceStub2))
@@ -75,11 +75,11 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            var registrationContext1 = container.GetRegistrationContext();
+            var registrationContext1 = container.GetRegistration();
 
             TestDelegate act = () =>
                 {
-                    var registrationContext2 = container.GetRegistrationContext();
+                    var registrationContext2 = container.GetRegistration();
                 };
 
             // Assert
@@ -93,10 +93,10 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            var registrationContext1 = container.GetRegistrationContext();
+            var registrationContext1 = container.GetRegistration();
             registrationContext1.Dispose();
 
-            var registrationContext2 = container.GetRegistrationContext();
+            var registrationContext2 = container.GetRegistration();
 
             // Assert
             Assert.IsNotNull(registrationContext2);
@@ -109,13 +109,13 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             var container = new DependencyResolverContainer();
 
             // Act
-            using (var registrationContext = container.GetRegistrationContext())
+            using (var registrationContext = container.GetRegistration())
             {
                 registrationContext.Register(typeof(IServiceStub1))
                         .AsSingleton(typeof(ServiceStub));
             }
 
-            using (var registrationContext = container.GetRegistrationContext())
+            using (var registrationContext = container.GetRegistration())
             {
                 registrationContext.Register(typeof(IServiceStub2))
                         .AsSingleton(typeof(ServiceStub));
@@ -132,7 +132,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         {
             // Arrange
             var container = new DependencyResolverContainer();
-            using (var registrationContext = container.GetRegistrationContext())
+            using (var registrationContext = container.GetRegistration())
             {
                 registrationContext.Register(typeof(ServiceCircularStub));
             }

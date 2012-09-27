@@ -18,7 +18,7 @@ namespace OutcoldSolutions
         /// <returns>
         /// The <see cref="IRegistrationContext"/>. Allows to register types and instances in container.
         /// </returns>
-        IRegistrationContext GetRegistrationContext();
+        IRegistrationContext GetRegistration();
 
         /// <summary>
         /// Check if <paramref name="type"/> is registered and can be resolved with current container.
@@ -32,11 +32,30 @@ namespace OutcoldSolutions
         bool IsRegistered(Type type);
 
         /// <summary>
+        /// Check if <typeparamref name="TType"/> is registered and can be resolved with current container.
+        /// </summary>
+        /// <typeparam name="TType">
+        /// The type.
+        /// </typeparam>
+        /// <returns>
+        /// Is current type <typeparamref name="TType"/> is registered.
+        /// </returns>
+        bool IsRegistered<TType>();
+
+        /// <summary>
         /// Resolve type.
         /// </summary>
         /// <param name="type">The type for resolve.</param>
         /// <param name="arguments">The list of arguments for constructor.</param>
         /// <returns>Resolved object.</returns>
-        object Resolve(Type type, object[] arguments = null);
+        object Resolve(Type type, params object[] arguments);
+
+        /// <summary>
+        /// Resolve type.
+        /// </summary>
+        /// <typeparam name="TType">The type for resolve.</typeparam>
+        /// <param name="arguments">The list of arguments for constructor.</param>
+        /// <returns>Resolved object.</returns>
+        TType Resolve<TType>(params object[] arguments);
     }
 }

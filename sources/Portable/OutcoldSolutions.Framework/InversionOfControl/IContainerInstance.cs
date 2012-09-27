@@ -23,12 +23,31 @@ namespace OutcoldSolutions
         IContainerInstance And(Type type);
 
         /// <summary>
+        /// The implementation.
+        /// </summary>
+        /// <typeparam name="TType">
+        /// The type.
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IContainerInstance"/>.
+        /// </returns>
+        IContainerInstance And<TType>();
+
+        /// <summary>
         /// Set implementation type for registered types.
         /// </summary>
         /// <param name="typeImplementation">
         /// The type implementation. Cannot be interface or abstracted class.
         /// </param>
         void As(Type typeImplementation);
+
+        /// <summary>
+        /// Set implementation type for registered types.
+        /// </summary>
+        /// <typeparam name="TType">
+        /// The type implementation. Cannot be interface or abstracted class.
+        /// </typeparam>
+        void As<TType>();
 
         /// <summary>
         /// Set factory which can constructs registered types.
@@ -45,6 +64,14 @@ namespace OutcoldSolutions
         /// The type Implementation.
         /// </param>
         void AsSingleton(Type typeImplementation);
+
+        /// <summary>
+        /// Set implementation for registered types and mark it as singleton.
+        /// </summary>
+        /// <typeparam name="TType">
+        /// The type Implementation.
+        /// </typeparam>
+        void AsSingleton<TType>();
 
         /// <summary>
         /// Set singleton implementation for registered types.

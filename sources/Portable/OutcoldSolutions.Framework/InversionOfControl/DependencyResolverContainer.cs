@@ -19,7 +19,7 @@ namespace OutcoldSolutions
         private IRegistrationContext currentRegistrationContext;
 
         /// <inheritdoc />
-        public IRegistrationContext GetRegistrationContext()
+        public IRegistrationContext GetRegistration()
         {
             bool monitorTaken;
             if ((monitorTaken = Monitor.TryEnter(this.registractionContextLocker)) && this.currentRegistrationContext == null)
@@ -45,7 +45,13 @@ namespace OutcoldSolutions
         }
 
         /// <inheritdoc />
-        public object Resolve(Type type, object[] arguments = null)
+        public bool IsRegistered<TType>()
+        {
+            return this.IsRegistered(typeof(TType));
+        }
+
+        /// <inheritdoc />
+        public object Resolve(Type type, params object[] arguments)
         {
             lock (this.registractionContextLocker)
             {
@@ -59,6 +65,12 @@ namespace OutcoldSolutions
                     "type",
                     string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_TypeIsNotRegistered, type));
             }
+        }
+
+        /// <inheritdoc />
+        public TType Resolve<TType>(params object[] arguments)
+        {
+            return (TType)this.Resolve(typeof(TType), arguments);
         }
 
         void IContainerInstanceStore.OnRegistrationContextDisposing(IRegistrationContext registrationContext)
