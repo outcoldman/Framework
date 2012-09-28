@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1B2DC586-AB06-48CD-AD91-2D699A43725E}</ProjectGuid>
+    <ProjectGuid>{36896702-058C-4AC2-B630-46B34B59D7A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OutcoldSolutions</RootNamespace>
-    <AssemblyName>OutcoldSolutions.Framework</AssemblyName>
+    <AssemblyName>OutcoldSolutions.InversionOfControl</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile104</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -37,26 +37,46 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InversionOfControl\InversionOfControlResources.Designer.cs">
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\ContainerInstance.cs">
+      <Link>ContainerInstance.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\DependencyResolverContainer.cs">
+      <Link>DependencyResolverContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\IContainerInstance.cs">
+      <Link>IContainerInstance.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\IContainerInstanceStore.cs">
+      <Link>IContainerInstanceStore.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\IDependencyResolverContainer.cs">
+      <Link>IDependencyResolverContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\InjectAttribute.cs">
+      <Link>InjectAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\InversionOfControlResources.Designer.cs">
+      <Link>InversionOfControlResources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InversionOfControlResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="InversionOfControl\ContainerInstance.cs" />
-    <Compile Include="InversionOfControl\DependencyResolverContainer.cs" />
-    <Compile Include="InversionOfControl\IParentDependencyResolverContainer.cs" />
-    <Compile Include="InversionOfControl\IDependencyResolverContainer.cs" />
-    <Compile Include="InversionOfControl\IContainerInstance.cs" />
-    <Compile Include="InversionOfControl\IContainerInstanceStore.cs" />
-    <Compile Include="InversionOfControl\InjectAttribute.cs" />
-    <Compile Include="InversionOfControl\IRegistrationContext.cs" />
-    <Compile Include="InversionOfControl\RegistrationContext.cs" />
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\IParentDependencyResolverContainer.cs">
+      <Link>IParentDependencyResolverContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\IRegistrationContext.cs">
+      <Link>IRegistrationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\RegistrationContext.cs">
+      <Link>RegistrationContext.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InversionOfControl\InversionOfControlResources.resx">
+    <EmbeddedResource Include="..\OutcoldSolutions.Framework\InversionOfControl\InversionOfControlResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InversionOfControlResources.Designer.cs</LastGenOutput>
+      <Link>InversionOfControlResources.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

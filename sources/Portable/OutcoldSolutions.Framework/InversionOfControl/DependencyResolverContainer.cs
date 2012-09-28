@@ -10,12 +10,11 @@ namespace OutcoldSolutions
     using System.Threading;
 
     /// <summary>
-    /// Implementation of <see cref="IDependencyResolverContainer"/>.
+    /// Default implementation of <see cref="IDependencyResolverContainer"/>.
     /// </summary>
-    public class DependencyResolverContainer : IContainerInstanceStore, IDependencyResolverContainer, IContainerStore
+    public class DependencyResolverContainer : IContainerInstanceStore, IParentDependencyResolverContainer
     {
-        private readonly IDependencyResolverContainer parentContainer;
-        private readonly IContainerStore containerStore;
+        private readonly IParentDependencyResolverContainer parentContainer;
         private readonly string containerContext;
         private readonly Dictionary<string, IDependencyResolverContainer> childrenContainers = new Dictionary<string, IDependencyResolverContainer>();
         private readonly Dictionary<Type, ContainerInstance> registeredObjects = new Dictionary<Type, ContainerInstance>();
@@ -42,13 +41,10 @@ namespace OutcoldSolutions
         /// <param name="parentContainer">
         /// The parent container.
         /// </param>
-        /// <param name="containerStore">
-        /// The container store.
-        /// </param>
         /// <param name="containerContext">
         /// The context.
         /// </param>
-        internal DependencyResolverContainer(IDependencyResolverContainer parentContainer, IContainerStore containerStore, string containerContext)
+        internal DependencyResolverContainer(IParentDependencyResolverContainer parentContainer, string containerContext)
             : this()
         {
             if (parentContainer == null)
@@ -62,7 +58,6 @@ namespace OutcoldSolutions
             }
 
             this.parentContainer = parentContainer;
-            this.containerStore = containerStore;
             this.containerContext = containerContext;
         }
 
@@ -87,7 +82,7 @@ namespace OutcoldSolutions
                 Monitor.Exit(this.registractionContextLocker);
             }
 
-            throw new NotSupportedException(FrameworkResources.ErrMsg_PreviosCreatedContextIsNotDisposed);
+            throw new NotSupportedException(InversionOfControlResources.ErrMsg_PreviosCreatedContextIsNotDisposed);
         }
 
         /// <inheritdoc />
@@ -105,7 +100,7 @@ namespace OutcoldSolutions
                 IDependencyResolverContainer container;
                 if (!this.childrenContainers.TryGetValue(context, out container))
                 {
-                    container = this.childrenContainers[context] = new DependencyResolverContainer(this, this, context);
+                    container = this.childrenContainers[context] = new DependencyResolverContainer(this, context);
                 }
 
                 return container;
@@ -119,7 +114,7 @@ namespace OutcoldSolutions
 
             lock (this.registractionContextLocker)
             {
-                return this.registeredObjects.ContainsKey(type);
+                return this.registeredObjects.ContainsKey(type) || this.parentContainer.IsRegistered(type);
             }
         }
 
@@ -140,7 +135,7 @@ namespace OutcoldSolutions
             {
                 if (this.currentRegistrationContext != null)
                 {
-                    throw new NotSupportedException(FrameworkResources.ErrMsg_ContainerLocked);
+                    throw new NotSupportedException(InversionOfControlResources.ErrMsg_ContainerLocked);
                 }
 
                 ContainerInstance instance;
@@ -156,7 +151,7 @@ namespace OutcoldSolutions
 
                 throw new ArgumentOutOfRangeException(
                     "type",
-                    string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_TypeIsNotRegistered, type));
+                    string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_TypeIsNotRegistered, type));
             }
         }
 
@@ -208,7 +203,7 @@ namespace OutcoldSolutions
 
             if (this.currentRegistrationContext == null || this.currentRegistrationContext != registrationContext)
             {
-                throw new NotSupportedException(FrameworkResources.ErrMsg_ParentRegistrationContextIsDisposed);
+                throw new NotSupportedException(InversionOfControlResources.ErrMsg_ParentRegistrationContextIsDisposed);
             }
 
             this.registeredObjects.Add(type, instance);
@@ -227,7 +222,7 @@ namespace OutcoldSolutions
             return this.registeredObjects.TryGetValue(type, out instance) ? instance : null;
         }
 
-        void IContainerStore.OnChildContainerDisposing(string context, IDependencyResolverContainer container)
+        void IParentDependencyResolverContainer.OnChildContainerDisposing(string context, IDependencyResolverContainer container)
         {
             this.CheckDisposed();
 
@@ -246,13 +241,15 @@ namespace OutcoldSolutions
                 IDependencyResolverContainer storedContainer;
                 if (!this.childrenContainers.TryGetValue(context, out storedContainer))
                 {
-                    throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_UnknownContext, context));
+                    throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_UnknownContext, context));
                 }
 
                 if (storedContainer != container)
                 {
-                    throw new ArgumentOutOfRangeException("container", FrameworkResources.ErrMsg_UnknownContainer);
+                    throw new ArgumentOutOfRangeException("container", InversionOfControlResources.ErrMsg_UnknownContainer);
                 }
+
+                this.childrenContainers.Remove(context);
             }
         }
 
@@ -262,9 +259,9 @@ namespace OutcoldSolutions
             {
                 if (disposing)
                 {
-                    if (this.containerStore != null)
+                    if (this.parentContainer != null)
                     {
-                        this.containerStore.OnChildContainerDisposing(this.containerContext, this);
+                        this.parentContainer.OnChildContainerDisposing(this.containerContext, this);
                     }
 
                     foreach (var containerInstance in this.registeredObjects.Values)
@@ -292,18 +289,20 @@ namespace OutcoldSolutions
             {
                 if (this.containerContext != null)
                 {
+                    var errMessage = string.Format(
+                        CultureInfo.CurrentCulture,
+                        InversionOfControlResources.ErrMsg_ContainerDisposedContext,
+                        this.containerContext);
+
                     throw new ObjectDisposedException(
                         typeof(DependencyResolverContainer).Name,
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            FrameworkResources.ErrMsg_ContainerDisposedContext,
-                            this.containerContext));
+                        errMessage);
                 }
                 else
                 {
                     throw new ObjectDisposedException(
-                        typeof(DependencyResolverContainer).Name, 
-                        FrameworkResources.ErrMsg_ContainerDisposed);
+                        typeof(DependencyResolverContainer).Name,
+                        InversionOfControlResources.ErrMsg_ContainerDisposed);
                 }
             }
         }

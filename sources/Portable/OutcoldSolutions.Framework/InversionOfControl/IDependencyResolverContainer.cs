@@ -7,7 +7,7 @@ namespace OutcoldSolutions
     using System;
 
     /// <summary>
-    /// The dependency resolver container.
+    /// The dependency resolver container interface.
     /// </summary>
     public interface IDependencyResolverContainer : IDisposable
     {
@@ -21,7 +21,7 @@ namespace OutcoldSolutions
         IRegistrationContext Registration();
 
         /// <summary>
-        /// The context based dependency resolver container.
+        /// Gets the context based dependency resolver container (child container). 
         /// </summary>
         /// <param name="context">
         /// The context.
@@ -33,6 +33,7 @@ namespace OutcoldSolutions
 
         /// <summary>
         /// Check if <paramref name="type"/> is registered and can be resolved with current container.
+        /// If current container doesn't have registered type it will check parent container for it.
         /// </summary>
         /// <param name="type">
         /// The type.
@@ -44,6 +45,7 @@ namespace OutcoldSolutions
 
         /// <summary>
         /// Check if <typeparamref name="TType"/> is registered and can be resolved with current container.
+        /// If current container doesn't have registered type it will check parent container for it.
         /// </summary>
         /// <typeparam name="TType">
         /// The type.
@@ -54,7 +56,7 @@ namespace OutcoldSolutions
         bool IsRegistered<TType>();
 
         /// <summary>
-        /// Resolve type.
+        /// Resolve instace with a type <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The type for resolve.</param>
         /// <param name="arguments">The list of arguments for constructor.</param>

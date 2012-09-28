@@ -183,7 +183,7 @@ namespace OutcoldSolutions
 
                 if (this.isResolving)
                 {
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_CircularResolving, this.implementation));
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CircularResolving, this.implementation));
                 }
 
                 try
@@ -208,7 +208,7 @@ namespace OutcoldSolutions
 
                     if (this.factory == null)
                     {
-                        throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, FrameworkResources.ErrMsg_CannotFindConstructorForType, this.implementation));
+                        throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CannotFindConstructorForType, this.implementation));
                     }
 
                     object[] ctorArguments;
@@ -325,7 +325,7 @@ namespace OutcoldSolutions
         {
             if (this.factory != null || this.implementation != null || this.instance != null)
             {
-                throw new NotSupportedException(FrameworkResources.ErrMsg_CannotSetMoreThanOneBehavior);
+                throw new NotSupportedException(InversionOfControlResources.ErrMsg_CannotSetMoreThanOneBehavior);
             }
         }
 
