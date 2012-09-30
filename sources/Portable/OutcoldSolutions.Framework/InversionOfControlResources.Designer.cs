@@ -70,11 +70,29 @@ namespace OutcoldSolutions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot set interface or abstract class &apos;{0}&apos; as an implementation type..
+        /// </summary>
+        internal static string ErrMsg_CannotSetInterfaceAsImplementation {
+            get {
+                return ResourceManager.GetString("ErrMsg_CannotSetInterfaceAsImplementation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot set more than one behavior for registration..
         /// </summary>
         internal static string ErrMsg_CannotSetMoreThanOneBehavior {
             get {
                 return ResourceManager.GetString("ErrMsg_CannotSetMoreThanOneBehavior", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot set type &apos;{0}&apos; as implementation because the registered type &apos;{1}&apos; cannot be assignable from it..
+        /// </summary>
+        internal static string ErrMsg_CannotSetTypeAsImplementation {
+            get {
+                return ResourceManager.GetString("ErrMsg_CannotSetTypeAsImplementation", resourceCulture);
             }
         }
         
@@ -111,6 +129,24 @@ namespace OutcoldSolutions {
         internal static string ErrMsg_ContainerLocked {
             get {
                 return ResourceManager.GetString("ErrMsg_ContainerLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implementation is not specified for interface or abstract class &apos;{0}&apos;..
+        /// </summary>
+        internal static string ErrMsg_ImplementationIsNotSpecifiedForInterface {
+            get {
+                return ResourceManager.GetString("ErrMsg_ImplementationIsNotSpecifiedForInterface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If container instance has more than one registered type it should has the specified implementation type..
+        /// </summary>
+        internal static string ErrMsg_MoreThanTwoTypesShouldHaveImplementationType {
+            get {
+                return ResourceManager.GetString("ErrMsg_MoreThanTwoTypesShouldHaveImplementationType", resourceCulture);
             }
         }
         

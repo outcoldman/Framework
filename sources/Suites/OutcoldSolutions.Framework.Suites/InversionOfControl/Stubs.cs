@@ -9,16 +9,19 @@ namespace OutcoldSolutions.Framework.InversionOfControl
     {
     }
 
+    public interface IServiceStubParent1 : IServiceStub1
+    {
+    }
 
     public interface IServiceStub2
     {
     }
 
-    public class ServiceStub : IServiceStub1, IServiceStub2
+    public class ServiceStub : IServiceStubParent1, IServiceStub2
     {
     }
 
-    public class ServiceWithConstructorStub : IServiceStub1, IServiceStub2
+    public class ServiceWithConstructorStub : IServiceStubParent1, IServiceStub2
     {
         public ServiceWithConstructorStub(string a, int b)
         {
@@ -31,7 +34,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public int B { get; set; }
     }
 
-    public class ServiceWithConstructorsStub : IServiceStub1, IServiceStub2
+    public class ServiceWithConstructorsStub : IServiceStubParent1, IServiceStub2
     {
         [Inject]
         public ServiceWithConstructorsStub(string a)
@@ -49,13 +52,24 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public string B { get; set; }
     }
 
-    public class ServiceCircularStub : IServiceStub1, IServiceStub2
+    public class ServiceCircularStub : IServiceStubParent1, IServiceStub2
     {
         private readonly ServiceCircularStub child;
 
         public ServiceCircularStub(ServiceCircularStub child)
         {
             this.child = child;
+        }
+    }
+
+    public class ServiceWithoutInjectAttributeStub 
+    {
+        public ServiceWithoutInjectAttributeStub(IServiceStub1 child)
+        {
+        }
+
+        public ServiceWithoutInjectAttributeStub(IServiceStub2 child)
+        {
         }
     }
 }

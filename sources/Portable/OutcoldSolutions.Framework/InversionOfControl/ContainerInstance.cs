@@ -36,7 +36,11 @@ namespace OutcoldSolutions
 
         private bool isDisposed;
 
-        public ContainerInstance(Type type, IContainerInstanceStore store, IRegistrationContext registrationContext, IDependencyResolverContainer container)
+        public ContainerInstance(
+            Type type, 
+            IContainerInstanceStore store, 
+            IRegistrationContext registrationContext, 
+            IDependencyResolverContainer container)
         {
             if (type == null)
             {
@@ -94,6 +98,29 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("typeImplementation");
             }
 
+            if (typeImplementation.IsAbstract || typeImplementation.IsInterface)
+            {
+                throw new ArgumentException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            InversionOfControlResources.ErrMsg_CannotSetInterfaceAsImplementation,
+                            this.implementation));
+            }
+
+            foreach (var registeredType in this.registeredTypes)
+            {
+                if (!registeredType.IsAssignableFrom(typeImplementation))
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            InversionOfControlResources.ErrMsg_CannotSetTypeAsImplementation,
+                            typeImplementation,
+                            registeredType),
+                        "typeImplementation");
+                }
+            }
+
             lock (this.typeLocker)
             {
                 this.CheckState();
@@ -105,6 +132,16 @@ namespace OutcoldSolutions
         public void As<TType>()
         {
             this.As(typeof(TType));
+        }
+
+        public void As(Func<object> factoryFunction)
+        {
+            if (factoryFunction == null)
+            {
+                throw new ArgumentNullException("factoryFunction");
+            }
+
+            this.As((arguments) => factoryFunction());
         }
 
         public void As(Func<object[], object> factoryFunction)
@@ -159,6 +196,16 @@ namespace OutcoldSolutions
             }
         }
 
+        public void AsSingleton(Func<object> factoryFunction)
+        {
+            if (factoryFunction == null)
+            {
+                throw new ArgumentNullException("factoryFunction");
+            }
+
+            this.AsSingleton((arguments) => factoryFunction());
+        }
+
         public void AsSingleton(Func<object[], object> factoryFunction)
         {
             if (factoryFunction == null)
@@ -208,7 +255,7 @@ namespace OutcoldSolutions
 
                     if (this.factory == null)
                     {
-                        throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CannotFindConstructorForType, this.implementation));
+                        throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CannotFindConstructorForType, this.implementation));
                     }
 
                     object[] ctorArguments;
@@ -277,7 +324,21 @@ namespace OutcoldSolutions
             {
                 if (this.implementation == null)
                 {
+                    if (this.registeredTypes.Count > 1)
+                    {
+                        throw new NotSupportedException(InversionOfControlResources.ErrMsg_MoreThanTwoTypesShouldHaveImplementationType);
+                    }
+
                     this.implementation = this.registeredTypes.First();
+
+                    if (this.implementation.IsAbstract || this.implementation.IsInterface)
+                    {
+                        throw new NotSupportedException(
+                            string.Format(
+                                CultureInfo.CurrentCulture,
+                                InversionOfControlResources.ErrMsg_ImplementationIsNotSpecifiedForInterface,
+                                this.implementation));
+                    }
                 }
 
                 ConstructorInfo[] constructorInfos = this.implementation.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);

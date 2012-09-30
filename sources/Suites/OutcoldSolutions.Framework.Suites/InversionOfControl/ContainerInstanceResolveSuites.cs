@@ -22,7 +22,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         [SetUp]
         public void TestInitialization()
         {
-            this.registeredType = typeof(Encoding);
+            this.registeredType = typeof(IServiceStub1);
             this.store = new Mock<IContainerInstanceStore>();
             this.container = new Mock<IDependencyResolverContainer>();
             this.registrationContext = new Mock<IRegistrationContext>();
@@ -33,7 +33,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetFactory_ShouldBeResolvedWithFactory()
         {
             // Arrange
-            var obj = new UTF8Encoding();
+            var obj = new ServiceStub();
             this.instance.As(arguments => obj);
 
             // Act
@@ -47,7 +47,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetFactoryAsSingleton_ShouldBeResolvedWithFactory()
         {
             // Arrange
-            var obj = new UTF8Encoding();
+            var obj = new ServiceStub();
             this.instance.AsSingleton(arguments => obj);
 
             // Act
@@ -61,7 +61,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetFactoryAsSingleton_ShouldReturnSingleton()
         {
             // Arrange
-            this.instance.AsSingleton(arguments => new UTF8Encoding());
+            this.instance.AsSingleton(arguments => new ServiceStub());
 
             // Act
             object result1 = this.instance.Resolve();
@@ -80,7 +80,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             this.instance.As(a =>
                 { 
                     factoryArguments = a;
-                    return new UTF8Encoding();
+                    return new ServiceStub();
                 });
 
             // Act
@@ -99,7 +99,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             this.instance.AsSingleton(a =>
             {
                 factoryArguments = a;
-                return new UTF8Encoding();
+                return new ServiceStub();
             });
 
             // Act
@@ -113,7 +113,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetInstance_ShouldBeResolvedWithTheSameInstance()
         {
             // Arrange
-            var obj = new UTF8Encoding();
+            var obj = new ServiceStub();
             this.instance.AsSingleton(obj);
 
             // Act
@@ -127,7 +127,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         public void Resolve_SetInstance_ShouldReturnSingleton()
         {
             // Arrange
-            this.instance.AsSingleton(new UTF8Encoding());
+            this.instance.AsSingleton(new ServiceStub());
 
             // Act
             object result1 = this.instance.Resolve();

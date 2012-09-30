@@ -120,8 +120,14 @@
   <data name="ErrMsg_CannotFindConstructorForType" xml:space="preserve">
     <value>Cannot find constructor for type '{0}'. If type has more than one constructor - use InjectAttribute to mark the constructor which you want to use for injection.</value>
   </data>
+  <data name="ErrMsg_CannotSetInterfaceAsImplementation" xml:space="preserve">
+    <value>Cannot set interface or abstract class '{0}' as an implementation type.</value>
+  </data>
   <data name="ErrMsg_CannotSetMoreThanOneBehavior" xml:space="preserve">
     <value>Cannot set more than one behavior for registration.</value>
+  </data>
+  <data name="ErrMsg_CannotSetTypeAsImplementation" xml:space="preserve">
+    <value>Cannot set type '{0}' as implementation because the registered type '{1}' cannot be assignable from it.</value>
   </data>
   <data name="ErrMsg_CircularResolving" xml:space="preserve">
     <value>Cannot resolve type '{0}'. Circular resolving.</value>
@@ -134,6 +140,12 @@
   </data>
   <data name="ErrMsg_ContainerLocked" xml:space="preserve">
     <value>Cannot resolve type when container is locked by IRegistrationContext.</value>
+  </data>
+  <data name="ErrMsg_ImplementationIsNotSpecifiedForInterface" xml:space="preserve">
+    <value>Implementation is not specified for interface or abstract class '{0}'.</value>
+  </data>
+  <data name="ErrMsg_MoreThanTwoTypesShouldHaveImplementationType" xml:space="preserve">
+    <value>If container instance has more than one registered type it should has the specified implementation type.</value>
   </data>
   <data name="ErrMsg_ParentRegistrationContextIsDisposed" xml:space="preserve">
     <value>Parent registration context is disposed.</value>

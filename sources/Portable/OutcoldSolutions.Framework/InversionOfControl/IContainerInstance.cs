@@ -55,6 +55,14 @@ namespace OutcoldSolutions
         /// <param name="factoryFunction">
         /// The function which can construct registered types.
         /// </param>
+        void As(Func<object> factoryFunction);
+
+        /// <summary>
+        /// Set factory which can constructs registered types.
+        /// </summary>
+        /// <param name="factoryFunction">
+        /// The function which can construct registered types.
+        /// </param>
         void As(Func<object[], object> factoryFunction);
 
         /// <summary>
@@ -80,6 +88,14 @@ namespace OutcoldSolutions
         /// The instance.
         /// </param>
         void AsSingleton(object instanceObject);
+
+        /// <summary>
+        /// Set singleton implementation for registered types. Instances will be resolved just once with function <paramref name="factoryFunction"/>.
+        /// </summary>
+        /// <param name="factoryFunction">
+        /// The function which can construct registered types.
+        /// </param>
+        void AsSingleton(Func<object> factoryFunction);
 
         /// <summary>
         /// Set singleton implementation for registered types. Instances will be resolved just once with function <paramref name="factoryFunction"/>.

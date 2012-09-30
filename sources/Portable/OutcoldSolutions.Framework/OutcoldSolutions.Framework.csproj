@@ -37,7 +37,7 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InversionOfControl\InversionOfControlResources.Designer.cs">
+    <Compile Include="InversionOfControlResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InversionOfControlResources.resx</DependentUpon>
@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InversionOfControl\InversionOfControlResources.resx">
+    <EmbeddedResource Include="InversionOfControlResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InversionOfControlResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

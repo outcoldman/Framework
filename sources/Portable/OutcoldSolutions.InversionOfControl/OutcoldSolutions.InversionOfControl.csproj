@@ -55,7 +55,7 @@
     <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\InjectAttribute.cs">
       <Link>InjectAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\InversionOfControlResources.Designer.cs">
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControlResources.Designer.cs">
       <Link>InversionOfControlResources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -73,7 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\OutcoldSolutions.Framework\InversionOfControl\InversionOfControlResources.resx">
+    <EmbeddedResource Include="..\OutcoldSolutions.Framework\InversionOfControlResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InversionOfControlResources.Designer.cs</LastGenOutput>
       <Link>InversionOfControlResources.resx</Link>

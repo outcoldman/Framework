@@ -13,7 +13,9 @@ namespace OutcoldSolutions
 
         private bool isDisposed;
 
-        public RegistrationContext(IContainerInstanceStore store, IDependencyResolverContainer container)
+        public RegistrationContext(
+            IContainerInstanceStore store, 
+            IDependencyResolverContainer container)
         {
             if (store == null)
             {

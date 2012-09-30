@@ -36,7 +36,8 @@ namespace OutcoldSolutions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DependencyResolverContainer"/> class.
+        /// Initializes a new instance of the <see cref="DependencyResolverContainer"/> class. 
+        /// The child container with specific <paramref name="containerContext"/>.
         /// </summary>
         /// <param name="parentContainer">
         /// The parent container.
@@ -72,7 +73,7 @@ namespace OutcoldSolutions
             this.CheckDisposed();
 
             bool monitorTaken;
-            if ((monitorTaken = Monitor.TryEnter(this.registractionContextLocker)) && this.currentRegistrationContext == null)
+            if ((monitorTaken = Monitor.TryEnter(this.registractionContextLocker, millisecondsTimeout: 1000)) && this.currentRegistrationContext == null)
             {
                 return this.currentRegistrationContext = new RegistrationContext(this, this);
             }
@@ -114,15 +115,14 @@ namespace OutcoldSolutions
 
             lock (this.registractionContextLocker)
             {
-                return this.registeredObjects.ContainsKey(type) || this.parentContainer.IsRegistered(type);
+                return this.registeredObjects.ContainsKey(type) 
+                    || (this.parentContainer != null && this.parentContainer.IsRegistered(type));
             }
         }
 
         /// <inheritdoc />
         public bool IsRegistered<TType>()
         {
-            this.CheckDisposed();
-
             return this.IsRegistered(typeof(TType));
         }
 
@@ -158,8 +158,6 @@ namespace OutcoldSolutions
         /// <inheritdoc />
         public TType Resolve<TType>(params object[] arguments)
         {
-            this.CheckDisposed();
-
             return (TType)this.Resolve(typeof(TType), arguments);
         }
 
@@ -167,6 +165,7 @@ namespace OutcoldSolutions
         public void Dispose()
         {
             this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         void IContainerInstanceStore.OnRegistrationContextDisposing(IRegistrationContext registrationContext)
