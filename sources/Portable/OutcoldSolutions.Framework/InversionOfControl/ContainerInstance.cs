@@ -11,6 +11,7 @@ namespace OutcoldSolutions
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
+    using System.Threading;
 
     /// <summary>
     /// Internal implementation for <see cref="IContainerInstance"/>.
@@ -23,8 +24,6 @@ namespace OutcoldSolutions
         private readonly List<Type> registeredTypes = new List<Type>();
         private readonly object typeLocker = new object();
         
-        private bool isResolving;
-
         private Type implementation;
         private bool isSingleton;
         private Func<object[], object> factory;
@@ -212,88 +211,105 @@ namespace OutcoldSolutions
 
         internal object Resolve(object[] arguments = null)
         {
-            lock (this.typeLocker)
-            {
-                this.CheckDisposed();
+            this.CheckDisposed();
 
-                if (this.isResolving)
+            if (this.instance != null)
+            {
+                Debug.Assert(this.isSingleton, "this.isSingleton");
+                return this.instance;
+            }
+
+            try
+            {
+                if (this.isSingleton)
                 {
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CircularResolving, this.implementation));
+                    Monitor.Enter(this.typeLocker);
                 }
 
-                try
+                if (this.instance != null)
                 {
-                    this.isResolving = true;
+                    Debug.Assert(this.isSingleton, "this.isSingleton");
+                    return this.instance;
+                }
 
-                    if (this.instance != null)
+                // If we don't have a factory and we don't initialized this.requiredInjections
+                // we need to find a type which can construct objects and compile function
+                // which can create new instances of this type.
+                if (this.factory == null || this.requiredInjections == null)
+                {
+                    if (!this.isSingleton)
                     {
-                        Debug.Assert(this.isSingleton, "this.isSingleton");
-                        return this.instance;
+                        Monitor.Enter(this.typeLocker);
                     }
 
-                    // If we don't have a factory and we don't initialized this.requiredInjections
-                    // we need to find a type which can construct objects and compile function
-                    // which can create new instances of this type.
-                    if (this.factory == null && this.requiredInjections == null)
+                    if (this.factory == null || this.requiredInjections == null)
                     {
                         this.Compile();
                     }
 
-                    if (this.factory == null)
+                    if (!this.isSingleton)
                     {
-                        throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CannotFindConstructorForType, this.implementation));
+                        Monitor.Exit(this.typeLocker);
                     }
-
-                    object[] ctorArguments;
-
-                    if (this.requiredInjections != null)
-                    {
-                        ctorArguments = this.requiredInjections.Select(
-                            p =>
-                                {
-                                    object value = null;
-                                    if (arguments != null)
-                                    {
-                                        value = arguments.FirstOrDefault(p.Type.IsInstanceOfType);
-                                    }
-
-                                    if (value == null)
-                                    {
-                                        if (p.ContainerInstance == null)
-                                        {
-                                            value = this.container.Resolve(p.Type, arguments);
-                                            p.ContainerInstance = this.container.Get(p.Type);
-                                        }
-                                        else
-                                        {
-                                            value = p.ContainerInstance.Resolve(arguments);
-                                        }
-                                    }
-
-                                    return value;
-                                }).ToArray();
-                    }
-                    else
-                    {
-                        ctorArguments = arguments;
-                    }
-
-                    object result = this.factory(ctorArguments);
-                    
-                    if (this.isSingleton)
-                    {
-                        // In case if this is singleton we will remember value
-                        // and will clear all unnecessary objects.
-                        this.instance = result;
-                        this.factory = null;
-                        this.requiredInjections = null;
-                    }
-
-                    return result;
                 }
-                finally
+
+                if (this.factory == null)
                 {
-                    this.isResolving = false;
+                    throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CannotFindConstructorForType, this.implementation));
+                }
+
+                object[] ctorArguments;
+
+                if (this.requiredInjections != null)
+                {
+                    ctorArguments = this.requiredInjections.Select(
+                        p =>
+                            {
+                                object value = null;
+                                if (arguments != null)
+                                {
+                                    value = arguments.FirstOrDefault(p.Type.IsInstanceOfType);
+                                }
+
+                                if (value == null)
+                                {
+                                    if (p.ContainerInstance == null)
+                                    {
+                                        value = this.container.Resolve(p.Type, arguments);
+                                        p.ContainerInstance = this.container.Get(p.Type);
+                                    }
+                                    else
+                                    {
+                                        value = p.ContainerInstance.Resolve(arguments);
+                                    }
+                                }
+
+                                return value;
+                            }).ToArray();
+                }
+                else
+                {
+                    ctorArguments = arguments;
+                }
+
+                object result = this.factory(ctorArguments);
+                    
+                if (this.isSingleton)
+                {
+                    // In case if this is singleton we will remember value
+                    // and will clear all unnecessary objects.
+                    this.instance = result;
+                    this.factory = null;
+                    this.requiredInjections = null;
+                }
+
+                return result;
+            }
+            finally
+            {
+                if (this.isSingleton)
+                {
+                    Monitor.Exit(this.typeLocker);
                 }
             }
         }

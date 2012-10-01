@@ -8,6 +8,7 @@ namespace OutcoldSolutions
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.Threading;
 
     /// <summary>
     /// Default implementation of <see cref="IDependencyResolverContainer"/>.
@@ -115,11 +116,15 @@ namespace OutcoldSolutions
         {
             this.CheckDisposed();
 
+            bool containsKey;
+
             lock (this.registractionContextLocker)
             {
-                return this.registeredObjects.ContainsKey(type) 
-                    || (this.parentContainer != null && this.parentContainer.IsRegistered(type));
+                containsKey = this.registeredObjects.ContainsKey(type);
             }
+
+            return containsKey
+                    || (this.parentContainer != null && this.parentContainer.IsRegistered(type));
         }
 
         /// <inheritdoc />
@@ -131,30 +136,21 @@ namespace OutcoldSolutions
         /// <inheritdoc />
         public object Resolve(Type type, params object[] arguments)
         {
-            this.CheckDisposed();
+            ContainerInstance instance = this.Get(type);
 
-            lock (this.registractionContextLocker)
+            if (instance != null)
             {
-                if (this.currentRegistrationContext != null)
-                {
-                    throw new NotSupportedException(InversionOfControlResources.ErrMsg_ContainerLocked);
-                }
-
-                ContainerInstance instance;
-                if (this.registeredObjects.TryGetValue(type, out instance))
-                {
-                    return instance.Resolve(arguments);
-                }
-
-                if (this.parentContainer != null)
-                {
-                    return this.parentContainer.Resolve(type, arguments);
-                }
-
-                throw new ArgumentOutOfRangeException(
-                    "type",
-                    string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_TypeIsNotRegistered, type));
+                return instance.Resolve(arguments);
             }
+
+            if (this.parentContainer != null)
+            {
+                return this.parentContainer.Resolve(type, arguments);
+            }
+
+            throw new ArgumentOutOfRangeException(
+                "type",
+                string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_TypeIsNotRegistered, type));
         }
 
         /// <inheritdoc />
@@ -205,8 +201,25 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("type");
             }
 
-            ContainerInstance instance;
-            return this.registeredObjects.TryGetValue(type, out instance) ? instance : null;
+            bool locked = false;
+            if (this.currentRegistrationContext != null)
+            {
+                Monitor.Enter(this.registractionContextLocker);
+                locked = true;
+            }
+
+            try
+            {
+                ContainerInstance instance;
+                return this.registeredObjects.TryGetValue(type, out instance) ? instance : null;
+            }
+            finally 
+            {
+                if (locked)
+                {
+                    Monitor.Exit(this.registractionContextLocker);
+                }
+            }
         }
 
         private void OnRegistrationContextDisposing(object sender, EventArgs eventArgs)

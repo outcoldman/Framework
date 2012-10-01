@@ -129,9 +129,6 @@
   <data name="ErrMsg_CannotSetTypeAsImplementation" xml:space="preserve">
     <value>Cannot set type '{0}' as implementation because the registered type '{1}' cannot be assignable from it.</value>
   </data>
-  <data name="ErrMsg_CircularResolving" xml:space="preserve">
-    <value>Cannot resolve type '{0}'. Circular resolving.</value>
-  </data>
   <data name="ErrMsg_ContainerDisposed" xml:space="preserve">
     <value>Container is disposed.</value>
   </data>

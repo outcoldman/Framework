@@ -123,22 +123,5 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             Assert.IsTrue(container.IsRegistered(typeof(IServiceStub2)));
             Assert.IsFalse(container.IsRegistered(typeof(ServiceStub)));
         }
-
-        [Test]
-        public void Resolve_CircularType_ShouldThrowException()
-        {
-            // Arrange
-            var container = new DependencyResolverContainer();
-            using (var registrationContext = container.Registration())
-            {
-                registrationContext.Register(typeof(ServiceCircularStub));
-            }
-
-            // Act
-            TestDelegate act = () => container.Resolve(typeof(ServiceCircularStub));
-
-            // Assert
-            Assert.Throws<InvalidOperationException>(act);
-        }
     }
 }

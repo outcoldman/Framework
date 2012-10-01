@@ -97,15 +97,6 @@ namespace OutcoldSolutions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot resolve type &apos;{0}&apos;. Circular resolving..
-        /// </summary>
-        internal static string ErrMsg_CircularResolving {
-            get {
-                return ResourceManager.GetString("ErrMsg_CircularResolving", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Container is disposed..
         /// </summary>
         internal static string ErrMsg_ContainerDisposed {
