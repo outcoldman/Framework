@@ -54,7 +54,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="InversionOfControl\ContainerInstanceResolveSuites.cs" />
     <Compile Include="InversionOfControl\ContainerInstanceSuites.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainerSuites.cs" />
     <Compile Include="InversionOfControl\Stubs.cs" />

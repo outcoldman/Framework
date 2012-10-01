@@ -72,4 +72,14 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         {
         }
     }
+
+    public class ServiceWithDependencyStub
+    {
+        public ServiceWithDependencyStub(IServiceStub1 child)
+        {
+            this.Child = child;
+        }
+
+        public IServiceStub1 Child { get; set; }
+    }
 }

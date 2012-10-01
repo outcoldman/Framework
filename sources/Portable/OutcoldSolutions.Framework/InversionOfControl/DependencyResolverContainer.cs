@@ -6,21 +6,21 @@ namespace OutcoldSolutions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
-    using System.Threading;
 
     /// <summary>
     /// Default implementation of <see cref="IDependencyResolverContainer"/>.
     /// </summary>
-    public class DependencyResolverContainer : IContainerInstanceStore, IParentDependencyResolverContainer
+    public class DependencyResolverContainer : IDependencyResolverContainer
     {
-        private readonly IParentDependencyResolverContainer parentContainer;
+        private readonly IDependencyResolverContainer parentContainer;
         private readonly string containerContext;
-        private readonly Dictionary<string, IDependencyResolverContainer> childrenContainers = new Dictionary<string, IDependencyResolverContainer>();
+        private readonly Dictionary<string, DependencyResolverContainer> childrenContainers = new Dictionary<string, DependencyResolverContainer>();
         private readonly Dictionary<Type, ContainerInstance> registeredObjects = new Dictionary<Type, ContainerInstance>();
         private readonly object registractionContextLocker = new object();
 
-        private IRegistrationContext currentRegistrationContext;
+        private RegistrationContext currentRegistrationContext;
         private bool isDisposed;
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace OutcoldSolutions
         /// <param name="containerContext">
         /// The context.
         /// </param>
-        internal DependencyResolverContainer(IParentDependencyResolverContainer parentContainer, string containerContext)
+        internal DependencyResolverContainer(IDependencyResolverContainer parentContainer, string containerContext)
             : this()
         {
             if (parentContainer == null)
@@ -67,23 +67,24 @@ namespace OutcoldSolutions
             this.Dispose(disposing: false);
         }
 
+        internal event EventHandler Disposing;
+
         /// <inheritdoc />
         public IRegistrationContext Registration()
         {
             this.CheckDisposed();
 
-            bool monitorTaken;
-            if ((monitorTaken = Monitor.TryEnter(this.registractionContextLocker, millisecondsTimeout: 1000)) && this.currentRegistrationContext == null)
+            lock (this.registractionContextLocker)
             {
-                return this.currentRegistrationContext = new RegistrationContext(this, this);
-            }
+                if (this.currentRegistrationContext == null)
+                {
+                    var registrationContext = new RegistrationContext(this);
+                    registrationContext.Disposing += this.OnRegistrationContextDisposing;
+                    return this.currentRegistrationContext = registrationContext;
+                }
 
-            if (monitorTaken)
-            {
-                Monitor.Exit(this.registractionContextLocker);
+                throw new NotSupportedException(InversionOfControlResources.ErrMsg_PreviosCreatedContextIsNotDisposed);
             }
-
-            throw new NotSupportedException(InversionOfControlResources.ErrMsg_PreviosCreatedContextIsNotDisposed);
         }
 
         /// <inheritdoc />
@@ -98,10 +99,11 @@ namespace OutcoldSolutions
 
             lock (this.childrenContainers)
             {
-                IDependencyResolverContainer container;
+                DependencyResolverContainer container;
                 if (!this.childrenContainers.TryGetValue(context, out container))
                 {
                     container = this.childrenContainers[context] = new DependencyResolverContainer(this, context);
+                    container.Disposing += this.OnChildContainerDisposing;
                 }
 
                 return container;
@@ -168,25 +170,7 @@ namespace OutcoldSolutions
             GC.SuppressFinalize(this);
         }
 
-        void IContainerInstanceStore.OnRegistrationContextDisposing(IRegistrationContext registrationContext)
-        {
-            this.CheckDisposed();
-
-            if (registrationContext == null)
-            {
-                throw new ArgumentNullException("registrationContext");
-            }
-
-            if (this.currentRegistrationContext != registrationContext)
-            {
-                throw new ArgumentException("registrationContext");
-            }
-
-            this.currentRegistrationContext = null;
-            Monitor.Exit(this.registractionContextLocker);
-        }
-
-        void IContainerInstanceStore.Add(Type type, ContainerInstance instance, IRegistrationContext registrationContext)
+        internal void Add(Type type, ContainerInstance instance)
         {
             this.CheckDisposed();
 
@@ -200,15 +184,19 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("instance");
             }
 
-            if (this.currentRegistrationContext == null || this.currentRegistrationContext != registrationContext)
+            lock (this.registractionContextLocker)
             {
-                throw new NotSupportedException(InversionOfControlResources.ErrMsg_ParentRegistrationContextIsDisposed);
-            }
+                if (this.currentRegistrationContext == null)
+                {
+                    throw new NotSupportedException(
+                        InversionOfControlResources.ErrMsg_ContainerIsNotBlockedForRegistration);
+                }
 
-            this.registeredObjects.Add(type, instance);
+                this.registeredObjects.Add(type, instance);
+            }
         }
 
-        ContainerInstance IContainerInstanceStore.Get(Type type)
+        internal ContainerInstance Get(Type type)
         {
             this.CheckDisposed();
 
@@ -221,34 +209,35 @@ namespace OutcoldSolutions
             return this.registeredObjects.TryGetValue(type, out instance) ? instance : null;
         }
 
-        void IParentDependencyResolverContainer.OnChildContainerDisposing(string context, IDependencyResolverContainer container)
+        private void OnRegistrationContextDisposing(object sender, EventArgs eventArgs)
         {
             this.CheckDisposed();
 
-            if (context == null)
+            lock (this.registractionContextLocker)
             {
-                throw new ArgumentNullException("context");
-            }
+                if (this.currentRegistrationContext != sender)
+                {
+                    throw new ArgumentException("registrationContext");
+                }
 
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
+                this.currentRegistrationContext.Disposing -= this.OnRegistrationContextDisposing;
+                this.currentRegistrationContext = null;
             }
+        }
+
+        private void OnChildContainerDisposing(object sender, EventArgs eventArgs)
+        {
+            this.CheckDisposed();
 
             lock (this.childrenContainers)
             {
-                IDependencyResolverContainer storedContainer;
-                if (!this.childrenContainers.TryGetValue(context, out storedContainer))
-                {
-                    throw new IndexOutOfRangeException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_UnknownContext, context));
-                }
+                Debug.Assert(sender is DependencyResolverContainer, "sender is DependencyResolverContainer");
 
-                if (storedContainer != container)
+                var childContainer = sender as DependencyResolverContainer;
+                if (childContainer != null)
                 {
-                    throw new ArgumentOutOfRangeException("container", InversionOfControlResources.ErrMsg_UnknownContainer);
+                    this.childrenContainers.Remove(childContainer.containerContext);
                 }
-
-                this.childrenContainers.Remove(context);
             }
         }
 
@@ -258,10 +247,7 @@ namespace OutcoldSolutions
             {
                 if (disposing)
                 {
-                    if (this.parentContainer != null)
-                    {
-                        this.parentContainer.OnChildContainerDisposing(this.containerContext, this);
-                    }
+                    this.OnDisposing();
 
                     foreach (var containerInstance in this.registeredObjects.Values)
                     {
@@ -276,9 +262,24 @@ namespace OutcoldSolutions
                     }
 
                     this.childrenContainers.Clear();
+
+                    if (this.currentRegistrationContext != null)
+                    {
+                        this.currentRegistrationContext.Disposing -= this.OnRegistrationContextDisposing;
+                        this.currentRegistrationContext.Dispose();
+                    }
                 }
 
                 this.isDisposed = true;
+            }
+        }
+
+        private void OnDisposing()
+        {
+            EventHandler handler = this.Disposing;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
             }
         }
 

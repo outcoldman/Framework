@@ -44,10 +44,8 @@
     </Compile>
     <Compile Include="InversionOfControl\ContainerInstance.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainer.cs" />
-    <Compile Include="InversionOfControl\IParentDependencyResolverContainer.cs" />
     <Compile Include="InversionOfControl\IDependencyResolverContainer.cs" />
     <Compile Include="InversionOfControl\IContainerInstance.cs" />
-    <Compile Include="InversionOfControl\IContainerInstanceStore.cs" />
     <Compile Include="InversionOfControl\InjectAttribute.cs" />
     <Compile Include="InversionOfControl\IRegistrationContext.cs" />
     <Compile Include="InversionOfControl\RegistrationContext.cs" />

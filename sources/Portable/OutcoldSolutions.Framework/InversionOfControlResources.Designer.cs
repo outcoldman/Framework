@@ -124,6 +124,15 @@ namespace OutcoldSolutions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Container is not in registration mode. User Register() method to block container for registration..
+        /// </summary>
+        internal static string ErrMsg_ContainerIsNotBlockedForRegistration {
+            get {
+                return ResourceManager.GetString("ErrMsg_ContainerIsNotBlockedForRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot resolve type when container is locked by IRegistrationContext..
         /// </summary>
         internal static string ErrMsg_ContainerLocked {
@@ -151,15 +160,6 @@ namespace OutcoldSolutions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent registration context is disposed..
-        /// </summary>
-        internal static string ErrMsg_ParentRegistrationContextIsDisposed {
-            get {
-                return ResourceManager.GetString("ErrMsg_ParentRegistrationContextIsDisposed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Previous created registration context is not disposed..
         /// </summary>
         internal static string ErrMsg_PreviosCreatedContextIsNotDisposed {
@@ -183,15 +183,6 @@ namespace OutcoldSolutions {
         internal static string ErrMsg_UnknownContainer {
             get {
                 return ResourceManager.GetString("ErrMsg_UnknownContainer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unknown context &apos;{0}&apos;..
-        /// </summary>
-        internal static string ErrMsg_UnknownContext {
-            get {
-                return ResourceManager.GetString("ErrMsg_UnknownContext", resourceCulture);
             }
         }
     }

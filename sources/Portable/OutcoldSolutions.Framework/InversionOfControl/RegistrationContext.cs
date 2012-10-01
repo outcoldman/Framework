@@ -8,26 +8,18 @@ namespace OutcoldSolutions
 
     internal class RegistrationContext : IRegistrationContext
     {
-        private readonly IContainerInstanceStore store;
-        private readonly IDependencyResolverContainer container;
+        private readonly DependencyResolverContainer container;
 
         private bool isDisposed;
 
         public RegistrationContext(
-            IContainerInstanceStore store, 
-            IDependencyResolverContainer container)
+            DependencyResolverContainer container)
         {
-            if (store == null)
-            {
-                throw new ArgumentNullException("store");
-            }
-
             if (container == null)
             {
                 throw new ArgumentNullException("container");
             }
 
-            this.store = store;
             this.container = container;
         }
 
@@ -35,6 +27,8 @@ namespace OutcoldSolutions
         {
             this.Dispose(disposing: false);
         }
+
+        public event EventHandler Disposing;
 
         public void Dispose()
         {
@@ -54,12 +48,21 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("type");
             }
 
-            return new ContainerInstance(type, this.store, this, this.container);
+            return new ContainerInstance(type, this.container);
         }
 
         public IContainerInstance Register<TType>()
         {
             return this.Register(typeof(TType));
+        }
+
+        private void OnDisposing()
+        {
+            EventHandler handler = this.Disposing;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
         }
 
         private void Dispose(bool disposing)
@@ -68,7 +71,7 @@ namespace OutcoldSolutions
             {
                 if (disposing)
                 {
-                    this.store.OnRegistrationContextDisposing(this);
+                    this.OnDisposing();
                 }
 
                 this.isDisposed = true;

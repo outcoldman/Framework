@@ -19,13 +19,11 @@ namespace OutcoldSolutions
     {
         private const string CompiledExpressionInputParameterName = "a";
 
-        private readonly IContainerInstanceStore store;
-        private readonly IDependencyResolverContainer container;
+        private readonly DependencyResolverContainer container;
         private readonly List<Type> registeredTypes = new List<Type>();
         private readonly object typeLocker = new object();
         
         private bool isResolving;
-        private IRegistrationContext registrationContext;
 
         private Type implementation;
         private bool isSingleton;
@@ -38,27 +36,13 @@ namespace OutcoldSolutions
 
         public ContainerInstance(
             Type type, 
-            IContainerInstanceStore store, 
-            IRegistrationContext registrationContext, 
-            IDependencyResolverContainer container)
+            DependencyResolverContainer container)
         {
             if (type == null)
             {
                 throw new ArgumentNullException("type");
             }
 
-            if (store == null)
-            {
-                throw new ArgumentNullException("store");
-            }
-
-            if (registrationContext == null)
-            {
-                throw new ArgumentNullException("registrationContext");
-            }
-
-            this.store = store;
-            this.registrationContext = registrationContext;
             this.container = container;
 
             this.And(type);
@@ -78,9 +62,7 @@ namespace OutcoldSolutions
 
             lock (this.typeLocker)
             {
-                this.CheckRegistrationContext();
-
-                this.store.Add(type, this, this.registrationContext);
+                this.container.Add(type, this);
                 this.registeredTypes.Add(type);
                 return this;
             }
@@ -222,7 +204,13 @@ namespace OutcoldSolutions
             }
         }
 
-        public object Resolve(object[] arguments = null)
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        internal object Resolve(object[] arguments = null)
         {
             lock (this.typeLocker)
             {
@@ -236,8 +224,6 @@ namespace OutcoldSolutions
                 try
                 {
                     this.isResolving = true;
-
-                    this.registrationContext = null;
 
                     if (this.instance != null)
                     {
@@ -276,7 +262,7 @@ namespace OutcoldSolutions
                                         if (p.ContainerInstance == null)
                                         {
                                             value = this.container.Resolve(p.Type, arguments);
-                                            p.ContainerInstance = this.store.Get(p.Type);
+                                            p.ContainerInstance = this.container.Get(p.Type);
                                         }
                                         else
                                         {
@@ -310,12 +296,6 @@ namespace OutcoldSolutions
                     this.isResolving = false;
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
 
         private void Compile()
@@ -358,7 +338,7 @@ namespace OutcoldSolutions
                     var constructorInfo = constructorInfos[0];
 
                     var parameterTypes = constructorInfo.GetParameters().Select(info => info.ParameterType).ToList();
-                    this.requiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.store.Get(t))).ToList();
+                    this.requiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.container.Get(t))).ToList();
 
                     // Compile a new lambda expression:
                     // ((object[]) a) => 
@@ -379,7 +359,6 @@ namespace OutcoldSolutions
         {
             this.CheckDisposed();
             this.CheckBehavior();
-            this.CheckRegistrationContext();
         }
 
         private void CheckBehavior()
@@ -387,14 +366,6 @@ namespace OutcoldSolutions
             if (this.factory != null || this.implementation != null || this.instance != null)
             {
                 throw new NotSupportedException(InversionOfControlResources.ErrMsg_CannotSetMoreThanOneBehavior);
-            }
-        }
-
-        private void CheckRegistrationContext()
-        {
-            if (this.registrationContext == null)
-            {
-                throw new ObjectDisposedException(typeof(IRegistrationContext).Name);
             }
         }
 
