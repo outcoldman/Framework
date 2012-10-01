@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1B2DC586-AB06-48CD-AD91-2D699A43725E}</ProjectGuid>
+    <ProjectGuid>{11D40089-DC4A-44FD-A4B2-166E93778475}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OutcoldSolutions</RootNamespace>
-    <AssemblyName>OutcoldSolutions.Framework</AssemblyName>
+    <RootNamespace>OutcoldSolutions.Diagnostics</RootNamespace>
+    <AssemblyName>OutcoldSolutions.Diagnostics.ObjectReleaseVerification</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile104</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -33,41 +33,42 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="InversionOfControlResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InversionOfControlResources.resx</DependentUpon>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <EmbeddedResource Include="..\OutcoldSolutions.Framework\ObjectReleaseVerificationResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ObjectReleaseVerificationResources.Designer.cs</LastGenOutput>
+      <Link>ObjectReleaseVerifierResources.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\OutcoldSolutions.Framework\Diagnostics\ObjectReleaseVerification\ITrackingObject.cs">
+      <Link>ITrackingObject.cs</Link>
     </Compile>
-    <Compile Include="InversionOfControl\ContainerInstance.cs" />
-    <Compile Include="InversionOfControl\DependencyResolverContainer.cs" />
-    <Compile Include="InversionOfControl\IDependencyResolverContainer.cs" />
-    <Compile Include="InversionOfControl\IContainerInstance.cs" />
-    <Compile Include="InversionOfControl\InjectAttribute.cs" />
-    <Compile Include="InversionOfControl\IRegistrationContext.cs" />
-    <Compile Include="InversionOfControl\RegistrationContext.cs" />
-    <Compile Include="ObjectReleaseVerificationResources.Designer.cs">
+    <Compile Include="..\OutcoldSolutions.Framework\Diagnostics\ObjectReleaseVerification\IVerificationHandler.cs">
+      <Link>IVerificationHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\Diagnostics\ObjectReleaseVerification\MultiVerificationHandler.cs">
+      <Link>MultiVerificationHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\Diagnostics\ObjectReleaseVerification\ObjectReleaseVerifier.cs">
+      <Link>ObjectReleaseVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\Diagnostics\ObjectReleaseVerification\TextOutputVerificationHandler.cs">
+      <Link>TextOutputVerificationHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\Diagnostics\ObjectReleaseVerification\TrackingObject.cs">
+      <Link>TrackingObject.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\Diagnostics\ObjectReleaseVerification\VerifierImplementation.cs">
+      <Link>VerifierImplementation.cs</Link>
+    </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\ObjectReleaseVerificationResources.Designer.cs">
+      <Link>ObjectReleaseVerificationResources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ObjectReleaseVerificationResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Diagnostics\ObjectReleaseVerification\ITrackingObject.cs" />
-    <Compile Include="Diagnostics\ObjectReleaseVerification\IVerificationHandler.cs" />
-    <Compile Include="Diagnostics\ObjectReleaseVerification\MultiVerificationHandler.cs" />
-    <Compile Include="Diagnostics\ObjectReleaseVerification\ObjectReleaseVerifier.cs" />
-    <Compile Include="Diagnostics\ObjectReleaseVerification\TextOutputVerificationHandler.cs" />
-    <Compile Include="Diagnostics\ObjectReleaseVerification\TrackingObject.cs" />
-    <Compile Include="Diagnostics\ObjectReleaseVerification\VerifierImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="InversionOfControlResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>InversionOfControlResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ObjectReleaseVerificationResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ObjectReleaseVerificationResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

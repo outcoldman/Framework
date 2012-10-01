@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="Settings.StyleCop" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\ContainerInstance.cs">
       <Link>ContainerInstance.cs</Link>
     </Compile>
