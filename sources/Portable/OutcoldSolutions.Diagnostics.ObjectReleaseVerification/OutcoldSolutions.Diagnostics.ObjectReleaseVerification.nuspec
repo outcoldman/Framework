@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ObjectReleaseVerification</id>
+    <version>$version$</version>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
+    <projectUrl>http://outcoldman.ru/en/blog/tag/317</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Object Release Verification Framework. Allows you to verify that object are released after some set of operations.</description>
+    <releaseNotes>First version of Object Release Verification Framework.</releaseNotes>
+    <copyright>Outcold Solutions. All rights reserved.</copyright>
+    <tags>MemoryLeak Verification Framework</tags>
+  </metadata>
+</package>

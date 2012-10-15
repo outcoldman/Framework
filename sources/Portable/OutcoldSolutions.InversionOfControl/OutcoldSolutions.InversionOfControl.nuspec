@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OutcoldSolutions.InversionOfControl</id>
+    <version>$version$</version>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
+    <projectUrl>http://outcoldman.ru/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Outcold Solustions InversionOfControl Library.</description>
+    <releaseNotes>Pre-release version.</releaseNotes>
+    <copyright>Outcold Solutions. All rights reserved.</copyright>
+    <tags>InversionOfControl</tags>
+  </metadata>
+</package>
