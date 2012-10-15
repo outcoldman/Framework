@@ -2,6 +2,7 @@
 // Outcold Solutions (http://outcoldman.ru)
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Reflection;
 using System.Resources;
 
@@ -9,14 +10,13 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OutcoldSolutions.InversionOfControl")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Inversion of Control Framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Outcold Solutions")]
 [assembly: AssemblyProduct("OutcoldSolutions.InversionOfControl")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCopyright("\x00a9 Outcold Solutions. All rights reserved.")]
 [assembly: NeutralResourcesLanguage("en")]
+[assembly: CLSCompliant(true)]
 
 // Version information for an assembly consists of the following four values:
 //
