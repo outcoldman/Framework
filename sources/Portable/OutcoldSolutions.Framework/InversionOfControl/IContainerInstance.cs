@@ -66,6 +66,11 @@ namespace OutcoldSolutions
         void As(Func<object[], object> factoryFunction);
 
         /// <summary>
+        /// Mark registered type as singleton.
+        /// </summary>
+        void AsSingleton();
+
+        /// <summary>
         /// Set implementation for registered types and mark it as singleton.
         /// </summary>
         /// <param name="typeImplementation">

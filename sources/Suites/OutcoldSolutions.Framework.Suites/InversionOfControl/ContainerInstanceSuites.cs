@@ -403,6 +403,35 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         }
 
         [Test]
+        public void Resolve_AsSingletonWithoutImplementation_ShouldReturnTheSameInstance()
+        {
+            // Arrange
+            var objectInfo = new ContainerInstance(typeof(ServiceStub), this.container);
+            objectInfo.AsSingleton();
+
+            // Act
+            var serviceStub1 = objectInfo.Resolve();
+            var serviceStub2 = objectInfo.Resolve();
+
+            // Assert
+            Assert.AreSame(serviceStub1, serviceStub2);
+        }
+
+        [Test]
+        public void Resolve_AsSingletonWithoutImplementationForMoreThanOneType_ThrowException()
+        {
+            // Arrange
+            var objectInfo = new ContainerInstance(this.registeredType, this.container);
+            objectInfo.And(typeof(ServiceStub));
+
+            // Act
+            TestDelegate act = objectInfo.AsSingleton;
+
+            // Assert
+            Assert.Throws<NotSupportedException>(act, InversionOfControlResources.ErrMsg_CannotRegisterTypeAsSingleton);
+        }
+
+        [Test]
         public void Resolve_WithArguments_ShouldUseArguments()
         {
             // Arrange

@@ -156,6 +156,19 @@ namespace OutcoldSolutions
             }
         }
 
+        public void AsSingleton()
+        {
+            lock (this.typeLocker)
+            {
+                if (this.registeredTypes.Count != 1)
+                {
+                    throw new NotSupportedException(InversionOfControlResources.ErrMsg_CannotRegisterTypeAsSingleton);
+                }
+
+                this.AsSingleton(this.registeredTypes[0]);
+            }
+        }
+
         public void AsSingleton<TType>()
         {
             this.AsSingleton(typeof(TType));

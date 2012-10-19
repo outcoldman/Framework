@@ -120,6 +120,9 @@
   <data name="ErrMsg_CannotFindConstructorForType" xml:space="preserve">
     <value>Cannot find constructor for type '{0}'. If type has more than one constructor - use InjectAttribute to mark the constructor which you want to use for injection.</value>
   </data>
+  <data name="ErrMsg_CannotRegisterTypeAsSingleton" xml:space="preserve">
+    <value>Current registration has more than one type. Specify which type you want to use for resolving.</value>
+  </data>
   <data name="ErrMsg_CannotSetInterfaceAsImplementation" xml:space="preserve">
     <value>Cannot set interface or abstract class '{0}' as an implementation type.</value>
   </data>
