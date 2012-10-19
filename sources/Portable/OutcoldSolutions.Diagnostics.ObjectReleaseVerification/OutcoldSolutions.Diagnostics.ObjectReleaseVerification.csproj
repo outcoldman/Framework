@@ -77,6 +77,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ObjectReleaseVerificationResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\Properties\AssemblyInfo.Common.cs">
+      <Link>Properties\AssemblyInfo.Common.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

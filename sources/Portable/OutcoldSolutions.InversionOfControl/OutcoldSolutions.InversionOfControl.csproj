@@ -69,6 +69,9 @@
     <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\RegistrationContext.cs">
       <Link>RegistrationContext.cs</Link>
     </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\Properties\AssemblyInfo.Common.cs">
+      <Link>Properties\AssemblyInfo.Common.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
