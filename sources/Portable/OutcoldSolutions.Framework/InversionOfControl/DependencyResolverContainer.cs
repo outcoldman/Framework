@@ -21,6 +21,8 @@ namespace OutcoldSolutions
         private readonly Dictionary<Type, ContainerInstance> registeredObjects = new Dictionary<Type, ContainerInstance>();
         private readonly object registractionContextLocker = new object();
 
+        private readonly IContainerInstance currentInstanceContainer;
+
         private RegistrationContext currentRegistrationContext;
         private bool isDisposed;
 
@@ -32,7 +34,8 @@ namespace OutcoldSolutions
             // Self register
             using (var registration = this.Registration())
             {
-                registration.Register(typeof(IDependencyResolverContainer)).And<DependencyResolverContainer>().AsSingleton(this);
+                (this.currentInstanceContainer = registration.Register(typeof(IDependencyResolverContainer)))
+                    .And<DependencyResolverContainer>().AsSingleton(this);
             }
         }
 
@@ -264,7 +267,10 @@ namespace OutcoldSolutions
 
                     foreach (var containerInstance in this.registeredObjects.Values)
                     {
-                        containerInstance.Dispose();
+                        if (containerInstance != this.currentInstanceContainer)
+                        {
+                            containerInstance.Dispose();
+                        }
                     }
 
                     this.registeredObjects.Clear();
