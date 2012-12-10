@@ -31,6 +31,8 @@ namespace OutcoldSolutions
         /// </summary>
         public DependencyResolverContainer()
         {
+            this.Behavior = new DependencyResolverContainerBehavior();
+
             // Self register
             using (var registration = this.Registration())
             {
@@ -72,6 +74,11 @@ namespace OutcoldSolutions
         }
 
         internal event EventHandler Disposing;
+
+        /// <summary>
+        /// Gets the behavior of current dependency resolver container.
+        /// </summary>
+        public DependencyResolverContainerBehavior Behavior { get; private set; }
 
         /// <inheritdoc />
         public IRegistrationContext Registration()
@@ -144,6 +151,19 @@ namespace OutcoldSolutions
             if (instance != null)
             {
                 return instance.Resolve(arguments);
+            }
+
+            if (this.Behavior.AutoRegistration)
+            {
+                if (this.parentContainer == null || !this.parentContainer.IsRegistered(type))
+                {
+                    using (var registration = this.Registration())
+                    {
+                        instance = (ContainerInstance)registration.Register(type);
+                    }
+
+                    return instance.Resolve(arguments);
+                }
             }
 
             if (this.parentContainer != null)

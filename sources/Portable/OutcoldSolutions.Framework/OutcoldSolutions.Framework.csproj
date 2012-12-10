@@ -42,6 +42,7 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="InversionOfControl\DependencyResolverContainerBehavior.cs" />
     <Compile Include="Properties\AssemblyInfo.Common.cs" />
     <Compile Include="InversionOfControlResources.Designer.cs">
       <AutoGen>True</AutoGen>

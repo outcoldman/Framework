@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Diagnostics\ObjectReleaseVerification\MultiVerificationHandlerSuites.cs" />
     <Compile Include="InversionOfControl\ContainerInstanceSuites.cs" />
+    <Compile Include="InversionOfControl\DependencyResolverContainerAutoRegistrationSutes.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainerSuites.cs" />
     <Compile Include="InversionOfControl\Stubs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

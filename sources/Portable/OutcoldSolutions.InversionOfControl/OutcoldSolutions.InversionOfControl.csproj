@@ -48,6 +48,9 @@
     <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\DependencyResolverContainer.cs">
       <Link>DependencyResolverContainer.cs</Link>
     </Compile>
+    <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\DependencyResolverContainerBehavior.cs">
+      <Link>DependencyResolverContainerBehavior.cs</Link>
+    </Compile>
     <Compile Include="..\OutcoldSolutions.Framework\InversionOfControl\IContainerInstance.cs">
       <Link>IContainerInstance.cs</Link>
     </Compile>
