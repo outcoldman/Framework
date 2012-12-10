@@ -123,5 +123,15 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             Assert.IsTrue(container.IsRegistered(typeof(IServiceStub2)));
             Assert.IsFalse(container.IsRegistered(typeof(ServiceStub)));
         }
+
+        [Test]
+        public void Dispose_SelfRegistered_ShouldNotDisposeItself()
+        {
+            // Arrange
+            var container = new DependencyResolverContainer();
+
+            // Act
+            container.Dispose();
+        }
     }
 }
