@@ -414,7 +414,11 @@ namespace OutcoldSolutions
                             disposable.Dispose();
                         }
 
-                        this.requiredInjections.Clear();
+                        if (this.requiredInjections != null)
+                        {
+                            this.requiredInjections.Clear();
+                            this.requiredInjections = null;
+                        }
                     }
 
                     this.isDisposed = true;
