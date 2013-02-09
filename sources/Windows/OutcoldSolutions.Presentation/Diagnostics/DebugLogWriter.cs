@@ -6,10 +6,7 @@ namespace OutcoldSolutions.Diagnostics
     using System;
     using System.Diagnostics;
 
-    /// <summary>
-    /// The debug log writer.
-    /// </summary>
-    public class DebugLogWriter : ILogWriter
+    internal class DebugLogWriter : ILogWriter
     {
         /// <inheritdoc />
         public bool IsEnabled
