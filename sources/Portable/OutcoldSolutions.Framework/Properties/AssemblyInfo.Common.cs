@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// Outcold Solutions (http://outcoldman.ru)
+// Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
@@ -8,7 +8,7 @@ using System.Resources;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Outcold Solutions")]
-[assembly: AssemblyProduct("OutcoldSolutions.Diagnostics.ObjectReleaseVerification")]
+[assembly: AssemblyProduct("OutcoldSolutions Framework")]
 [assembly: AssemblyCopyright("\x00a9 Outcold Solutions. All rights reserved.")]
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: CLSCompliant(true)]

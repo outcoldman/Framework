@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F30ACDBE-B9E1-456D-8DE4-C2DD86D94A8C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OutcoldSolutions.Presentation.Suites</RootNamespace>
+    <AssemblyName>OutcoldSolutions.Presentation.Suites</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetPlatformVersion>8.0</TargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\OutcoldSolution.Public.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>true</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Windows" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.UI.Xaml.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModelBase.cs">
+      <Link>_sources\BindingModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\BooleanToVisibilityConverter.cs">
+      <Link>_sources\Converters\BooleanToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\InvertBooleanConverter.cs">
+      <Link>_sources\Converters\InvertBooleanConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\ValueToVisibilityConverter.cs">
+      <Link>_sources\Converters\ValueToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\VisibilityConverterBase.cs">
+      <Link>_sources\Converters\VisibilityConverterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\DebugLogWriter.cs">
+      <Link>_sources\Diagnostics\DebugLogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\FileLogWriter.cs">
+      <Link>_sources\Diagnostics\FileLogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\ILogger.cs">
+      <Link>_sources\Diagnostics\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\ILogManager.cs">
+      <Link>_sources\Diagnostics\ILogManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\ILogWriter.cs">
+      <Link>_sources\Diagnostics\ILogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\Logger.cs">
+      <Link>_sources\Diagnostics\Logger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LoggerEx.cs">
+      <Link>_sources\Diagnostics\LoggerEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LogLevel.cs">
+      <Link>_sources\Diagnostics\LogLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LogManager.cs">
+      <Link>_sources\Diagnostics\LogManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\PropertyNameExtractor.cs">
+      <Link>_sources\PropertyNameExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\TaskEx.cs">
+      <Link>_sources\TaskEx.cs</Link>
+    </Compile>
+    <Compile Include="BindingModelBaseSuites.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverterSuites.cs" />
+    <Compile Include="Converters\InvertBooleanConverterSuites.cs" />
+    <Compile Include="Converters\ValueToVisibilityConverterSuites.cs" />
+    <Compile Include="CultureScope.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuitesBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\OutcoldSolution.Public.snk">
+      <Link>OutcoldSolution.Public.snk</Link>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Portable\OutcoldSolutions.Framework\OutcoldSolutions.Framework.csproj">
+      <Project>{1b2dc586-ab06-48cd-ad91-2d699a43725e}</Project>
+      <Name>OutcoldSolutions.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
