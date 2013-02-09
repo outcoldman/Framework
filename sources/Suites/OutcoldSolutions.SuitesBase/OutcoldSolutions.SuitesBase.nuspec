@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>OutcoldSolutions.InversionOfControl</id>
+    <id>OutcoldSolutions.SuitesBase</id>
     <version>$version$</version>
-    <authors>$author$</authors>
+    <authors>outcoldman</authors>
     <owners>$author$</owners>
     <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
     <projectUrl>http://outcoldman.com/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Outcold Solustions InversionOfControl Library.</description>
+    <description>Outcold Solustions Framework Suites Base Library.</description>
     <releaseNotes>Pre-release version.</releaseNotes>
     <copyright>Outcold Solutions. All rights reserved.</copyright>
-    <tags>InversionOfControl</tags>
+    <tags>Framework</tags>
   </metadata>
 </package>

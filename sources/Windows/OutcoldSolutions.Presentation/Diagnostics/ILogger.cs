@@ -2,7 +2,7 @@
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OutcoldSolutions.Presentation.Diagnostics
+namespace OutcoldSolutions.Diagnostics
 {
     /// <summary>
     /// The Logger interface.

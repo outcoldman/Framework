@@ -6,7 +6,7 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
-    <projectUrl>http://outcoldman.ru/</projectUrl>
+    <projectUrl>http://outcoldman.com/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Outcold Solustions Framework Library.</description>
     <releaseNotes>Pre-release version.</releaseNotes>

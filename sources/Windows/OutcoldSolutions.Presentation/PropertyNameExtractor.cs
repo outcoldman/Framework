@@ -1,14 +1,24 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions.Presentation
+namespace OutcoldSolutions
 {
     using System;
     using System.Linq.Expressions;
     using System.Reflection;
 
-    internal class PropertyNameExtractor
+    /// <summary>
+    /// The property name extractor
+    /// </summary>
+    public class PropertyNameExtractor
     {
+        /// <summary>
+        /// Get the property name from expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <returns>Property name.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="expression"/> is null.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="expression"/> does not contain property.</exception>
         public static string GetPropertyName(Expression<Func<object>> expression)
         {
             if (expression == null)

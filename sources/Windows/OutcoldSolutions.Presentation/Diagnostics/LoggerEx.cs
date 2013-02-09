@@ -1,7 +1,7 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions.Presentation.Diagnostics
+namespace OutcoldSolutions.Diagnostics
 {
     using System;
 
@@ -20,7 +20,7 @@ namespace OutcoldSolutions.Presentation.Diagnostics
         /// The exception.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// If <paramref name="@this"/> or <paramref name="exception"/> is null.
+        /// If <paramref name="this"/> or <paramref name="exception"/> is null.
         /// </exception>
         public static void LogErrorException(this ILogger @this, Exception exception)
         {
@@ -47,7 +47,7 @@ namespace OutcoldSolutions.Presentation.Diagnostics
         /// The exception.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// If <paramref name="@this"/> or <paramref name="exception"/> is null.
+        /// If <paramref name="this"/> or <paramref name="exception"/> is null.
         /// </exception>
         public static void LogDebugException(this ILogger @this, Exception exception)
         {

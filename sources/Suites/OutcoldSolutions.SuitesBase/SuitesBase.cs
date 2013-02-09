@@ -2,11 +2,11 @@
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace OutcoldSolutions.Presentation.Suites
+namespace OutcoldSolutions
 {
     using NUnit.Framework;
 
-    using OutcoldSolutions.Presentation.Diagnostics;
+    using OutcoldSolutions.Diagnostics;
 
     public abstract class SuitesBase
     {

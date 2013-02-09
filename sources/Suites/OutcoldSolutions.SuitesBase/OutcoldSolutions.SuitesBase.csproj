@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F30ACDBE-B9E1-456D-8DE4-C2DD86D94A8C}</ProjectGuid>
+    <ProjectGuid>{E3859804-61A6-4FB6-9A03-6F06EEA90213}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OutcoldSolutions.Presentation.Suites</RootNamespace>
-    <AssemblyName>OutcoldSolutions.Presentation.Suites</AssemblyName>
+    <RootNamespace>OutcoldSolutions</RootNamespace>
+    <AssemblyName>OutcoldSolutions.SuitesBase</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -67,11 +67,60 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingModelBaseSuites.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverterSuites.cs" />
-    <Compile Include="Converters\InvertBooleanConverterSuites.cs" />
-    <Compile Include="Converters\ValueToVisibilityConverterSuites.cs" />
+    <Compile Include="..\..\Portable\OutcoldSolutions.Framework\Properties\AssemblyInfo.Common.cs">
+      <Link>Properties\AssemblyInfo.Common.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModelBase.cs">
+      <Link>_sources\BindingModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\BooleanToVisibilityConverter.cs">
+      <Link>_sources\Converters\BooleanToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\InvertBooleanConverter.cs">
+      <Link>_sources\Converters\InvertBooleanConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\ValueToVisibilityConverter.cs">
+      <Link>_sources\Converters\ValueToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\VisibilityConverterBase.cs">
+      <Link>_sources\Converters\VisibilityConverterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\DebugLogWriter.cs">
+      <Link>_sources\Diagnostics\DebugLogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\FileLogWriter.cs">
+      <Link>_sources\Diagnostics\FileLogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\ILogger.cs">
+      <Link>_sources\Diagnostics\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\ILogManager.cs">
+      <Link>_sources\Diagnostics\ILogManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\ILogWriter.cs">
+      <Link>_sources\Diagnostics\ILogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\Logger.cs">
+      <Link>_sources\Diagnostics\Logger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LoggerEx.cs">
+      <Link>_sources\Diagnostics\LoggerEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LogLevel.cs">
+      <Link>_sources\Diagnostics\LogLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LogManager.cs">
+      <Link>_sources\Diagnostics\LogManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\PropertyNameExtractor.cs">
+      <Link>_sources\PropertyNameExtractor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\TaskEx.cs">
+      <Link>_sources\TaskEx.cs</Link>
+    </Compile>
+    <Compile Include="CultureScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuitesBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\OutcoldSolution.Public.snk">
@@ -85,13 +134,6 @@
       <Project>{1b2dc586-ab06-48cd-ad91-2d699a43725e}</Project>
       <Name>OutcoldSolutions.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OutcoldSolutions.SuitesBase\OutcoldSolutions.SuitesBase.csproj">
-      <Project>{e3859804-61a6-4fb6-9a03-6f06eea90213}</Project>
-      <Name>OutcoldSolutions.SuitesBase</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_sources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

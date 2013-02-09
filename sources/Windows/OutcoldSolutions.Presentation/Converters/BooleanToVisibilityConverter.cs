@@ -1,7 +1,7 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions.Presentation.Converters
+namespace OutcoldSolutions.Converters
 {
     using System;
     using System.Diagnostics;

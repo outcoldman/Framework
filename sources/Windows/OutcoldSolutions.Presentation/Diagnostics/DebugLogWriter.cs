@@ -1,7 +1,7 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions.Presentation.Diagnostics
+namespace OutcoldSolutions.Diagnostics
 {
     using System;
     using System.Diagnostics;

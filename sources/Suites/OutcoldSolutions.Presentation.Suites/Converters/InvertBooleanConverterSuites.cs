@@ -7,8 +7,7 @@ namespace OutcoldSolutions.Presentation.Suites.Converters
 
     using NUnit.Framework;
 
-    using OutcoldSolutions.Presentation.Converters;
-    using OutcoldSolutions.Presentation.Suites;
+    using OutcoldSolutions.Converters;
 
     public class InvertBooleanConverterSuites : SuitesBase
     {
