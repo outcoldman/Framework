@@ -13,6 +13,15 @@ namespace OutcoldSolutions.Presentation
     /// </summary>
     public static class TaskEx
     {
+        /// <summary>
+        /// Continue when all tasks are completed. This method ignores <see cref="TaskCanceledException"/>.
+        /// </summary>
+        /// <param name="tasks">
+        /// The tasks.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public static async Task<Task[]> WhenAllSafe(params Task[] tasks)
         {
             try
@@ -26,6 +35,18 @@ namespace OutcoldSolutions.Presentation
             return tasks;
         }
 
+        /// <summary>
+        /// Continue when all tasks are completed. This method ignores <see cref="TaskCanceledException"/>.
+        /// </summary>
+        /// <param name="tasks">
+        /// The tasks.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="tasks"/> is null.
+        /// </exception>
         public static async Task<Task[]> WhenAllSafe(IEnumerable<Task> tasks)
         {
             if (tasks == null)
@@ -36,7 +57,13 @@ namespace OutcoldSolutions.Presentation
             return await WhenAllSafe(tasks.ToArray());
         }
 
-        public static Task[] WaitAllSafe(params Task[] tasks)
+        /// <summary>
+        /// Wait all tasks. This method ignores <see cref="TaskCanceledException"/>.
+        /// </summary>
+        /// <param name="tasks">
+        /// The tasks.
+        /// </param>
+        public static void WaitAllSafe(params Task[] tasks)
         {
             try
             {
@@ -45,18 +72,25 @@ namespace OutcoldSolutions.Presentation
             catch (TaskCanceledException)
             {
             }
-
-            return tasks;
         }
 
-        public static Task[] WaitAllSafe(IEnumerable<Task> tasks)
+        /// <summary>
+        /// Wait all tasks. This method ignores <see cref="TaskCanceledException"/>.
+        /// </summary>
+        /// <param name="tasks">
+        /// The tasks.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="tasks"/> is null.
+        /// </exception>
+        public static void WaitAllSafe(IEnumerable<Task> tasks)
         {
             if (tasks == null)
             {
                 throw new ArgumentNullException("tasks");
             }
 
-            return WaitAllSafe(tasks.ToArray());
+            WaitAllSafe(tasks.ToArray());
         }
     }
 }
