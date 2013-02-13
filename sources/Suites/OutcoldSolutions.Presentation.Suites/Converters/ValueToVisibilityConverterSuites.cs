@@ -174,6 +174,16 @@ namespace OutcoldSolutions.Presentation.Suites.Converters
                 // Assert
                 Assert.AreEqual(Visibility.Collapsed, value);
             }
+        }
+
+        [Test]
+        public void Convert_UInt16ValueAndTheSameStringParameter_Visible()
+        {
+            // Act
+            var value = this.converter.Convert((ushort)1, VisibilityType, "1", EnglishLanguage);
+
+            // Assert
+            Assert.AreEqual(Visibility.Visible, value);
         } 
     }
 }
