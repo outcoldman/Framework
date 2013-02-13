@@ -26,6 +26,15 @@ namespace OutcoldSolutions.Converters
         /// <inheritdoc />
         public abstract object ConvertBack(object value, Type targetType, object parameter, string language);
 
+        /// <summary>
+        /// Convert to visibility. Result of this method depends on <see cref="Invert"/> property.
+        /// </summary>
+        /// <param name="result">
+        /// Result of operation which should be converted to <see cref="Visibility"/>.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Visibility"/>.
+        /// </returns>
         protected Visibility ConvertToVisibility(bool result)
         {
             if (this.Invert)
@@ -43,6 +52,15 @@ namespace OutcoldSolutions.Converters
             }
         }
 
+        /// <summary>
+        /// Convert to boolean. Result of this method depends on <see cref="Invert"/> property.
+        /// </summary>
+        /// <param name="visibility">
+        /// The visibility value, which should be converted to <see cref="bool"/>.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         protected bool ConvertToBoolean(Visibility visibility)
         {
             bool result = visibility == Visibility.Visible;
