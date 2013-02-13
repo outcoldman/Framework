@@ -2,6 +2,7 @@
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Reflection;
 
 // General Information about an assembly is controlled through the following 
@@ -9,3 +10,4 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle("OutcoldSolutions.InversionOfControl")]
 [assembly: AssemblyDescription("Inversion of Control Framework")]
+[assembly: CLSCompliant(true)]

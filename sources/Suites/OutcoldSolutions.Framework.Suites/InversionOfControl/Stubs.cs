@@ -82,4 +82,44 @@ namespace OutcoldSolutions.Framework.InversionOfControl
 
         public IServiceStub1 Child { get; set; }
     }
+
+    public class ServiceWithMethodInjection
+    {
+        public ServiceWithMethodInjection(IServiceStub1 child)
+        {
+            this.Child = child;
+        }
+
+        public IServiceStub1 Child { get; set; }
+
+        public IServiceStub2 Child2 { get; set; }
+
+        [Inject]
+        public void MethodA(IServiceStub2 serviceStub2)
+        {
+            this.Child2 = serviceStub2;
+        }
+    }
+
+    public class ServiceWithMethodWithReturnInjection
+    {
+        public IServiceStub1 Child { get; set; }
+
+        [Inject]
+        public IServiceStub1 MethodA(IServiceStub1 serviceStub2)
+        {
+            return this.Child = serviceStub2;
+        }
+    }
+
+    public class ServiceWithPrivateMethodInjection
+    {
+        public IServiceStub1 Child { get; set; }
+
+        [Inject]
+        private void MethodA(IServiceStub1 serviceStub1)
+        {
+            this.Child = serviceStub1;
+        }
+    }
 }

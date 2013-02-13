@@ -19,6 +19,8 @@ namespace OutcoldSolutions
     internal class ContainerInstance : IContainerInstance, IDisposable
     {
         private const string CompiledExpressionInputParameterName = "a";
+        private const string CompiledExpressionInstanceName = "i";
+        private static readonly Type InjectAttributeType = typeof(InjectAttribute);
 
         private readonly DependencyResolverContainer container;
         private readonly List<Type> registeredTypes = new List<Type>();
@@ -27,6 +29,7 @@ namespace OutcoldSolutions
         private Type implementation;
         private bool isSingleton;
         private Func<object[], object> factory;
+        private List<MethodInjectInfo> methodInjections;
         private object instance;
 
         private List<InjectInfo> requiredInjections;
@@ -255,14 +258,19 @@ namespace OutcoldSolutions
                         Monitor.Enter(this.typeLocker);
                     }
 
-                    if (this.factory == null || this.requiredInjections == null)
+                    try
                     {
-                        this.Compile();
+                        if (this.factory == null || this.requiredInjections == null)
+                        {
+                            this.Compile();
+                        }
                     }
-
-                    if (!this.isSingleton)
+                    finally 
                     {
-                        Monitor.Exit(this.typeLocker);
+                        if (!this.isSingleton)
+                        {
+                            Monitor.Exit(this.typeLocker);
+                        }
                     }
                 }
 
@@ -271,11 +279,45 @@ namespace OutcoldSolutions
                     throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, InversionOfControlResources.ErrMsg_CannotFindConstructorForType, this.implementation));
                 }
 
-                object[] ctorArguments;
-
-                if (this.requiredInjections != null)
+                object[] ctorArguments = this.ResolveRequiredParameters(this.requiredInjections, arguments);
+                object result = this.factory(ctorArguments);
+                if (this.methodInjections != null)
                 {
-                    ctorArguments = this.requiredInjections.Select(
+                    foreach (var methodInjectInfo in this.methodInjections)
+                    {
+                        methodInjectInfo.FuncCall(result, this.ResolveRequiredParameters(methodInjectInfo.RequiredInjections, arguments));
+                    }
+                }
+                    
+                if (this.isSingleton)
+                {
+                    // In case if this is singleton we will remember value
+                    // and will clear all unnecessary objects.
+                    this.instance = result;
+                    this.factory = null;
+                    this.requiredInjections = null;
+                    this.methodInjections = null;
+                }
+
+                return result;
+            }
+            finally
+            {
+                if (this.isSingleton)
+                {
+                    Monitor.Exit(this.typeLocker);
+                }
+            }
+        }
+
+        private object[] ResolveRequiredParameters(IEnumerable<InjectInfo> injectInfos, object[] arguments)
+        {
+            if (injectInfos == null)
+            {
+                return null;
+            }
+
+            return injectInfos.Select(
                         p =>
                             {
                                 object value = null;
@@ -299,32 +341,6 @@ namespace OutcoldSolutions
 
                                 return value;
                             }).ToArray();
-                }
-                else
-                {
-                    ctorArguments = arguments;
-                }
-
-                object result = this.factory(ctorArguments);
-                    
-                if (this.isSingleton)
-                {
-                    // In case if this is singleton we will remember value
-                    // and will clear all unnecessary objects.
-                    this.instance = result;
-                    this.factory = null;
-                    this.requiredInjections = null;
-                }
-
-                return result;
-            }
-            finally
-            {
-                if (this.isSingleton)
-                {
-                    Monitor.Exit(this.typeLocker);
-                }
-            }
         }
 
         private void Compile()
@@ -355,7 +371,7 @@ namespace OutcoldSolutions
                 {
                     constructorInfos = constructorInfos.Where(info =>
                     {
-                        object[] customAttributes = info.GetCustomAttributes(typeof(InjectAttribute), false);
+                        object[] customAttributes = info.GetCustomAttributes(InjectAttributeType, false);
                         return customAttributes != null && customAttributes.Length > 0;
                     }).ToArray();
                 }
@@ -380,6 +396,44 @@ namespace OutcoldSolutions
                     NewExpression newExp = Expression.New(constructorInfo, expressions);
                     LambdaExpression lambda = Expression.Lambda(newExp, parameterExpression);
                     this.factory = (Func<object[], object>)lambda.Compile();
+                }
+
+                this.methodInjections = this.implementation.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                    .Select(method => new { Method = method, Attributes = method.GetCustomAttributes(InjectAttributeType, inherit: true) })
+                    .Where(method => method.Attributes != null && method.Attributes.Length > 0)
+                    .Select(method =>
+                    {
+                        var methodInfo = method.Method;
+                        var parameterTypes = methodInfo.GetParameters().Select(info => info.ParameterType).ToList();
+                        var methodRequiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.container.Get(t))).ToList();
+
+                        // Compile a new lambda expression:
+                        // (i, (object[]) a) => 
+                        // {
+                        //    return i.Method((TType0)a[0], (TType1)a[1], ... , (TTypeN)a[N]);
+                        // }
+                        ParameterExpression instanceExpression = Expression.Parameter(typeof(object), CompiledExpressionInstanceName);
+                        ParameterExpression parameterExpression = Expression.Parameter(typeof(object[]), CompiledExpressionInputParameterName);
+                        var expressions = parameterTypes
+                            .Select((t, i) => Expression.Convert(Expression.ArrayIndex(parameterExpression, Expression.Constant(i)), t))
+                            .Cast<Expression>().ToList();
+
+                        MethodCallExpression callExp = Expression.Call(Expression.Convert(instanceExpression, this.implementation), methodInfo, expressions);
+                        LambdaExpression lambda = Expression.Lambda(callExp, instanceExpression, parameterExpression);
+                        var @delegate = lambda.Compile();
+
+                        Action<object, object[]> action = @delegate as Action<object, object[]>;
+                        if (action == null)
+                        {
+                            action = (object i, object[] a) => ((Func<object, object[], object>)@delegate)(i, a);
+                        }
+
+                        return new MethodInjectInfo(action, methodRequiredInjections);
+                    }).ToList();
+
+                if (this.methodInjections.Count == 0)
+                {
+                    this.methodInjections = null;
                 }
             }
         }
@@ -432,6 +486,19 @@ namespace OutcoldSolutions
             {
                 throw new ObjectDisposedException(typeof(ContainerInstance).Name);
             }
+        }
+
+        private class MethodInjectInfo
+        {
+            public MethodInjectInfo(Action<object, object[]> funcCall, List<InjectInfo> requiredParameters)
+            {
+                this.RequiredInjections = requiredParameters;
+                this.FuncCall = funcCall;
+            }
+
+            public List<InjectInfo> RequiredInjections { get; private set; }
+
+            public Action<object, object[]> FuncCall { get; private set; }
         }
 
         private class InjectInfo

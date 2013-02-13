@@ -2,7 +2,6 @@
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using System.Reflection;
 using System.Resources;
 
@@ -11,7 +10,6 @@ using System.Resources;
 [assembly: AssemblyProduct("OutcoldSolutions Framework")]
 [assembly: AssemblyCopyright("\x00a9 Outcold Solutions. All rights reserved.")]
 [assembly: NeutralResourcesLanguage("en")]
-[assembly: CLSCompliant(true)]
 
 // Version information for an assembly consists of the following four values:
 //

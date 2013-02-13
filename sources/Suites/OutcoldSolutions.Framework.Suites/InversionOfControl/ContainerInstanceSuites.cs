@@ -464,5 +464,59 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Assert
             Assert.AreEqual(serviceStub, result.Child);
         }
+
+        [Test]
+        public void Resolve_TypeWithMethodInjection_ShouldInjectMethod()
+        {
+            // Arrange
+            var serviceStub1 = new ServiceStub();
+            var serviceStub2 = new ServiceStub();
+            this.registrationContext.Register<IServiceStub1>().AsSingleton(serviceStub1);
+            this.registrationContext.Register<IServiceStub2>().AsSingleton(serviceStub2);
+
+            var objectInfo = new ContainerInstance(typeof(ServiceWithMethodInjection), this.container);
+            objectInfo.As(typeof(ServiceWithMethodInjection));
+
+            // Act
+            var result = (ServiceWithMethodInjection)objectInfo.Resolve();
+
+            // Assert
+            Assert.AreEqual(serviceStub1, result.Child);
+            Assert.AreEqual(serviceStub2, result.Child2);
+        }
+
+        [Test]
+        public void Resolve_TypeWithMethodWithReturnInjection_ShouldInjectMethod()
+        {
+            // Arrange
+            var serviceStub1 = new ServiceStub();
+            this.registrationContext.Register<IServiceStub1>().AsSingleton(serviceStub1);
+
+            var objectInfo = new ContainerInstance(typeof(ServiceWithMethodWithReturnInjection), this.container);
+            objectInfo.As(typeof(ServiceWithMethodWithReturnInjection));
+
+            // Act
+            var result = (ServiceWithMethodWithReturnInjection)objectInfo.Resolve();
+
+            // Assert
+            Assert.AreEqual(serviceStub1, result.Child);
+        }
+
+        [Test]
+        public void Resolve_TypeWithPrivateMethodInjection_ShouldInjectMethod()
+        {
+            // Arrange
+            var serviceStub1 = new ServiceStub();
+            this.registrationContext.Register<IServiceStub1>().AsSingleton(serviceStub1);
+
+            var objectInfo = new ContainerInstance(typeof(ServiceWithPrivateMethodInjection), this.container);
+            objectInfo.As(typeof(ServiceWithPrivateMethodInjection));
+
+            // Act
+            var result = (ServiceWithPrivateMethodInjection)objectInfo.Resolve();
+
+            // Assert
+            Assert.AreEqual(serviceStub1, result.Child);
+        }
     }
 }
