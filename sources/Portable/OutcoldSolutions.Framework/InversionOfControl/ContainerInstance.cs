@@ -32,6 +32,8 @@ namespace OutcoldSolutions
         private List<MethodInjectInfo> methodInjections;
         private object instance;
 
+        private Dictionary<Type, Type> injectionRules;
+
         private List<InjectInfo> requiredInjections;
 
         private bool isDisposed;
@@ -73,6 +75,54 @@ namespace OutcoldSolutions
         public IContainerInstance And<TType>()
         {
             return this.And(typeof(TType));
+        }
+
+        public IContainerInstance InjectionRule(Type type, Type typeImplementation)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            if (typeImplementation == null)
+            {
+                throw new ArgumentNullException("typeImplementation");
+            }
+
+            if (!type.IsAssignableFrom(typeImplementation))
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        InversionOfControlResources.ErrMsg_CannotSetTypeAsImplementation,
+                        typeImplementation,
+                        type),
+                    "typeImplementation");
+            }
+
+            if (this.injectionRules == null)
+            {
+                this.injectionRules = new Dictionary<Type, Type>();
+            }
+
+            if (this.injectionRules.ContainsKey(type))
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        InversionOfControlResources.ErrMsg_CannotSetInjectionTypeTwice,
+                        type),
+                    "type");
+            }
+
+            this.injectionRules.Add(type, typeImplementation);
+
+            return this;
+        }
+
+        public IContainerInstance InjectionRule<TType, TImplementation>() where TImplementation : TType
+        {
+            return this.InjectionRule(typeof(TType), typeof(TImplementation));
         }
 
         public void As(Type typeImplementation)
@@ -330,13 +380,10 @@ namespace OutcoldSolutions
                                 {
                                     if (p.ContainerInstance == null)
                                     {
-                                        value = this.container.Resolve(p.Type, arguments);
                                         p.ContainerInstance = this.container.Get(p.Type);
                                     }
-                                    else
-                                    {
-                                        value = p.ContainerInstance.Resolve(arguments);
-                                    }
+
+                                    value = p.ContainerInstance.Resolve(arguments);
                                 }
 
                                 return value;
@@ -383,7 +430,7 @@ namespace OutcoldSolutions
                     var constructorInfo = constructorInfos[0];
 
                     var parameterTypes = constructorInfo.GetParameters().Select(info => info.ParameterType).ToList();
-                    this.requiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.container.Get(t))).ToList();
+                    this.requiredInjections = this.GetInjectInfos(parameterTypes).ToList();
 
                     // Compile a new lambda expression:
                     // ((object[]) a) => 
@@ -405,7 +452,7 @@ namespace OutcoldSolutions
                     {
                         var methodInfo = method.Method;
                         var parameterTypes = methodInfo.GetParameters().Select(info => info.ParameterType).ToList();
-                        var methodRequiredInjections = parameterTypes.Select(t => new InjectInfo(t, this.container.Get(t))).ToList();
+                        var methodRequiredInjections = this.GetInjectInfos(parameterTypes).ToList();
 
                         // Compile a new lambda expression:
                         // (i, (object[]) a) => 
@@ -435,7 +482,24 @@ namespace OutcoldSolutions
                 {
                     this.methodInjections = null;
                 }
+
+                this.injectionRules = null;
             }
+        }
+
+        private IEnumerable<InjectInfo> GetInjectInfos(IEnumerable<Type> parameterTypes)
+        {
+            return parameterTypes.Select(t =>
+            {
+                Type projection;
+                if (this.injectionRules != null 
+                    && this.injectionRules.TryGetValue(t, out projection))
+                {
+                    t = projection;
+                }
+
+                return new InjectInfo(t, this.container.Get(t));
+            });
         }
 
         private void CheckState()

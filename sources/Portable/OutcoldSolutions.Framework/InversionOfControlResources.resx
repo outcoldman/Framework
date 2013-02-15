@@ -123,6 +123,9 @@
   <data name="ErrMsg_CannotRegisterTypeAsSingleton" xml:space="preserve">
     <value>Current registration has more than one type. Specify which type you want to use for resolving.</value>
   </data>
+  <data name="ErrMsg_CannotSetInjectionTypeTwice" xml:space="preserve">
+    <value>Current registration already has a rule for type '{0}'.</value>
+  </data>
   <data name="ErrMsg_CannotSetInterfaceAsImplementation" xml:space="preserve">
     <value>Cannot set interface or abstract class '{0}' as an implementation type.</value>
   </data>

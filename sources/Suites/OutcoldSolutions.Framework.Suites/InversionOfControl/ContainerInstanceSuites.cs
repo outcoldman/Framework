@@ -518,5 +518,45 @@ namespace OutcoldSolutions.Framework.InversionOfControl
             // Assert
             Assert.AreEqual(serviceStub1, result.Child);
         }
+
+        [Test]
+        public void InjectionRuleGeneric_TwoTypesRegistered_ResolvedWithTypeFromRule()
+        {
+            // Arrange
+            var serviceStub1 = new ServiceStub();
+            var serviceStub2 = new ServiceStub();
+            this.registrationContext.Register<IServiceStub1>().AsSingleton(serviceStub1);
+            this.registrationContext.Register<IServiceStub2>().AsSingleton(serviceStub2);
+
+            var objectInfo = new ContainerInstance(typeof(ServiceWithStubBaseInjection), this.container);
+            objectInfo.As(typeof(ServiceWithStubBaseInjection));
+
+            // Act
+            objectInfo.InjectionRule<IServiceStubBase, IServiceStub2>();
+            var stub = (ServiceWithStubBaseInjection)objectInfo.Resolve();
+
+            // Assert
+            Assert.AreEqual(serviceStub2, stub.Child);
+        }
+
+        [Test]
+        public void InjectionRule_TwoTypesRegistered_ResolvedWithTypeFromRule()
+        {
+            // Arrange
+            var serviceStub1 = new ServiceStub();
+            var serviceStub2 = new ServiceStub();
+            this.registrationContext.Register<IServiceStub1>().AsSingleton(serviceStub1);
+            this.registrationContext.Register<IServiceStub2>().AsSingleton(serviceStub2);
+
+            var objectInfo = new ContainerInstance(typeof(ServiceWithStubBaseInjection), this.container);
+            objectInfo.As(typeof(ServiceWithStubBaseInjection));
+
+            // Act
+            objectInfo.InjectionRule(typeof(IServiceStubBase), typeof(IServiceStub2));
+            var stub = (ServiceWithStubBaseInjection)objectInfo.Resolve();
+
+            // Assert
+            Assert.AreEqual(serviceStub2, stub.Child);
+        }
     }
 }

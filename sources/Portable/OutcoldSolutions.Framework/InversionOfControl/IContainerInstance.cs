@@ -34,6 +34,37 @@ namespace OutcoldSolutions
         IContainerInstance And<TType>();
 
         /// <summary>
+        /// Set rule for injecting type.
+        /// </summary>
+        /// <param name="type">
+        /// Injecting type.
+        /// </param>
+        /// <param name="implementation">
+        /// Injecting implementation.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IContainerInstance"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="type"/> or <paramref name="implementation"/> is null.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="implementation"/> is not a implementation of type <paramref name="type"/> or if it is interface or abstract class.</exception>
+        /// <exception cref="ArgumentException">If current registration already has a rule for type <paramref name="type"/> .</exception>
+        IContainerInstance InjectionRule(Type type, Type implementation);
+
+        /// <summary>
+        /// Set rule for injecting type.
+        /// </summary>
+        /// <typeparam name="TType">
+        /// Injecting type.
+        /// </typeparam>
+        /// <typeparam name="TImplementation">
+        /// Injecting implementation.
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IContainerInstance"/>.
+        /// </returns>
+        IContainerInstance InjectionRule<TType, TImplementation>() where TImplementation : TType;
+
+        /// <summary>
         /// Set implementation type for registered types.
         /// </summary>
         /// <param name="typeImplementation">

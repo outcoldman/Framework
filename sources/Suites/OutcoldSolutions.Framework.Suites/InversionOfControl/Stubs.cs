@@ -5,7 +5,11 @@
 
 namespace OutcoldSolutions.Framework.InversionOfControl
 {
-    public interface IServiceStub1
+    public interface IServiceStubBase
+    {
+    }
+
+    public interface IServiceStub1 : IServiceStubBase
     {
     }
 
@@ -13,7 +17,7 @@ namespace OutcoldSolutions.Framework.InversionOfControl
     {
     }
 
-    public interface IServiceStub2
+    public interface IServiceStub2 : IServiceStubBase
     {
     }
 
@@ -121,5 +125,15 @@ namespace OutcoldSolutions.Framework.InversionOfControl
         {
             this.Child = serviceStub1;
         }
+    }
+
+    public class ServiceWithStubBaseInjection
+    {
+        public ServiceWithStubBaseInjection(IServiceStubBase stubBase)
+        {
+            this.Child = stubBase;
+        }
+
+        public IServiceStubBase Child { get; set; }
     }
 }
