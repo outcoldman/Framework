@@ -18,6 +18,8 @@ namespace OutcoldSolutions
         private readonly Dictionary<string, List<EventHandler<PropertyChangedEventArgs>>> subscriptions =
             new Dictionary<string, List<EventHandler<PropertyChangedEventArgs>>>();
 
+        private List<string> notifications;
+
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -169,6 +171,31 @@ namespace OutcoldSolutions
         }
 
         /// <summary>
+        /// Freeze property change notifications.
+        /// </summary>
+        public void FreezeNotifications()
+        {
+            this.notifications = new List<string>();
+        }
+
+        /// <summary>
+        /// Unfreeze property change notifications.
+        /// </summary>
+        public void UnfreezeNotifications()
+        {
+            var propertyChangeNotifications = this.notifications;
+            this.notifications = null;
+
+            if (propertyChangeNotifications != null)
+            {
+                foreach (var notification in propertyChangeNotifications)
+                {
+                    this.RaisePropertyChanged(notification);
+                }
+            }
+        }
+
+        /// <summary>
         /// Raise property changed.
         /// </summary>
         /// <param name="expression">
@@ -200,6 +227,16 @@ namespace OutcoldSolutions
 
         private void RaisePropertyChanged(string propertyName)
         {
+            if (this.notifications != null)
+            {
+                if (!this.notifications.Contains(propertyName))
+                {
+                    this.notifications.Add(propertyName);
+                }
+
+                return;
+            }
+
             var eventArgs = new PropertyChangedEventArgs(propertyName);
 
             var handler = this.PropertyChanged;
