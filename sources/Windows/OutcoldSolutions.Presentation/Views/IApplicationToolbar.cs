@@ -11,6 +11,14 @@ namespace OutcoldSolutions.Views
     public interface IApplicationToolbar
     {
         /// <summary>
+        /// Set menu items.
+        /// </summary>
+        /// <param name="menuItems">
+        /// The menu items.
+        /// </param>
+        void SetMenuItems(IEnumerable<MenuItemMetadata> menuItems);
+
+        /// <summary>
         /// Set view commands.
         /// </summary>
         /// <param name="commands">

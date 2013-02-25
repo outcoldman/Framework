@@ -43,6 +43,23 @@ namespace OutcoldSolutions
         TView NavigateTo<TView>(object parameter = null, bool keepInHistory = true) where TView : IPageView;
 
         /// <summary>
+        /// The navigate to.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="parameter">
+        /// The parameter.
+        /// </param>
+        /// <param name="keepInHistory">
+        /// The keep in history.
+        /// </param>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
+        object NavigateTo(Type type, object parameter = null, bool keepInHistory = true);
+
+        /// <summary>
         /// The navigate to view.
         /// </summary>
         /// <param name="parameter">
@@ -57,7 +74,24 @@ namespace OutcoldSolutions
         /// <returns>
         /// The <see cref="IPageView"/>.
         /// </returns>
-        IPageView NavigateToView<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IViewResolver;
+        IPageView NavigateToView<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IPageViewResolver;
+
+        /// <summary>
+        /// The navigate to view.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="parameter">
+        /// The parameter.
+        /// </param>
+        /// <param name="keepInHistory">
+        /// The keep in history.
+        /// </param>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
+        object NavigateToView(Type type, object parameter, bool keepInHistory = true);
 
         /// <summary>
         /// Go back.

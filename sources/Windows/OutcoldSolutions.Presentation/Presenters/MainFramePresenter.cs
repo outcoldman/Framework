@@ -25,6 +25,21 @@ namespace OutcoldSolutions.Presenters
 
         public MainFrameBindingModel BindingModel { get; set; }
 
+        public void NavigateTo(MenuItemMetadata menuItemMetadata)
+        {
+            if (menuItemMetadata != null)
+            {
+                if (menuItemMetadata.PageType != null)
+                {
+                    this.navigationService.NavigateTo(menuItemMetadata.PageType, menuItemMetadata.Parameter);
+                }
+                else
+                {
+                    this.navigationService.NavigateToView(menuItemMetadata.PageResolverType, menuItemMetadata.Parameter);
+                }
+            }
+        }
+
         private bool CanGoBack()
         {
             return this.navigationService.CanGoBack();

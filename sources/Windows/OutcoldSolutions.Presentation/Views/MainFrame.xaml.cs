@@ -45,6 +45,12 @@ namespace OutcoldSolutions.Views
         }
 
         /// <inheritdoc />
+        public void SetMenuItems(IEnumerable<MenuItemMetadata> menuItems)
+        {
+            this.MainMenuItemsControl.ItemsSource = menuItems;
+        }
+
+        /// <inheritdoc />
         public void SetViewCommands(IEnumerable<CommandMetadata> commands)
         {
         }
@@ -164,7 +170,7 @@ namespace OutcoldSolutions.Views
         private void OnIsDataLoadingChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             var view = this.currentView;
-            if (view != null)
+            if (view is IDataPageView)
             {
                 var viewPresenter = view.GetPresenter<IDataPagePresenterBase>();
                 this.ProgressRing.IsActive = viewPresenter.IsDataLoading;
@@ -172,6 +178,32 @@ namespace OutcoldSolutions.Views
                 {
                     ((Storyboard)this.Resources["ActivateContent"]).Begin();
                 }
+            }
+        }
+
+        private void MainMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as FrameworkElement;
+            if (button != null)
+            {
+                var menuItemMetadata = button.DataContext as MenuItemMetadata;
+                if (menuItemMetadata != null)
+                {
+                    this.presenter.NavigateTo(menuItemMetadata);
+                }
+                else
+                {
+                    this.logger.Error("Could not find MenuItemMetadata in DataContext.");
+                }
+            }
+            else
+            {
+                this.logger.Error("Could not cast sender to FrameworkElement.");
+            }
+
+            if (this.TopAppBar != null)
+            {
+                this.TopAppBar.IsOpen = false;
             }
         }
     }

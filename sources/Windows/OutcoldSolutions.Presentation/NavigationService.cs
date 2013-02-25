@@ -53,17 +53,31 @@ namespace OutcoldSolutions
         }
 
         /// <inheritdoc />
-        public IPageView NavigateToView<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IViewResolver
+        public IPageView NavigateToView<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IPageViewResolver
         {
             var viewResolver = this.container.Resolve<TViewResolver>();
             var pageViewType = viewResolver.GetViewType(parameter);
-            return this.NavigateTo(pageViewType, parameter, keepInHistory);
+            return this.NavigateToInternal(pageViewType, parameter, keepInHistory);
+        }
+
+        /// <inheritdoc />
+        public object NavigateToView(Type type, object parameter, bool keepInHistory = true)
+        {
+            var viewResolver = (IPageViewResolver)this.container.Resolve(type);
+            var pageViewType = viewResolver.GetViewType(parameter);
+            return this.NavigateToInternal(pageViewType, parameter, keepInHistory);
         }
 
         /// <inheritdoc />
         public TView NavigateTo<TView>(object parameter = null, bool keepInHistory = true) where TView : IPageView
         {
             return (TView)this.NavigateTo(typeof(TView), parameter, keepInHistory);
+        }
+
+        /// <inheritdoc />
+        public object NavigateTo(Type type, object parameter = null, bool keepInHistory = true)
+        {
+            return this.NavigateToInternal(type, parameter, keepInHistory);
         }
 
         /// <inheritdoc />
@@ -106,7 +120,7 @@ namespace OutcoldSolutions
             this.viewsHistory.Clear();
         }
 
-        private IPageView NavigateTo(Type pageViewType, object parameter = null, bool keepInHistory = true)
+        private IPageView NavigateToInternal(Type pageViewType, object parameter = null, bool keepInHistory = true)
         {
             if (this.viewRegionProvider == null)
             {

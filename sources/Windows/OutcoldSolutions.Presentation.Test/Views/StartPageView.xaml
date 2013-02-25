@@ -7,6 +7,7 @@
     xmlns:views="using:OutcoldSolutions.Views"
     Title="{Binding Path=Title}"
     Subtitle="Subtitle :)"
+    IsStoreLogoVisible="True"
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">

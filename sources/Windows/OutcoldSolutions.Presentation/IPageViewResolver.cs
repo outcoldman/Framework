@@ -8,7 +8,7 @@ namespace OutcoldSolutions
     /// <summary>
     /// The view resolver interface.
     /// </summary>
-    public interface IViewResolver
+    public interface IPageViewResolver
     {
         /// <summary>
         /// The get view type.

@@ -143,7 +143,7 @@ namespace OutcoldSolutions.Presenters
         /// The get view commands.
         /// </summary>
         /// <returns>
-        /// The <see cref="IEnumerable{CommandMetadata}"/>.
+        /// The <see cref="IEnumerable{IconCommandMetadata}"/>.
         /// </returns>
         protected virtual IEnumerable<CommandMetadata> GetViewCommands()
         {

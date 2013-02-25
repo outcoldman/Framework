@@ -3,9 +3,13 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Presentation.Test
 {
+    using System.Collections.Generic;
+
+    using OutcoldSolutions.Presentation.Test.BindingModel;
     using OutcoldSolutions.Presentation.Test.Presenters;
     using OutcoldSolutions.Presentation.Test.Views;
     using OutcoldSolutions.Presenters;
+    using OutcoldSolutions.Views;
 
     /// <summary>
     /// The application base.
@@ -27,13 +31,23 @@ namespace OutcoldSolutions.Presentation.Test
                 registration.Register<IStartPageView>()
                     .InjectionRule<PresenterBase, StartPageViewPresenter>()
                     .AsSingleton<StartPageView>();
-
                 registration.Register<StartPageViewPresenter>().AsSingleton();
+
+                registration.Register<ITestDataPageView>()
+                    .InjectionRule<PresenterBase, TestDataPageViewPresenter>()
+                    .AsSingleton<TestDataPageView>();
+                registration.Register<TestDataPageViewPresenter>().AsSingleton();
+                registration.Register<TestDataPageViewBindingModel>().AsSingleton();
             }
         }
 
         protected override void Activated()
         {
+            Container.Resolve<IApplicationToolbar>().SetMenuItems(new List<MenuItemMetadata>()
+                                                                      {
+                                                                          MenuItemMetadata.FromViewType<IStartPageView>("Start view"),
+                                                                          MenuItemMetadata.FromViewType<ITestDataPageView>("Test Data Page")
+                                                                      });
             Container.Resolve<INavigationService>().NavigateTo<IStartPageView>();
         }
     }

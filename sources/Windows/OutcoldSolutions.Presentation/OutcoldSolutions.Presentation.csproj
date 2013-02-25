@@ -118,6 +118,7 @@
     <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Converters\VisibilityConverterBase.cs" />
+    <Compile Include="MenuItemMetadata.cs" />
     <Compile Include="Presenters\PagePresenterBase.cs" />
     <Compile Include="Views\DataPageViewBase.cs" />
     <Compile Include="DateTimeExtensions.cs" />
@@ -142,7 +143,7 @@
     <Compile Include="Views\IPopupView.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="IViewRegionProvider.cs" />
-    <Compile Include="IViewResolver.cs" />
+    <Compile Include="IPageViewResolver.cs" />
     <Compile Include="NavigatedToEventArgs.cs" />
     <Compile Include="NavigatingFromEventArgs.cs" />
     <Compile Include="NavigationService.cs" />

@@ -1516,4 +1516,17 @@
   
     -->
 
+    <Style TargetType="Button" x:Key="MainMenuButtonStyle">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Width="150" Height="66" Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                        <ContentPresenter  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
