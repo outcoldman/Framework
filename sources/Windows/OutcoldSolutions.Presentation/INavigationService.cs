@@ -23,7 +23,7 @@ namespace OutcoldSolutions
         /// <param name="regionProvider">
         /// The region provider.
         /// </param>
-        void RegisterRegionProvider(IViewRegionProvider regionProvider);
+        void RegisterRegionProvider(IMainFrameRegionProvider regionProvider);
 
         /// <summary>
         /// The navigate to.

@@ -115,6 +115,7 @@
     <Compile Include="CommandMetadata.cs" />
     <Compile Include="Controls\ListViewBaseEx.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Converters\VisibilityConverterBase.cs" />
@@ -142,12 +143,13 @@
     <Compile Include="Views\IPageView.cs" />
     <Compile Include="Views\IPopupView.cs" />
     <Compile Include="Views\IView.cs" />
-    <Compile Include="IViewRegionProvider.cs" />
+    <Compile Include="IMainFrameRegionProvider.cs" />
     <Compile Include="IPageViewResolver.cs" />
     <Compile Include="NavigatedToEventArgs.cs" />
     <Compile Include="NavigatingFromEventArgs.cs" />
     <Compile Include="NavigationService.cs" />
     <Compile Include="Presenters\DataPagePresenterBase.cs" />
+    <Compile Include="Views\MainFrameRegion.cs" />
     <Compile Include="Views\PageViewBase.cs" />
     <Compile Include="Views\PopupViewBase.cs" />
     <Compile Include="Presenters\PresenterBase.cs" />

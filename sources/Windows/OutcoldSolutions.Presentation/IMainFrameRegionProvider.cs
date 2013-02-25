@@ -6,16 +6,19 @@ namespace OutcoldSolutions
     using OutcoldSolutions.Views;
 
     /// <summary>
-    /// The ViewRegionProvider interface.
+    /// The IMainFrameRegionProvider interface.
     /// </summary>
-    public interface IViewRegionProvider
+    public interface IMainFrameRegionProvider
     {
         /// <summary>
         /// The show.
         /// </summary>
-        /// <param name="view">
-        /// The view.
+        /// <param name="region">
+        /// The region.
         /// </param>
-        void Show(IView view);
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        void SetContent(MainFrameRegion region, object content);
     }
 }

@@ -10,5 +10,6 @@
     <baseConverters:ValueToVisibilityConverter x:Key="ValueToInvisibilityConverter" Invert="True"/>
     <baseConverters:ValueToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     <baseConverters:ValueToVisibilityConverter x:Key="NullToInvisibilityConverter" Invert="True"/>
-
+    <baseConverters:StringToResourceConverter x:Key="StringToResourceConverter" />
+    
 </ResourceDictionary>

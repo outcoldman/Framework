@@ -18,9 +18,7 @@
     </Page.Resources>
 
     <Page.TopAppBar>
-
         <AppBar IsSticky="False">
-
             <ItemsControl x:Name="MainMenuItemsControl" Height="86">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -31,19 +29,45 @@
                     <DataTemplate>
 
                         <Button Style="{StaticResource MainMenuButtonStyle}" 
-                                Click="MainMenuItemClick"
+                                Click="MainMenuItem_Click"
                                 Content="{Binding Path=Title, Mode=OneTime}"/>
 
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            
         </AppBar>
-        
     </Page.TopAppBar>
+    
+    <Page.BottomAppBar>
+        <AppBar IsSticky="False">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ItemsControl x:Name="ViewButtonsItemsControl" 
+                              Style="{StaticResource ToolBarItemsControlStyle}" />
+                
+                <Border Grid.Column="1" 
+                        Style="{StaticResource AppBarSeparator}" 
+                        x:Name="AppToolbarSeparator" />
+                
+                <ItemsControl Grid.Column="2" 
+                              x:Name="ContextButtonsItemsControl" 
+                              Style="{StaticResource ToolBarItemsControlStyle}"
+                              HorizontalAlignment="Right"/>
+
+                <ContentControl Grid.Column="3" 
+                                x:Name="BottomAppBarRightZoneRegionContentControl"
+                                Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}" />
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -56,6 +80,17 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
+        <ContentControl Grid.Row="0" 
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        x:Name="BackgroundContentControl"
+                        Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
+        
         <Button Grid.Column="0"
                 Grid.Row="0"
                 Style="{StaticResource BackButtonStyle}" 
@@ -96,7 +131,6 @@
                        Grid.Column="2" 
                        VerticalAlignment="Bottom" 
                        Margin="20, 0, 0, 0" />
-            
         </Grid>
         
         <ProgressRing x:Name="ProgressRing" 
@@ -114,5 +148,28 @@
                         Visibility="{Binding Path=IsActive, ElementName=ProgressRing, Converter={StaticResource BooleanToInvisibilityConverter}}"
                         x:Name="ContentControl" />
 
+        <ContentControl Grid.Row="0" 
+                        Grid.RowSpan="2"
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        x:Name="RightRegionContentControl"
+                        Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
+
+        <Popup IsLightDismissEnabled="True" 
+               x:Name="PopupView" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Bottom" 
+               Height="300" 
+               Closed="PopupViewClosed"
+               Grid.Row="1"
+               Grid.ColumnSpan="3" />
+        
+        <Border Grid.Row="2" 
+                Grid.Column="0"
+                x:Name="BottomAppBarFakeBorder"/>
+        
     </Grid>
 </Page>

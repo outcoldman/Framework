@@ -19,7 +19,7 @@ namespace OutcoldSolutions
         private readonly ILogger logger;
         private readonly IDependencyResolverContainer container;
 
-        private IViewRegionProvider viewRegionProvider;
+        private IMainFrameRegionProvider mainFrameRegionProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NavigationService"/> class.
@@ -42,14 +42,14 @@ namespace OutcoldSolutions
         public event EventHandler<NavigatedToEventArgs> NavigatedTo;
 
         /// <inheritdoc />
-        public void RegisterRegionProvider(IViewRegionProvider regionProvider)
+        public void RegisterRegionProvider(IMainFrameRegionProvider regionProvider)
         {
             if (regionProvider == null)
             {
                 throw new ArgumentNullException("regionProvider");
             }
 
-            this.viewRegionProvider = regionProvider;
+            this.mainFrameRegionProvider = regionProvider;
         }
 
         /// <inheritdoc />
@@ -83,7 +83,7 @@ namespace OutcoldSolutions
         /// <inheritdoc />
         public void GoBack()
         {
-            if (this.viewRegionProvider == null)
+            if (this.mainFrameRegionProvider == null)
             {
                 throw new NotSupportedException("Register region provider first.");
             }
@@ -95,7 +95,7 @@ namespace OutcoldSolutions
                 this.viewsHistory.RemoveLast();
                 var item = this.viewsHistory.Last.Value;
 
-                this.viewRegionProvider.Show(item.View);
+                this.mainFrameRegionProvider.SetContent(MainFrameRegion.Content, item.View);
                 var navigatedToEventArgs = new NavigatedToEventArgs(item.View, item.State, item.Parameter, isBack: true);
                 item.View.OnNavigatedTo(navigatedToEventArgs);
                 this.RaiseNavigatedTo(navigatedToEventArgs);
@@ -122,7 +122,7 @@ namespace OutcoldSolutions
 
         private IPageView NavigateToInternal(Type pageViewType, object parameter = null, bool keepInHistory = true)
         {
-            if (this.viewRegionProvider == null)
+            if (this.mainFrameRegionProvider == null)
             {
                 throw new NotSupportedException("Register region provider first.");
             }
@@ -157,7 +157,7 @@ namespace OutcoldSolutions
 
             if (currentView == null || !currentView.Equals(view))
             {
-                this.viewRegionProvider.Show(view);
+                this.mainFrameRegionProvider.SetContent(MainFrameRegion.Content, view);
             }
             else
             {

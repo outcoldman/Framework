@@ -1529,4 +1529,24 @@
         </Setter>
     </Style>
 
+    <Style TargetType="ItemsControl" x:Key="ToolBarItemsControlStyle">
+        <Setter Property="Height" Value="86" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Button Style="{Binding Path=IconName, Mode=OneTime, Converter={StaticResource StringToResourceConverter}}"
+                                        Command="{Binding Path=Command}"
+                                        AutomationProperties.Name="{Binding Path=Title, Mode=OneTime}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
