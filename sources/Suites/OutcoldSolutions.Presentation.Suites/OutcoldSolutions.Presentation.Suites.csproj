@@ -71,6 +71,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverterSuites.cs" />
     <Compile Include="Converters\InvertBooleanConverterSuites.cs" />
     <Compile Include="Converters\ValueToVisibilityConverterSuites.cs" />
+    <Compile Include="PresentationSuitesBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

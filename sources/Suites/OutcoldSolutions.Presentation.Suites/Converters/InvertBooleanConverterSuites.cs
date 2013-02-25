@@ -9,7 +9,7 @@ namespace OutcoldSolutions.Presentation.Suites.Converters
 
     using OutcoldSolutions.Converters;
 
-    public class InvertBooleanConverterSuites : SuitesBase
+    public class InvertBooleanConverterSuites : PresentationSuitesBase
     {
         private const string EnglishLanguage = "en";
         private static readonly Type BooleanType = typeof(bool);

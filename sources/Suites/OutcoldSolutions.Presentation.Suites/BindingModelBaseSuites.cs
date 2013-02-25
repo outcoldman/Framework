@@ -9,9 +9,9 @@ namespace OutcoldSolutions.Presentation.Suites
 
     using NUnit.Framework;
 
-    using OutcoldSolutions.Presentation;
+    using OutcoldSolutions.BindingModels;
 
-    public class BindingModelBaseSuites : SuitesBase
+    public class BindingModelBaseSuites : PresentationSuitesBase
     {
         private Mock<ISubscriber> subscriber;
         private BindingModel bindingModel;

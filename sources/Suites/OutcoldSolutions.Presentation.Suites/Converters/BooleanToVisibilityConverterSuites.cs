@@ -11,7 +11,7 @@ namespace OutcoldSolutions.Presentation.Suites.Converters
 
     using Windows.UI.Xaml;
 
-    public class BooleanToVisibilityConverterSuites : SuitesBase
+    public class BooleanToVisibilityConverterSuites : PresentationSuitesBase
     {
         private const string EnglishLanguage = "en";
         private static readonly Type BooleanType = typeof(bool);

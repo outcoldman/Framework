@@ -11,7 +11,7 @@ namespace OutcoldSolutions.Presentation.Suites.Converters
 
     using Windows.UI.Xaml;
 
-    public class ValueToVisibilityConverterSuites : SuitesBase
+    public class ValueToVisibilityConverterSuites : PresentationSuitesBase
     {
         private const string EnglishLanguage = "en";
         private static readonly Type VisibilityType = typeof(Visibility);

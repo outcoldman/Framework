@@ -115,6 +115,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingModel\TestDataPageViewBindingModel.cs" />
+    <Compile Include="Diagnostics\DebugConsole.cs" />
     <Compile Include="Presenters\StartPageViewPresenter.cs" />
     <Compile Include="Presenters\TestDataPageViewPresenter.cs" />
     <Compile Include="Views\StartPageView.xaml.cs">

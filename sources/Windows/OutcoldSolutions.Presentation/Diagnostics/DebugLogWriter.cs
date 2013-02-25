@@ -4,10 +4,30 @@
 namespace OutcoldSolutions.Diagnostics
 {
     using System;
-    using System.Diagnostics;
 
-    internal class DebugLogWriter : ILogWriter
+    /// <summary>
+    /// The debug log writer.
+    /// </summary>
+    public class DebugLogWriter : ILogWriter
     {
+        private readonly IDependencyResolverContainer container;
+        private readonly IDebugConsole debugConsole;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DebugLogWriter"/> class.
+        /// </summary>
+        /// <param name="container">
+        /// The container.
+        /// </param>
+        public DebugLogWriter(IDependencyResolverContainer container)
+        {
+            this.container = container;
+            if (this.container.IsRegistered<IDebugConsole>())
+            {
+                this.debugConsole = this.container.Resolve<IDebugConsole>();
+            }
+        }
+
         /// <inheritdoc />
         public bool IsEnabled
         {
@@ -20,6 +40,11 @@ namespace OutcoldSolutions.Diagnostics
         /// <inheritdoc />
         public void Log(DateTime dateTime, string level, string context, string messageFormat, params object[] parameters)
         {
+            if (this.debugConsole == null)
+            {
+                return;
+            }
+
             string message;
 
             if (parameters.Length == 0)
@@ -31,7 +56,7 @@ namespace OutcoldSolutions.Diagnostics
                 message = string.Format(messageFormat, parameters);
             }
 
-            Debug.WriteLine("{0:o}: {1} - {2}:: {3}", dateTime, level, context, message);
+            this.debugConsole.WriteLine(string.Format("{0:o}: {1} - {2}:: {3}", dateTime, level, context, message));
         }
     }
 }

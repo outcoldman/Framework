@@ -70,8 +70,8 @@
     <Compile Include="..\..\Portable\OutcoldSolutions.Framework\Properties\AssemblyInfo.Common.cs">
       <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModelBase.cs">
-      <Link>_sources\BindingModelBase.cs</Link>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModels\BindingModelBase.cs">
+      <Link>_sources\BindingModels\BindingModelBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\BooleanToVisibilityConverter.cs">
       <Link>_sources\Converters\BooleanToVisibilityConverter.cs</Link>
@@ -90,6 +90,9 @@
     </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\FileLogWriter.cs">
       <Link>_sources\Diagnostics\FileLogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\IDebugConsole.cs">
+      <Link>_sources\Diagnostics\IDebugConsole.cs</Link>
     </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\ILogger.cs">
       <Link>_sources\Diagnostics\ILogger.cs</Link>

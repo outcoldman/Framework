@@ -3,7 +3,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions
 {
-    using System;
     using System.Threading.Tasks;
 
     using OutcoldSolutions.Diagnostics;

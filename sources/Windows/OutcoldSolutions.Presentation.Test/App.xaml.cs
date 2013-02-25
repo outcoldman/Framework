@@ -5,7 +5,9 @@ namespace OutcoldSolutions.Presentation.Test
 {
     using System.Collections.Generic;
 
+    using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Presentation.Test.BindingModel;
+    using OutcoldSolutions.Presentation.Test.Diagnostics;
     using OutcoldSolutions.Presentation.Test.Presenters;
     using OutcoldSolutions.Presentation.Test.Views;
     using OutcoldSolutions.Presenters;
@@ -28,6 +30,8 @@ namespace OutcoldSolutions.Presentation.Test
         {
             using (var registration = Container.Registration())
             {
+                registration.Register<IDebugConsole>().AsSingleton<DebugConsole>();
+
                 registration.Register<IStartPageView>()
                     .InjectionRule<PresenterBase, StartPageViewPresenter>()
                     .AsSingleton<StartPageView>();
