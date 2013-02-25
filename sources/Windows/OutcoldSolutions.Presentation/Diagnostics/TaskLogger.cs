@@ -51,6 +51,7 @@ namespace OutcoldSolutions.Diagnostics
         /// The task.
         /// </param>
         /// <typeparam name="TResult">
+        /// Result type of task.
         /// </typeparam>
         public static void LogTask<TResult>(this ILogger logger, Task<TResult> task)
         {
