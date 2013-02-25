@@ -3,14 +3,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Views
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
 
     using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Presenters;
 
+    using Windows.UI.ViewManagement;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Data;
@@ -56,6 +59,20 @@ namespace OutcoldSolutions.Views
             this.BottomAppBar.SizeChanged += (sender, args) =>
                 {
                     this.BottomAppBarFakeBorder.Height = args.NewSize.Height;
+                };
+
+            this.SizeChanged += (sender, args) =>
+                {
+                    if (ApplicationView.Value == ApplicationViewState.Snapped)
+                    {
+                        this.FullViewGrid.Visibility = Visibility.Collapsed;
+                        this.SnappedViewContentControl.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        this.FullViewGrid.Visibility = Visibility.Visible;
+                        this.SnappedViewContentControl.Visibility = Visibility.Collapsed;
+                    }
                 };
         }
 
@@ -133,6 +150,17 @@ namespace OutcoldSolutions.Views
                 case MainFrameRegion.Background:
                     this.SetBackgroundRegion(content);
                     break;
+
+                case MainFrameRegion.Links:
+                    this.SetLinksRegion(content);
+                    break;
+
+                case MainFrameRegion.SnappedView:
+                    this.SetSnappedRegion(content);
+                    break;
+
+                default:
+                    throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, "Region {0} is not supported.", region));
             }
         }
 
@@ -274,6 +302,16 @@ namespace OutcoldSolutions.Views
         private void SetBackgroundRegion(object content)
         {
             this.BackgroundContentControl.Content = content;
+        }
+
+        private void SetLinksRegion(object content)
+        {
+            this.LinksContentControl.Content = content;
+        }
+
+        private void SetSnappedRegion(object content)
+        {
+            this.SnappedViewContentControl.Content = content;
         }
 
         private void SetBottomAppBarRightZoneRegion(object content)

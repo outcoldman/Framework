@@ -31,6 +31,16 @@ namespace OutcoldSolutions.Views
         /// <summary>
         /// We give whole area to this region. It can be used to place something in background.
         /// </summary>
-        Background = 4
+        Background = 4,
+
+        /// <summary>
+        /// The links region (top right corner).
+        /// </summary>
+        Links = 5,
+
+        /// <summary>
+        /// Region for snapped view.
+        /// </summary>
+        SnappedView = 6
     }
 }

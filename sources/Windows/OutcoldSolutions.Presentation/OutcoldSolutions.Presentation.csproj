@@ -143,7 +143,7 @@
     <Compile Include="Views\IPageView.cs" />
     <Compile Include="Views\IPopupView.cs" />
     <Compile Include="Views\IView.cs" />
-    <Compile Include="IMainFrameRegionProvider.cs" />
+    <Compile Include="Views\IMainFrameRegionProvider.cs" />
     <Compile Include="IPageViewResolver.cs" />
     <Compile Include="NavigatedToEventArgs.cs" />
     <Compile Include="NavigatingFromEventArgs.cs" />

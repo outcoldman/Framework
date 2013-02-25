@@ -68,19 +68,23 @@
     </Page.BottomAppBar>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+        <ContentControl x:Name="SnappedViewContentControl" Visibility="Collapsed" />
+        
+        <Grid x:Name="FullViewGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0" 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Grid.Row="0" 
                         Grid.RowSpan="3"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
@@ -90,8 +94,30 @@
                         VerticalContentAlignment="Stretch"
                         x:Name="BackgroundContentControl"
                         Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
-        
-        <Button Grid.Column="0"
+
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Top" 
+                        Margin="0, 20, 0, 0" 
+                        Grid.Column="0" 
+                        Grid.ColumnSpan="2" 
+                        Grid.Row="0" 
+                        Grid.RowSpan="2">
+
+                <ContentControl VerticalAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            x:Name="LinksContentControl"
+                            Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
+
+                <Button Margin="0, -15, 0, 0" 
+                    Style="{StaticResource SearchPopupMenuButtonStyle}" 
+                    AutomationProperties.Name=""
+                    Visibility="{Binding Path=BindingModel.IsSearchActive}"
+                    VerticalAlignment="Top" />
+
+            </StackPanel>
+
+            <Button Grid.Column="0"
                 Grid.Row="0"
                 Style="{StaticResource BackButtonStyle}" 
                 VerticalAlignment="Top" 
@@ -99,46 +125,46 @@
                 Visibility="{Binding Path=BindingModel.IsBackButtonVisible, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Command="{Binding Path=GoBackCommand, Mode=OneTime}" Margin="36, 52, 36, 0"/>
 
-        <Grid Grid.Row="0"
+            <Grid Grid.Row="0"
               Grid.Column="1"
               HorizontalAlignment="Left"
               Margin="0, 0, 20, 0" 
               Height="100" 
               x:Name="TitleGrid" >
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <Image Source="ms-appx:///Assets/StoreLogo.png"
+                <Image Source="ms-appx:///Assets/StoreLogo.png"
                    x:Name="StoreLogoImage"
                    VerticalAlignment="Bottom" 
                    Margin="0,-20,20,0" 
                    Width="50" 
                    Height="50"/>
 
-            <TextBlock Style="{StaticResource HeaderTextStyle}" 
+                <TextBlock Style="{StaticResource HeaderTextStyle}" 
                        x:Name="TitleTextBox"
                        Grid.Column="1" 
                        VerticalAlignment="Bottom" 
                        TextWrapping="NoWrap" 
                        TextTrimming="WordEllipsis"/>
 
-            <TextBlock Style="{StaticResource SubheaderTextStyle}" 
+                <TextBlock Style="{StaticResource SubheaderTextStyle}" 
                        x:Name="SubtitleTextBox"
                        Grid.Column="2" 
                        VerticalAlignment="Bottom" 
                        Margin="20, 0, 0, 0" />
-        </Grid>
-        
-        <ProgressRing x:Name="ProgressRing" 
+            </Grid>
+
+            <ProgressRing x:Name="ProgressRing" 
                       Grid.Row="1" 
                       Grid.Column="0" 
                       Grid.ColumnSpan="2"/>
 
-        <ContentControl Grid.Row="1"
+            <ContentControl Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         HorizontalAlignment="Stretch"
@@ -148,7 +174,7 @@
                         Visibility="{Binding Path=IsActive, ElementName=ProgressRing, Converter={StaticResource BooleanToInvisibilityConverter}}"
                         x:Name="ContentControl" />
 
-        <ContentControl Grid.Row="0" 
+            <ContentControl Grid.Row="0" 
                         Grid.RowSpan="2"
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
@@ -158,7 +184,7 @@
                         x:Name="RightRegionContentControl"
                         Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
 
-        <Popup IsLightDismissEnabled="True" 
+            <Popup IsLightDismissEnabled="True" 
                x:Name="PopupView" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Bottom" 
@@ -166,10 +192,12 @@
                Closed="PopupViewClosed"
                Grid.Row="1"
                Grid.ColumnSpan="3" />
-        
-        <Border Grid.Row="2" 
+
+            <Border Grid.Row="2" 
                 Grid.Column="0"
                 x:Name="BottomAppBarFakeBorder"/>
-        
+        </Grid>
+
     </Grid>
+    
 </Page>
