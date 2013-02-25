@@ -95,27 +95,15 @@
                         x:Name="BackgroundContentControl"
                         Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
 
-            <StackPanel Orientation="Horizontal" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Top" 
-                        Margin="0, 20, 0, 0" 
-                        Grid.Column="0" 
-                        Grid.ColumnSpan="2" 
-                        Grid.Row="0" 
-                        Grid.RowSpan="2">
-
-                <ContentControl VerticalAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
+            <ContentControl HorizontalAlignment="Right" 
+                            VerticalAlignment="Top"
+                            Margin="0, 20, 0, 0" 
+                            Grid.Column="0" 
+                            Grid.ColumnSpan="2" 
+                            Grid.Row="0" 
+                            Grid.RowSpan="2"
                             x:Name="LinksContentControl"
                             Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
-
-                <Button Margin="0, -15, 0, 0" 
-                    Style="{StaticResource SearchPopupMenuButtonStyle}" 
-                    AutomationProperties.Name=""
-                    Visibility="{Binding Path=BindingModel.IsSearchActive}"
-                    VerticalAlignment="Top" />
-
-            </StackPanel>
 
             <Button Grid.Column="0"
                 Grid.Row="0"

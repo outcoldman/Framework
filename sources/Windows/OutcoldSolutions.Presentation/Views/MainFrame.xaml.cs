@@ -73,6 +73,9 @@ namespace OutcoldSolutions.Views
                         this.FullViewGrid.Visibility = Visibility.Visible;
                         this.SnappedViewContentControl.Visibility = Visibility.Collapsed;
                     }
+
+                    this.UpdateBottomAppBarVisibility();
+                    this.UpdateTopAppBarVisibility();
                 };
         }
 
@@ -80,6 +83,8 @@ namespace OutcoldSolutions.Views
         public void SetMenuItems(IEnumerable<MenuItemMetadata> menuItems)
         {
             this.MainMenuItemsControl.ItemsSource = menuItems;
+
+            this.UpdateTopAppBarVisibility();
         }
 
         /// <inheritdoc />
@@ -101,6 +106,14 @@ namespace OutcoldSolutions.Views
         {
             this.ContextButtonsItemsControl.ItemsSource = commands;
             this.UpdateBottomAppBar();
+            if (this.BottomAppBar != null 
+                && this.BottomAppBar.Visibility == Visibility.Visible 
+                && !this.BottomAppBar.IsOpen
+                && this.ContextButtonsItemsControl.Items != null
+                && this.ContextButtonsItemsControl.Items.Count > 0)
+            {
+                this.BottomAppBar.IsOpen = true;
+            }
         }
 
         /// <inheritdoc />
@@ -320,10 +333,12 @@ namespace OutcoldSolutions.Views
             if (content == null)
             {
                 this.ContextButtonsItemsControl.HorizontalAlignment = HorizontalAlignment.Right;
+                this.BottomAppBar.IsSticky = false;
             }
             else
             {
                 this.ContextButtonsItemsControl.HorizontalAlignment = HorizontalAlignment.Left;
+                this.BottomAppBar.IsSticky = true;
             }
 
             this.UpdateBottomAppBar();
@@ -342,13 +357,37 @@ namespace OutcoldSolutions.Views
                 this.AppToolbarSeparator.Visibility = Visibility.Collapsed;
             }
 
-            if (this.BottomAppBar != null)
+            this.UpdateBottomAppBarVisibility();
+        }
+
+        private void UpdateBottomAppBarVisibility()
+        {
+            bool isVisible = (this.ContextButtonsItemsControl.Items != null && this.ContextButtonsItemsControl.Items.Count > 0)
+                             || (this.ViewButtonsItemsControl.Items != null && this.ViewButtonsItemsControl.Items.Count > 0)
+                             || this.BottomAppBarRightZoneRegionContentControl.Content != null;
+            this.UpdateToolBarVisibility(this.BottomAppBar, isVisible);
+        }
+
+        private void UpdateTopAppBarVisibility()
+        {
+            bool isVisible = this.MainMenuItemsControl.Items != null && this.MainMenuItemsControl.Items.Count > 0;
+            this.UpdateToolBarVisibility(this.TopAppBar, isVisible);
+        }
+
+        private void UpdateToolBarVisibility(AppBar appBar, bool isLogicalVisible)
+        {
+            if (appBar != null)
             {
-                this.BottomAppBar.Visibility = ((this.ContextButtonsItemsControl.Items != null && this.ContextButtonsItemsControl.Items.Count > 0)
-                                                || (this.ViewButtonsItemsControl.Items != null && this.ViewButtonsItemsControl.Items.Count > 0)
-                                                || this.BottomAppBarRightZoneRegionContentControl.Content != null)
-                                                   ? Visibility.Visible
-                                                   : Visibility.Collapsed;
+                var currentVisibility = appBar.Visibility == Visibility.Visible && appBar.IsOpen;
+
+                var isVisible = ApplicationView.Value != ApplicationViewState.Snapped && isLogicalVisible;
+
+                appBar.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+
+                if (!currentVisibility)
+                {
+                    appBar.IsOpen = false;
+                }
             }
         }
     }

@@ -13,4 +13,11 @@
     <copyright>Outcold Solutions. All rights reserved.</copyright>
     <tags>Framework</tags>
   </metadata>
+  <files>
+    <!-- Already in: <file src="OutcoldSolutions.Presentation.dll" target="lib\win\OutcoldSolutions.Presentation.dll" /> -->
+    <file src="OutcoldSolutions.Presentation.pri" target="lib\win\OutcoldSolutions.Presentation.pri" />
+    <file src="OutcoldSolutions.Presentation\Common\Buttons.xaml" target="lib\win\OutcoldSolutions.Presentation\Common\Buttons.xaml" />
+    <file src="OutcoldSolutions.Presentation\Common\Converters.xaml" target="lib\win\OutcoldSolutions.Presentation\Common\Converters.xaml" />
+    <file src="OutcoldSolutions.Presentation\Views\MainFrame.xaml" target="lib\win\OutcoldSolutions.Presentation\Views\MainFrame.xaml" />
+  </files>
 </package>

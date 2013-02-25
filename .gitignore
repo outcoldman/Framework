@@ -10,3 +10,4 @@ _ReSharper.*
 StyleCop.Cache
 TestResults
 FakesAssemblies
+AppPackages
