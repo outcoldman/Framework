@@ -8,6 +8,5 @@ _ReSharper.*
 *.suo
 *.cache
 StyleCop.Cache
-packages
 TestResults
 FakesAssemblies
