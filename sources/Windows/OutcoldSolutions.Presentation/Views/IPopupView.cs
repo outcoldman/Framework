@@ -1,12 +1,16 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Views
 {
     /// <summary>
-    /// The View interface.
+    /// The PopupView interface.
     /// </summary>
-    public interface IView
+    public interface IPopupView : IView
     {
+        /// <summary>
+        /// The close.
+        /// </summary>
+        void Close();
     }
 }

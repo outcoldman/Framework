@@ -1,44 +1,24 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Presenters
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
+    using OutcoldSolutions.BindingModels;
     using OutcoldSolutions.Diagnostics;
+    using OutcoldSolutions.Views;
 
     /// <summary>
-    /// The page presenter base.
+    /// The DataPagePresenterBase interface.
     /// </summary>
-    /// <typeparam name="TView">
-    /// The type of view.
-    /// </typeparam>
-    public class PagePresenterBase<TView> : ViewPresenterBase<TView>, IPagePresenterBase
-        where TView : IPageView
+    public interface IDataPagePresenterBase : IPagePresenterBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PagePresenterBase{TView}"/> class.
+        /// Gets a value indicating whether is data loading.
         /// </summary>
-        /// <param name="container">
-        /// The container.
-        /// </param>
-        public PagePresenterBase(
-            IDependencyResolverContainer container)
-            : base(container)
-        {
-        }
-
-        /// <inheritdoc />
-        public virtual void OnNavigatedTo(NavigatedToEventArgs parameter)
-        {
-        }
-
-        /// <inheritdoc />
-        public virtual void OnNavigatingFrom(NavigatingFromEventArgs eventArgs)
-        {
-        }
+        bool IsDataLoading { get; }
     }
 
     /// <summary>
@@ -50,8 +30,7 @@ namespace OutcoldSolutions
     /// <typeparam name="TBindingModel">
     /// The type of binding model.
     /// </typeparam>
-    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "Class with the same name.")]
-    public abstract class PagePresenterBase<TView, TBindingModel> : PagePresenterBase<TView>
+    public abstract class DataPagePresenterBase<TView, TBindingModel> : PagePresenterBase<TView>, IDataPagePresenterBase
         where TView : IDataPageView 
         where TBindingModel : BindingModelBase
     {
@@ -62,12 +41,12 @@ namespace OutcoldSolutions
         private bool isDataLoading;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PagePresenterBase{TView,TBindingModel}"/> class.
+        /// Initializes a new instance of the <see cref="DataPagePresenterBase{TView,TBindingModel}"/> class.
         /// </summary>
         /// <param name="container">
         /// The container.
         /// </param>
-        protected PagePresenterBase(IDependencyResolverContainer container)
+        protected DataPagePresenterBase(IDependencyResolverContainer container)
             : base(container)
         {
             this.container = container;

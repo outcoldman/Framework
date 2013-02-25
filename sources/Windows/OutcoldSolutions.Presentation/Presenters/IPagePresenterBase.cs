@@ -1,7 +1,7 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Presenters
 {
     /// <summary>
     /// The PagePresenterBase interface.

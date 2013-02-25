@@ -1,21 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Presentation.Test.Views
 {
     using OutcoldSolutions.Views;
 
-    /// <summary>
-    /// The ViewRegionProvider interface.
-    /// </summary>
-    public interface IViewRegionProvider
+    public interface IStartPageView : IPageView
     {
-        /// <summary>
-        /// The show.
-        /// </summary>
-        /// <param name="view">
-        /// The view.
-        /// </param>
-        void Show(IView view);
+    }
+
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class StartPageView : PageViewBase, IStartPageView
+    {
+        public StartPageView()
+        {
+            this.InitializeComponent();
+        }
     }
 }

@@ -1,16 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Views
 {
     using OutcoldSolutions.Diagnostics;
+    using OutcoldSolutions.Presenters;
 
     using Windows.UI.Xaml.Controls;
 
     /// <summary>
-    /// The page base.
+    /// The view base.
     /// </summary>
-    public class PageBase : Page, IView
+    public class ViewBase : UserControl, IView
     {
         /// <summary>
         /// Gets the logger.
@@ -36,9 +37,9 @@ namespace OutcoldSolutions
         /// <returns>
         /// The <see cref="TPresenter"/>.
         /// </returns>
-        protected TPresenter GetPresenter<TPresenter>() where TPresenter : PresenterBase
+        public TPresenter GetPresenter<TPresenter>() 
         {
-            return (TPresenter)this.Presenter;
+            return (TPresenter)(object)this.Presenter;
         }
 
         /// <summary>
@@ -55,8 +56,8 @@ namespace OutcoldSolutions
         /// </param>
         [Inject]
         protected void Initialize(
-            IDependencyResolverContainer container,
-            ILogManager logManager,
+            IDependencyResolverContainer container, 
+            ILogManager logManager, 
             PresenterBase presenterBase)
         {
             this.Container = container;

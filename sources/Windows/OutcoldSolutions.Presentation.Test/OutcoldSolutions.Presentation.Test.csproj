@@ -4,31 +4,31 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8C64AE2D-9131-44E9-83A4-D71B423BAF1D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{F3A44B96-A37E-4740-8880-CB745EDCF2CC}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OutcoldSolutions</RootNamespace>
-    <AssemblyName>OutcoldSolutions.Presentation</AssemblyName>
+    <RootNamespace>OutcoldSolutions.Presentation.Test</RootNamespace>
+    <AssemblyName>OutcoldSolutions.Presentation.Test</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>OutcoldSolutions.Presentation.Test_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Debug\Windows\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\bin\Release\Windows\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -101,99 +101,54 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="..\..\OutcoldSolution.Public.snk">
-      <Link>OutcoldSolution.Public.snk</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\Portable\OutcoldSolutions.Framework\Properties\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-    <Compile Include="ApplicationBase.cs" />
-    <Compile Include="BindingModels\BindingModelBase.cs" />
-    <Compile Include="BindingModels\MainFrameBindingModel.cs" />
-    <Compile Include="CommandMetadata.cs" />
-    <Compile Include="Controls\ListViewBaseEx.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\InvertBooleanConverter.cs" />
-    <Compile Include="Converters\ValueToVisibilityConverter.cs" />
-    <Compile Include="Converters\VisibilityConverterBase.cs" />
-    <Compile Include="Presenters\PagePresenterBase.cs" />
-    <Compile Include="Views\DataPageViewBase.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="DelegateCommand.cs" />
-    <Compile Include="Diagnostics\DebugLogWriter.cs" />
-    <Compile Include="Diagnostics\FileLogWriter.cs" />
-    <Compile Include="Diagnostics\ILogger.cs" />
-    <Compile Include="Diagnostics\ILogManager.cs" />
-    <Compile Include="Diagnostics\ILogWriter.cs" />
-    <Compile Include="Diagnostics\Logger.cs" />
-    <Compile Include="Diagnostics\LoggerEx.cs" />
-    <Compile Include="Diagnostics\LogLevel.cs" />
-    <Compile Include="Diagnostics\LogManager.cs" />
-    <Compile Include="Diagnostics\TaskLogger.cs" />
-    <Compile Include="DispatcherContainer.cs" />
-    <Compile Include="Views\IApplicationToolbar.cs" />
-    <Compile Include="Views\IDataPageView.cs" />
-    <Compile Include="IDispatcher.cs" />
-    <Compile Include="INavigationService.cs" />
-    <Compile Include="Presenters\IPagePresenterBase.cs" />
-    <Compile Include="Views\IPageView.cs" />
-    <Compile Include="Views\IPopupView.cs" />
-    <Compile Include="Views\IView.cs" />
-    <Compile Include="IViewRegionProvider.cs" />
-    <Compile Include="IViewResolver.cs" />
-    <Compile Include="NavigatedToEventArgs.cs" />
-    <Compile Include="NavigatingFromEventArgs.cs" />
-    <Compile Include="NavigationService.cs" />
-    <Compile Include="Presenters\DataPagePresenterBase.cs" />
-    <Compile Include="Views\PageViewBase.cs" />
-    <Compile Include="Views\PopupViewBase.cs" />
-    <Compile Include="Presenters\PresenterBase.cs" />
-    <Compile Include="Presenters\MainFramePresenter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyNameExtractor.cs" />
-    <Compile Include="TaskEx.cs" />
-    <Compile Include="Views\ViewBase.cs" />
-    <Compile Include="Presenters\ViewPresenterBase.cs" />
-    <Compile Include="Controls\VisualTreeHelperEx.cs" />
-    <Compile Include="Views\MainFrame.xaml.cs">
-      <DependentUpon>MainFrame.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Portable\OutcoldSolutions.Framework\OutcoldSolutions.Framework.csproj">
-      <Project>{1B2DC586-AB06-48CD-AD91-2D699A43725E}</Project>
+      <Project>{1b2dc586-ab06-48cd-ad91-2d699a43725e}</Project>
       <Name>OutcoldSolutions.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OutcoldSolutions.Presentation\OutcoldSolutions.Presentation.csproj">
+      <Project>{8c64ae2d-9131-44e9-83a4-d71b423baf1d}</Project>
+      <Name>OutcoldSolutions.Presentation</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Common\Buttons.xaml">
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\StartPageViewPresenter.cs" />
+    <Compile Include="Views\StartPageView.xaml.cs">
+      <DependentUpon>StartPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AppxManifest>
+    <None Include="OutcoldSolutions.Presentation.Test_TemporaryKey.pfx" />
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\SmallLogo.png" />
+    <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\StoreLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Common\StandardStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Common\Converters.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\StartPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Include="Views\MainFrame.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\OutcoldSolution.Public.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>true</DelaySign>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

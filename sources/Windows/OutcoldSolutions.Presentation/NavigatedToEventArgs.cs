@@ -6,6 +6,8 @@ namespace OutcoldSolutions
     using System;
     using System.Collections.Generic;
 
+    using OutcoldSolutions.Views;
+
     /// <summary>
     /// The navigated to event args.
     /// </summary>

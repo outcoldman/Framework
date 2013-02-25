@@ -7,6 +7,7 @@ namespace OutcoldSolutions
     using System.Collections.Generic;
 
     using OutcoldSolutions.Diagnostics;
+    using OutcoldSolutions.Views;
 
     /// <summary>
     /// The navigation service.

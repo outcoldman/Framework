@@ -3,10 +3,16 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions
 {
+    using System;
     using System.Threading.Tasks;
+
+    using OutcoldSolutions.Diagnostics;
+    using OutcoldSolutions.Presenters;
+    using OutcoldSolutions.Views;
 
     using Windows.ApplicationModel;
     using Windows.ApplicationModel.Activation;
+    using Windows.UI.Core;
     using Windows.UI.Xaml;
 
     /// <summary>
@@ -59,20 +65,54 @@ namespace OutcoldSolutions
         protected abstract void InitializeApplication();
 
         /// <summary>
+        /// The activated event.
+        /// </summary>
+        protected abstract void Activated();
+
+        /// <summary>
         /// The on suspending async.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        protected abstract Task OnSuspendingAsync();
+        protected virtual Task OnSuspendingAsync()
+        {
+            return null;
+        }
 
         private void InitializeInternal()
         {
-            if (Container == null)
+            MainFrame mainFrame = Window.Current.Content as MainFrame;
+            if (mainFrame == null)
             {
-                Container = new DependencyResolverContainer();
-                this.InitializeApplication();
+                if (Container == null)
+                {
+                    Container = new DependencyResolverContainer();
+
+                    using (var registration = Container.Registration())
+                    {
+                        registration.Register<ILogManager>().AsSingleton<LogManager>();
+                        registration.Register<INavigationService>().AsSingleton<NavigationService>();
+                        registration.Register<IDispatcher>().AsSingleton(new DispatcherContainer(CoreWindow.GetForCurrentThread().Dispatcher));
+
+                        registration.Register<IMainFrame>()
+                                    .And<IApplicationToolbar>()
+                                    .InjectionRule<PresenterBase, MainFramePresenter>()
+                                    .AsSingleton<MainFrame>();
+                        registration.Register<MainFramePresenter>().AsSingleton();
+                    }
+
+                    this.InitializeApplication();
+                }
+
+                mainFrame = (MainFrame)Container.Resolve<IMainFrame>();
+                Container.Resolve<INavigationService>().RegisterRegionProvider(mainFrame);
+                Window.Current.Content = mainFrame;
             }
+
+            Window.Current.Activate();
+
+            this.Activated();
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs suspendingEventArgs)
@@ -82,7 +122,11 @@ namespace OutcoldSolutions
             var suspendingTask = this.OnSuspendingAsync();
             if (suspendingTask != null)
             {
-                suspendingTask.ContinueWith((t) => deferral.Complete());
+                suspendingTask.ContinueWith((t) =>
+                {
+                    // We need to log task
+                    deferral.Complete();
+                });
             }
             else
             {

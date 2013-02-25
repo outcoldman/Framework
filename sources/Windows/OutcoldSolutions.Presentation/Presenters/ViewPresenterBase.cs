@@ -1,8 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Presenters
 {
+    using OutcoldSolutions.Views;
+
     /// <summary>
     /// The ViewPresenterBase interface.
     /// </summary>

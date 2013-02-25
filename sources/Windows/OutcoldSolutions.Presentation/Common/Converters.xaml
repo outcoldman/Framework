@@ -1,0 +1,14 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:baseConverters="using:OutcoldSolutions.Converters">
+
+    <baseConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <baseConverters:BooleanToVisibilityConverter x:Key="BooleanToInvisibilityConverter" Invert="True" />
+    <baseConverters:InvertBooleanConverter x:Key="InvertBooleanConverter" />
+    <baseConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    <baseConverters:ValueToVisibilityConverter x:Key="ValueToInvisibilityConverter" Invert="True"/>
+    <baseConverters:ValueToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    <baseConverters:ValueToVisibilityConverter x:Key="NullToInvisibilityConverter" Invert="True"/>
+
+</ResourceDictionary>

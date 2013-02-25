@@ -1,8 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Presenters
 {
+    using OutcoldSolutions.BindingModels;
     using OutcoldSolutions.Diagnostics;
 
     /// <summary>

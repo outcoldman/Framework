@@ -5,6 +5,8 @@ namespace OutcoldSolutions
 {
     using System;
 
+    using OutcoldSolutions.Views;
+
     /// <summary>
     /// The NavigationService interface.
     /// </summary>

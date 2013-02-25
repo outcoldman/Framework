@@ -1,0 +1,17 @@
+﻿<outcoldSolutions:ApplicationBase
+    x:Class="OutcoldSolutions.Presentation.Test.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:outcoldSolutions="using:OutcoldSolutions">
+
+    <outcoldSolutions:ApplicationBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Common/StandardStyles.xaml"/>
+                <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Buttons.xaml"/>
+                <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Converters.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </outcoldSolutions:ApplicationBase.Resources>
+    
+</outcoldSolutions:ApplicationBase>

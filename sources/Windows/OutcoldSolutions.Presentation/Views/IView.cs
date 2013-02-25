@@ -1,16 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Views
 {
     /// <summary>
-    /// The PopupView interface.
+    /// The View interface.
     /// </summary>
-    public interface IPopupView : IView
+    public interface IView
     {
         /// <summary>
-        /// The close.
+        /// Gets presenter.
         /// </summary>
-        void Close();
+        /// <typeparam name="TPresenter">
+        /// Presenter type.
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TPresenter"/>.
+        /// </returns>
+        TPresenter GetPresenter<TPresenter>();
     }
 }

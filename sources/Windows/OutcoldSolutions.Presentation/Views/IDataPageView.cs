@@ -1,27 +1,35 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // Outcold Solutions (http://outcoldman.com)
 // --------------------------------------------------------------------------------------------------------------------
-namespace OutcoldSolutions
+namespace OutcoldSolutions.Views
 {
     /// <summary>
-    /// The PageView interface.
+    /// The DataPageView interface.
     /// </summary>
-    public interface IPageView : IView
+    public interface IDataPageView : IPageView
     {
         /// <summary>
-        /// On navigated to.
+        /// On data loading.
         /// </summary>
         /// <param name="eventArgs">
         /// The event args.
         /// </param>
-        void OnNavigatedTo(NavigatedToEventArgs eventArgs);
+        void OnDataLoading(NavigatedToEventArgs eventArgs);
 
         /// <summary>
-        /// On navigating from.
+        /// On unfreeze.
         /// </summary>
         /// <param name="eventArgs">
         /// The event args.
         /// </param>
-        void OnNavigatingFrom(NavigatingFromEventArgs eventArgs); 
+        void OnUnfreeze(NavigatedToEventArgs eventArgs);
+
+        /// <summary>
+        /// On data loaded.
+        /// </summary>
+        /// <param name="eventArgs">
+        /// The event args.
+        /// </param>
+        void OnDataLoaded(NavigatedToEventArgs eventArgs);
     }
 }
