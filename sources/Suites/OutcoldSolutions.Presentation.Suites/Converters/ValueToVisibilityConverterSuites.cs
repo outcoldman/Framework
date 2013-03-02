@@ -184,6 +184,26 @@ namespace OutcoldSolutions.Presentation.Suites.Converters
 
             // Assert
             Assert.AreEqual(Visibility.Visible, value);
+        }
+
+        [Test]
+        public void Convert_EnumToVisibilityConverterSameValue_Visible()
+        {
+            // Act
+            var value = this.converter.Convert(FocusState.Keyboard, VisibilityType, (int)FocusState.Keyboard, EnglishLanguage);
+
+            // Assert
+            Assert.AreEqual(Visibility.Visible, value);
+        }
+
+        [Test]
+        public void Convert_EnumToVisibilityConverterDifferentValue_Collapsed()
+        {
+            // Act
+            var value = this.converter.Convert(FocusState.Keyboard, VisibilityType, (int)FocusState.Pointer, EnglishLanguage);
+
+            // Assert
+            Assert.AreEqual(Visibility.Collapsed, value);
         } 
     }
 }

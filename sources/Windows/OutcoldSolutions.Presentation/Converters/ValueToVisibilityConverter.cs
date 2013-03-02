@@ -34,6 +34,10 @@ namespace OutcoldSolutions.Converters
                 var d = System.Convert.ToDouble(parameter, this.GetCultureInfo(language));
                 result = Math.Abs(((double)value) - d) < 0.00001;
             }
+            else if (value is Enum)
+            {
+                result = value.Equals(Enum.ToObject(value.GetType(), parameter));
+            }
             else
             {
                 object parameterValue = System.Convert.ChangeType(parameter, value.GetType(), this.GetCultureInfo(language));
