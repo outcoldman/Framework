@@ -33,6 +33,11 @@ namespace OutcoldSolutions
         public static IDependencyResolverContainer Container { get; private set; }
 
         /// <summary>
+        /// Gets the logger.
+        /// </summary>
+        protected ILogger Logger { get; private set; }
+
+        /// <summary>
         /// The on search activated.
         /// </summary>
         /// <param name="args">
@@ -66,7 +71,7 @@ namespace OutcoldSolutions
         /// <summary>
         /// The activated event.
         /// </summary>
-        protected abstract void Activated();
+        protected abstract void OnActivated();
 
         /// <summary>
         /// The on suspending async.
@@ -101,6 +106,8 @@ namespace OutcoldSolutions
                         registration.Register<MainFramePresenter>().AsSingleton();
                     }
 
+                    this.Logger = Container.Resolve<ILogManager>().CreateLogger(this.GetType().Name);
+
                     this.InitializeApplication();
                 }
 
@@ -111,25 +118,25 @@ namespace OutcoldSolutions
 
             Window.Current.Activate();
 
-            this.Activated();
+            this.OnActivated();
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs suspendingEventArgs)
         {
-            var deferral = suspendingEventArgs.SuspendingOperation.GetDeferral();
-
             var suspendingTask = this.OnSuspendingAsync();
             if (suspendingTask != null)
             {
+                var deferral = suspendingEventArgs.SuspendingOperation.GetDeferral();
+
                 suspendingTask.ContinueWith((t) =>
                 {
-                    // We need to log task
+                    if (this.Logger != null)
+                    {
+                        this.Logger.LogTask(t);
+                    }
+
                     deferral.Complete();
                 });
-            }
-            else
-            {
-                deferral.Complete();
             }
         }
     }

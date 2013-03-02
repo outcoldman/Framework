@@ -45,7 +45,7 @@ namespace OutcoldSolutions.Presentation.Test
             }
         }
 
-        protected override void Activated()
+        protected override void OnActivated()
         {
             Container.Resolve<IApplicationToolbar>().SetMenuItems(new List<MenuItemMetadata>()
                                                                       {
