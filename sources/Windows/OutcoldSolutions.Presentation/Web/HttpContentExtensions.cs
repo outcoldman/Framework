@@ -13,10 +13,33 @@ namespace OutcoldSolutions.Web
 
     using Newtonsoft.Json;
 
-    internal static class HttpContentExtensions
+    /// <summary>
+    /// Extensions methods for <see cref="HttpContent"/>.
+    /// </summary>
+    public static class HttpContentExtensions
     {
-        internal static async Task<Dictionary<string, string>> ReadAsDictionaryAsync(this HttpContent @this)
+        /// <summary>
+        /// Read content as a disctionary of {key}={value}.
+        /// </summary>
+        /// <param name="this">
+        /// The http content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="@this"/> is null.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If <paramref name="@this"/> is not "text/plain" content.
+        /// </exception>
+        public static async Task<Dictionary<string, string>> ReadAsDictionaryAsync(this HttpContent @this)
         {
+            if (@this == null)
+            {
+                throw new ArgumentNullException("this");
+            }
+
             if (!@this.IsPlainText())
             {
                 throw new NotSupportedException("ReadAsDictionaryAsync supports only text/plain content.");
@@ -46,7 +69,25 @@ namespace OutcoldSolutions.Web
             return responseValues;
         }
 
-        internal static async Task<TResult> ReadAsJsonObject<TResult>(this HttpContent @this)
+        /// <summary>
+        /// Read content as a Json object <typeparamref name="TResult"/>.
+        /// </summary>
+        /// <typeparam name="TResult">
+        /// The type which will be used to parse Json string.
+        /// </typeparam>
+        /// <param name="this">
+        /// The http content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="@this"/> is null.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If <paramref name="@this"/> is not "text/plain" or "application/json" content.
+        /// </exception>
+        public static async Task<TResult> ReadAsJsonObject<TResult>(this HttpContent @this)
         {
             if (!@this.IsPlainText() && !@this.IsJson())
             {
@@ -56,23 +97,91 @@ namespace OutcoldSolutions.Web
             return JsonConvert.DeserializeObject<TResult>(await @this.ReadAsStringAsync());
         }
 
-        internal static bool IsPlainText(this HttpContent @this)
+        /// <summary>
+        /// Verify if <paramref name="@this"/> is a "text/plain".
+        /// </summary>
+        /// <param name="this">
+        /// The http content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="@this"/> is null.
+        /// </exception>
+        public static bool IsPlainText(this HttpContent @this)
         {
+            if (@this == null)
+            {
+                throw new ArgumentNullException("this");
+            }
+
             return IsContentType(@this, "text/plain");
         }
 
-        internal static bool IsHtmlText(this HttpContent @this)
+        /// <summary>
+        /// Verify if <paramref name="@this"/> is a "text/html".
+        /// </summary>
+        /// <param name="this">
+        /// The http content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="@this"/> is null.
+        /// </exception>
+        public static bool IsHtmlText(this HttpContent @this)
         {
+            if (@this == null)
+            {
+                throw new ArgumentNullException("this");
+            }
+
             return IsContentType(@this, "text/html");
         }
 
-        internal static bool IsJson(this HttpContent @this)
+        /// <summary>
+        /// Verify if <paramref name="@this"/> is a "application/json".
+        /// </summary>
+        /// <param name="this">
+        /// The http content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="@this"/> is null.
+        /// </exception>
+        public static bool IsJson(this HttpContent @this)
         {
+            if (@this == null)
+            {
+                throw new ArgumentNullException("this");
+            }
+
             return IsContentType(@this, "application/json");
         }
 
-        internal static bool IsFormUrlEncoded(this HttpContent @this)
+        /// <summary>
+        /// Verify if <paramref name="@this"/> is a "application/x-www-form-urlencoded".
+        /// </summary>
+        /// <param name="this">
+        /// The http content.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="@this"/> is null.
+        /// </exception>
+        public static bool IsFormUrlEncoded(this HttpContent @this)
         {
+            if (@this == null)
+            {
+                throw new ArgumentNullException("this");
+            }
+
             return IsContentType(@this, "application/x-www-form-urlencoded");
         }
 
