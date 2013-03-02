@@ -10,7 +10,7 @@ namespace OutcoldSolutions.Controls
     /// <summary>
     /// Extensions methods for ItemsControl control.
     /// </summary>
-    public static class ItemsControlEx
+    public static class ItemsControlExtensions
     {
         /// <summary>
         /// Scroll to horizontal offset <paramref name="horizontalOffset"/>.

@@ -116,7 +116,7 @@
     <Compile Include="BindingModels\BindingModelBase.cs" />
     <Compile Include="BindingModels\MainFrameBindingModel.cs" />
     <Compile Include="CommandMetadata.cs" />
-    <Compile Include="Controls\ItemsControlEx.cs" />
+    <Compile Include="Controls\ItemsControlExtensions.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\InvertBooleanConverter.cs" />
