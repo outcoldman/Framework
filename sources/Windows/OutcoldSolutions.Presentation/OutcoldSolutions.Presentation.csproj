@@ -120,6 +120,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="Converters\InvertBooleanConverter.cs" />
+    <Compile Include="Converters\ValueToBooleanConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Converters\VisibilityConverterBase.cs" />
     <Compile Include="Diagnostics\IDebugConsole.cs" />

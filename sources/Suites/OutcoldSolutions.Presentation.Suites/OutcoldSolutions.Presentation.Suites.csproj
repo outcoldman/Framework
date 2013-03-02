@@ -67,9 +67,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModels\BindingModelBase.cs">
+      <Link>_sources\BindingModels\BindingModelBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\windows\outcoldsolutions.presentation\converters\BooleanToVisibilityConverter.cs">
+      <Link>_sources\Converters\BooleanToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\windows\outcoldsolutions.presentation\converters\InvertBooleanConverter.cs">
+      <Link>_sources\Converters\InvertBooleanConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\ValueToBooleanConverter.cs">
+      <Link>_sources\Converters\ValueToBooleanConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\windows\outcoldsolutions.presentation\converters\ValueToVisibilityConverter.cs">
+      <Link>_sources\Converters\ValueToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\windows\outcoldsolutions.presentation\converters\VisibilityConverterBase.cs">
+      <Link>_sources\Converters\VisibilityConverterBase.cs</Link>
+    </Compile>
     <Compile Include="BindingModelBaseSuites.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverterSuites.cs" />
     <Compile Include="Converters\InvertBooleanConverterSuites.cs" />
+    <Compile Include="Converters\ValueToBooleanConverterSuites.cs" />
     <Compile Include="Converters\ValueToVisibilityConverterSuites.cs" />
     <Compile Include="PresentationSuitesBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,9 +110,7 @@
       <Name>OutcoldSolutions.SuitesBase</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_sources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -73,18 +73,6 @@
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModels\BindingModelBase.cs">
       <Link>_sources\BindingModels\BindingModelBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\BooleanToVisibilityConverter.cs">
-      <Link>_sources\Converters\BooleanToVisibilityConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\InvertBooleanConverter.cs">
-      <Link>_sources\Converters\InvertBooleanConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\ValueToVisibilityConverter.cs">
-      <Link>_sources\Converters\ValueToVisibilityConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Converters\VisibilityConverterBase.cs">
-      <Link>_sources\Converters\VisibilityConverterBase.cs</Link>
-    </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\DebugLogWriter.cs">
       <Link>_sources\Diagnostics\DebugLogWriter.cs</Link>
     </Compile>
