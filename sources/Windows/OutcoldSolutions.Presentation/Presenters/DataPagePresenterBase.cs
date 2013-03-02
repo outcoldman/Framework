@@ -65,8 +65,7 @@ namespace OutcoldSolutions.Presenters
 
             protected set
             {
-                this.isDataLoading = value;
-                this.RaiseCurrentPropertyChanged();
+                this.SetValue(ref this.isDataLoading, value);
             }
         }
 
@@ -82,8 +81,7 @@ namespace OutcoldSolutions.Presenters
 
             private set
             {
-                this.bindingModel = value;
-                this.RaiseCurrentPropertyChanged();
+                this.SetValue(ref this.bindingModel, value);
             }
         }
 

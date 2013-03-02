@@ -196,6 +196,36 @@ namespace OutcoldSolutions.BindingModels
         }
 
         /// <summary>
+        /// Set the value to the field.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The field type.
+        /// </typeparam>
+        /// <param name="fieldValue">
+        /// The field value.
+        /// </param>
+        /// <param name="value">
+        /// The new value.
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>. If <paramref name="fieldValue"/> is the same as <paramref name="value"/> - false will be return.
+        /// </returns>
+        protected bool SetValue<T>(ref T fieldValue, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(fieldValue, value))
+            {
+                return false;
+            }
+
+            fieldValue = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        /// <summary>
         /// Raise property changed.
         /// </summary>
         /// <param name="expression">

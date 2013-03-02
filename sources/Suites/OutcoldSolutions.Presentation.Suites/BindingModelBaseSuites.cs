@@ -154,8 +154,7 @@ namespace OutcoldSolutions.Presentation.Suites
 
                 set
                 {
-                    this.property1Field = value;
-                    this.RaiseCurrentPropertyChanged();
+                    this.SetValue(ref this.property1Field, value);
                 }
             }
         }

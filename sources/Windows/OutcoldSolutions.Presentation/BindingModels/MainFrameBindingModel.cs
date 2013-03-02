@@ -16,8 +16,7 @@ namespace OutcoldSolutions.BindingModels
 
             set
             {
-                this.isBackButtonVisible = value;
-                this.RaiseCurrentPropertyChanged();
+                this.SetValue(ref this.isBackButtonVisible, value);
             }
         }
     }
