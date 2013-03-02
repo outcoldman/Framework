@@ -35,7 +35,7 @@ namespace OutcoldSolutions.Presenters
                 }
                 else
                 {
-                    this.navigationService.NavigateToView(menuItemMetadata.PageResolverType, menuItemMetadata.Parameter);
+                    this.navigationService.ResolveAndNavigateTo(menuItemMetadata.PageResolverType, menuItemMetadata.Parameter);
                 }
             }
         }

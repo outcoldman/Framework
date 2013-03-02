@@ -128,7 +128,7 @@
     <Compile Include="MenuItemMetadata.cs" />
     <Compile Include="Presenters\PagePresenterBase.cs" />
     <Compile Include="Views\DataPageViewBase.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="Models\DateTimeExtensions.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Diagnostics\DebugLogWriter.cs" />
     <Compile Include="Diagnostics\FileLogWriter.cs" />

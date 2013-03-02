@@ -74,7 +74,7 @@ namespace OutcoldSolutions
         /// <returns>
         /// The <see cref="IPageView"/>.
         /// </returns>
-        IPageView NavigateToView<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IPageViewResolver;
+        IPageView ResolveAndNavigateTo<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IPageViewResolver;
 
         /// <summary>
         /// The navigate to view.
@@ -91,7 +91,7 @@ namespace OutcoldSolutions
         /// <returns>
         /// The <see cref="object"/>.
         /// </returns>
-        object NavigateToView(Type type, object parameter, bool keepInHistory = true);
+        object ResolveAndNavigateTo(Type type, object parameter, bool keepInHistory = true);
 
         /// <summary>
         /// Go back.
