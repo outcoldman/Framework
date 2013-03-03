@@ -11,7 +11,7 @@ namespace OutcoldSolutions.Diagnostics
     /// <summary>
     /// The log manager.
     /// </summary>
-    public class LogManager : ILogManager
+    internal class LogManager : ILogManager
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LogManager"/> class.

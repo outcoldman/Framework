@@ -33,6 +33,8 @@ namespace OutcoldSolutions
         {
             this.Container = new DependencyResolverContainer();
 
+            ApplicationBase.Container = this.Container;
+
             using (var registration = this.Container.Registration())
             {
                 registration.Register<ILogManager>().AsSingleton<LogManager>();

@@ -221,7 +221,7 @@ namespace OutcoldSolutions.Diagnostics
 
                 StringBuilder readlCookiesOutput = null;
                 IDebugConsole debugConsole = null;
-                if (ApplicationBase.Container.IsRegistered<IDebugConsole>())
+                if (ApplicationBase.Container != null && ApplicationBase.Container.IsRegistered<IDebugConsole>())
                 {
                     debugConsole = ApplicationBase.Container.Resolve<IDebugConsole>();
 

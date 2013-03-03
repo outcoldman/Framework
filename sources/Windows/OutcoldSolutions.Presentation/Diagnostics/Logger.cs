@@ -9,7 +9,7 @@ namespace OutcoldSolutions.Diagnostics
     /// <summary>
     /// The logger.
     /// </summary>
-    public class Logger : ILogger
+    internal class Logger : ILogger
     {
         private readonly string context;
         private readonly LogManager logManager;

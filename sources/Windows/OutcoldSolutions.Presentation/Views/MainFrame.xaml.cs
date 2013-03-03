@@ -177,6 +177,45 @@ namespace OutcoldSolutions.Views
             }
         }
 
+        /// <inheritdoc />
+        public void SetVisibility(MainFrameRegion region, bool isVisible)
+        {
+            if (this.logger.IsDebugEnabled)
+            {
+                this.logger.Debug("Trying to set visibility '{0}' to region {1}.", isVisible, region);
+            }
+
+            switch (region)
+            {
+                case MainFrameRegion.Content:
+                    this.ContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    break;
+
+                case MainFrameRegion.Right:
+                    this.RightRegionContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    break;
+
+                case MainFrameRegion.BottomAppBarRightZone:
+                    this.BottomAppBarRightZoneRegionContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    break;
+
+                case MainFrameRegion.Background:
+                    this.BackgroundContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    break;
+
+                case MainFrameRegion.Links:
+                    this.LinksContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    break;
+
+                case MainFrameRegion.SnappedView:
+                    this.SnappedViewContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    break;
+
+                default:
+                    throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, "Region {0} is not supported.", region));
+            }
+        }
+
         [Inject]
         internal void Initialize(
             IDependencyResolverContainer containerObject,

@@ -12,7 +12,7 @@ namespace OutcoldSolutions
     /// <summary>
     /// The navigation service.
     /// </summary>
-    public class NavigationService : INavigationService
+    internal class NavigationService : INavigationService
     {
         private readonly LinkedList<HistoryItem> viewsHistory = new LinkedList<HistoryItem>();
 

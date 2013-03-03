@@ -17,7 +17,7 @@ namespace OutcoldSolutions
     /// <summary>
     /// The application base.
     /// </summary>
-    public abstract class ApplicationBase : Application
+    public abstract partial class ApplicationBase : Application
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationBase"/> class.
@@ -26,12 +26,7 @@ namespace OutcoldSolutions
         {
             this.Suspending += this.OnSuspending;
         }
-
-        /// <summary>
-        /// Gets the container.
-        /// </summary>
-        public static IDependencyResolverContainer Container { get; private set; }
-
+        
         /// <summary>
         /// Gets the logger.
         /// </summary>
@@ -89,11 +84,11 @@ namespace OutcoldSolutions
             MainFrame mainFrame = Window.Current.Content as MainFrame;
             if (mainFrame == null)
             {
-                if (Container == null)
+                if (ApplicationBase.Container == null)
                 {
-                    Container = new DependencyResolverContainer();
+                    ApplicationBase.Container = new DependencyResolverContainer();
 
-                    using (var registration = Container.Registration())
+                    using (var registration = ApplicationBase.Container.Registration())
                     {
                         registration.Register<ILogManager>().AsSingleton<LogManager>();
                         registration.Register<INavigationService>().AsSingleton<NavigationService>();
@@ -101,17 +96,18 @@ namespace OutcoldSolutions
 
                         registration.Register<IMainFrame>()
                                     .And<IApplicationToolbar>()
+                                    .And<IMainFrameRegionProvider>()
                                     .InjectionRule<PresenterBase, MainFramePresenter>()
                                     .AsSingleton<MainFrame>();
                         registration.Register<MainFramePresenter>().AsSingleton();
                     }
 
-                    this.Logger = Container.Resolve<ILogManager>().CreateLogger(this.GetType().Name);
+                    this.Logger = ApplicationBase.Container.Resolve<ILogManager>().CreateLogger(this.GetType().Name);
 
                     this.InitializeApplication();
                 }
 
-                mainFrame = (MainFrame)Container.Resolve<IMainFrame>();
+                mainFrame = (MainFrame)ApplicationBase.Container.Resolve<IMainFrame>();
                 Container.Resolve<INavigationService>().RegisterRegionProvider(mainFrame);
                 Window.Current.Content = mainFrame;
             }

@@ -19,7 +19,7 @@ namespace OutcoldSolutions.Views
         private const string HorizontalScrollOffset = "ListView_HorizontalScrollOffset";
         private const string VerticalScrollOffset = "ListView_VerticalScrollOffset";
 
-        private ListViewBase trackingListView;
+        private ItemsControl trackingItemsControl;
         private Storyboard trackingListStoryboard;
 
         /// <summary>
@@ -32,14 +32,14 @@ namespace OutcoldSolutions.Views
         {
             base.OnNavigatingFrom(eventArgs);
 
-            if (this.trackingListView != null)
+            if (this.trackingItemsControl != null)
             {
                 eventArgs.State[HorizontalScrollOffset] = 
-                    this.trackingListView.GetScrollViewerHorizontalOffset();
+                    this.trackingItemsControl.GetScrollViewerHorizontalOffset();
                 eventArgs.State[VerticalScrollOffset] =
-                    this.trackingListView.GetScrollViewerVerticalOffset();
+                    this.trackingItemsControl.GetScrollViewerVerticalOffset();
 
-                this.trackingListView.Opacity = 0;
+                this.trackingItemsControl.Opacity = 0;
             }
         }
 
@@ -51,10 +51,10 @@ namespace OutcoldSolutions.Views
         /// </param>
         public virtual void OnDataLoading(NavigatedToEventArgs eventArgs)
         {
-            if (this.trackingListView != null)
+            if (this.trackingItemsControl != null)
             {
-                this.trackingListView.ScrollToHorizontalZero();
-                this.trackingListView.ScrollToVerticalZero();
+                this.trackingItemsControl.ScrollToHorizontalZero();
+                this.trackingItemsControl.ScrollToVerticalZero();
             }
         }
 
@@ -76,19 +76,19 @@ namespace OutcoldSolutions.Views
         /// </param>
         public virtual void OnDataLoaded(NavigatedToEventArgs eventArgs)
         {
-            if (this.trackingListView != null)
+            if (this.trackingItemsControl != null)
             {
                 if (eventArgs.IsNavigationBack)
                 {
                     object offset;
                     if (eventArgs.State.TryGetValue(HorizontalScrollOffset, out offset))
                     {
-                        this.trackingListView.ScrollToHorizontalOffset((double)offset);
+                        this.trackingItemsControl.ScrollToHorizontalOffset((double)offset);
                     }
 
                     if (eventArgs.State.TryGetValue(VerticalScrollOffset, out offset))
                     {
-                        this.trackingListView.ScrollToVerticalOffset((double)offset);
+                        this.trackingItemsControl.ScrollToVerticalOffset((double)offset);
                     }
                 }
 
@@ -99,31 +99,31 @@ namespace OutcoldSolutions.Views
         /// <summary>
         /// Track list view base.
         /// </summary>
-        /// <param name="listViewBase">
+        /// <param name="itemsControl">
         /// The list view base.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// If <paramref name="listViewBase"/> is null.
+        /// If <paramref name="itemsControl"/> is null.
         /// </exception>
-        protected void TrackListViewBase(ListViewBase listViewBase)
+        protected void TrackItemsControl(ItemsControl itemsControl)
         {
-            if (listViewBase == null)
+            if (itemsControl == null)
             {
-                throw new ArgumentNullException("listViewBase");
+                throw new ArgumentNullException("itemsControl");
             }
 
-            Debug.Assert(this.trackingListView == null, "this.trackingListView == null. Only one list view tracking supported.");
-            this.trackingListView = listViewBase;
-            if (this.trackingListView.Transitions != null)
+            Debug.Assert(this.trackingItemsControl == null, "this.trackingItemsControl == null. Only one list view tracking supported.");
+            this.trackingItemsControl = itemsControl;
+            if (this.trackingItemsControl.Transitions != null)
             {
-                this.trackingListView.Transitions.Clear();
+                this.trackingItemsControl.Transitions.Clear();
             }
 
-            this.trackingListView.Opacity = 0;
+            this.trackingItemsControl.Opacity = 0;
 
             this.trackingListStoryboard = new Storyboard();
             DoubleAnimationUsingKeyFrames doubleAnimationUsingKeyFrames = new DoubleAnimationUsingKeyFrames();
-            Storyboard.SetTarget(doubleAnimationUsingKeyFrames, this.trackingListView);
+            Storyboard.SetTarget(doubleAnimationUsingKeyFrames, this.trackingItemsControl);
             Storyboard.SetTargetProperty(doubleAnimationUsingKeyFrames, "Opacity");
             doubleAnimationUsingKeyFrames.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0)), Value = 0 });
             doubleAnimationUsingKeyFrames.KeyFrames.Add(new LinearDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(100)), Value = 0 });

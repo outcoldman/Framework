@@ -45,11 +45,16 @@
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,6 +74,9 @@
   <ItemGroup>
     <Compile Include="..\..\Portable\OutcoldSolutions.Framework\Properties\AssemblyInfo.Common.cs">
       <Link>Properties\AssemblyInfo.Common.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\ApplicationBase.Container.cs">
+      <Link>_sources\ApplicationBase.Container.cs</Link>
     </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModels\BindingModelBase.cs">
       <Link>_sources\BindingModels\BindingModelBase.cs</Link>
@@ -97,17 +105,32 @@
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LoggerEx.cs">
       <Link>_sources\Diagnostics\LoggerEx.cs</Link>
     </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LoggerWebExtensions.cs">
+      <Link>_sources\Diagnostics\LoggerWebExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LogLevel.cs">
       <Link>_sources\Diagnostics\LogLevel.cs</Link>
     </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LogManager.cs">
       <Link>_sources\Diagnostics\LogManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\TaskLogger.cs">
+      <Link>_sources\Diagnostics\TaskLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Models\DateTimeExtensions.cs">
+      <Link>_sources\Models\DateTimeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\PropertyNameExtractor.cs">
       <Link>_sources\PropertyNameExtractor.cs</Link>
     </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\TaskEx.cs">
       <Link>_sources\TaskEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Web\HttpContentExtensions.cs">
+      <Link>_sources\Web\HttpContentExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Web\WebServiceBase.cs">
+      <Link>_sources\Web\WebServiceBase.cs</Link>
     </Compile>
     <Compile Include="CultureScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

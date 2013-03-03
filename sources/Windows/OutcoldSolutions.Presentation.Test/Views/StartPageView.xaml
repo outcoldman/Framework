@@ -8,12 +8,18 @@
     Title="{Binding Path=Title}"
     Subtitle="Subtitle :)"
     IsStoreLogoVisible="True"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="This">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <Button Command="{Binding Path=ChangeTitleCommand}" >
-            Change title
-        </Button>
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding Path=ChangeTitleCommand}" >
+                Change title
+            </Button>
+            <ToggleButton IsChecked="{Binding IsTitleVisible, Mode=TwoWay, ElementName=This}">
+                Is Title Visible
+            </ToggleButton>
+        </StackPanel>
     </Grid>
     
 </views:PageViewBase>

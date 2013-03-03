@@ -106,6 +106,7 @@
     <None Include="..\..\OutcoldSolution.Public.snk">
       <Link>OutcoldSolution.Public.snk</Link>
     </None>
+    <Compile Include="ApplicationBase.Container.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
