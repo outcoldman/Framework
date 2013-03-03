@@ -7,6 +7,7 @@ namespace OutcoldSolutions
 
     using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Presenters;
+    using OutcoldSolutions.Shell;
     using OutcoldSolutions.Views;
 
     using Windows.ApplicationModel;
@@ -100,6 +101,14 @@ namespace OutcoldSolutions
                                     .InjectionRule<PresenterBase, MainFramePresenter>()
                                     .AsSingleton<MainFrame>();
                         registration.Register<MainFramePresenter>().AsSingleton();
+
+                        registration.Register<IApplicationSettingFrame>()
+                                    .InjectionRule<PresenterBase, ApplicationSettingFramePresenter>()
+                                    .As<ApplicationSettingFrame>();
+                        registration.Register<ApplicationSettingFramePresenter>();
+
+                        registration.Register<IApplicationSettingViewsService>()
+                                    .AsSingleton<ApplicationSettingViewsService>();
                     }
 
                     this.Logger = ApplicationBase.Container.Resolve<ILogManager>().CreateLogger(this.GetType().Name);

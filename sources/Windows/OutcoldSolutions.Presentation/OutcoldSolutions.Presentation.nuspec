@@ -16,8 +16,10 @@
   <files>
     <!-- Already in: <file src="OutcoldSolutions.Presentation.dll" target="lib\win\OutcoldSolutions.Presentation.dll" /> -->
     <file src="OutcoldSolutions.Presentation.pri" target="lib\win\OutcoldSolutions.Presentation.pri" />
+    <file src="OutcoldSolutions.Presentation\Common\Base.xaml" target="lib\win\OutcoldSolutions.Presentation\Common\Base.xaml" />
     <file src="OutcoldSolutions.Presentation\Common\Buttons.xaml" target="lib\win\OutcoldSolutions.Presentation\Common\Buttons.xaml" />
     <file src="OutcoldSolutions.Presentation\Common\Converters.xaml" target="lib\win\OutcoldSolutions.Presentation\Common\Converters.xaml" />
+    <file src="OutcoldSolutions.Presentation\Views\ApplicationSettingFrame.xaml" target="lib\win\OutcoldSolutions.Presentation\Views\ApplicationSettingFrame.xaml" />
     <file src="OutcoldSolutions.Presentation\Views\MainFrame.xaml" target="lib\win\OutcoldSolutions.Presentation\Views\MainFrame.xaml" />
   </files>
 </package>

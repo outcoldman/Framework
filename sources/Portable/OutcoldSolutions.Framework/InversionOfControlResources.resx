@@ -123,6 +123,9 @@
   <data name="ErrMsg_CannotRegisterTypeAsSingleton" xml:space="preserve">
     <value>Current registration has more than one type. Specify which type you want to use for resolving.</value>
   </data>
+  <data name="ErrMsg_CannotResolveParameterType" xml:space="preserve">
+    <value>Cannot resolve parameter type {0}.</value>
+  </data>
   <data name="ErrMsg_CannotSetInjectionTypeTwice" xml:space="preserve">
     <value>Current registration already has a rule for type '{0}'.</value>
   </data>

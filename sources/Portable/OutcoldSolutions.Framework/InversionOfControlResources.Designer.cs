@@ -79,6 +79,15 @@ namespace OutcoldSolutions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot resolve parameter type {0}..
+        /// </summary>
+        internal static string ErrMsg_CannotResolveParameterType {
+            get {
+                return ResourceManager.GetString("ErrMsg_CannotResolveParameterType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current registration already has a rule for type &apos;{0}&apos;..
         /// </summary>
         internal static string ErrMsg_CannotSetInjectionTypeTwice {

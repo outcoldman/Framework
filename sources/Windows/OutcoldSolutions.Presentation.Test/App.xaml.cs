@@ -10,7 +10,9 @@ namespace OutcoldSolutions.Presentation.Test
     using OutcoldSolutions.Presentation.Test.Diagnostics;
     using OutcoldSolutions.Presentation.Test.Presenters;
     using OutcoldSolutions.Presentation.Test.Views;
+    using OutcoldSolutions.Presentation.Test.Views.ApplicationSettings;
     using OutcoldSolutions.Presenters;
+    using OutcoldSolutions.Shell;
     using OutcoldSolutions.Views;
 
     /// <summary>
@@ -42,6 +44,8 @@ namespace OutcoldSolutions.Presentation.Test
                     .AsSingleton<TestDataPageView>();
                 registration.Register<TestDataPageViewPresenter>().AsSingleton();
                 registration.Register<TestDataPageViewBindingModel>().AsSingleton();
+
+                registration.Register<PrivacyView>();
             }
         }
 
@@ -52,6 +56,9 @@ namespace OutcoldSolutions.Presentation.Test
                                                                           MenuItemMetadata.FromViewType<IStartPageView>("Start view"),
                                                                           MenuItemMetadata.FromViewType<ITestDataPageView>("Test Data Page")
                                                                       });
+
+            Container.Resolve<IApplicationSettingViewsService>().RegisterSettings<PrivacyView>("privacy", "Privacy");
+
             Container.Resolve<INavigationService>().NavigateTo<IStartPageView>();
         }
     }

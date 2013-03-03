@@ -117,6 +117,7 @@
     <Compile Include="BindingModels\BindingModelBase.cs" />
     <Compile Include="BindingModels\MainFrameBindingModel.cs" />
     <Compile Include="CommandMetadata.cs" />
+    <Compile Include="Controls\AppBarToggleButton.cs" />
     <Compile Include="Controls\ItemsControlExtensions.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
@@ -127,7 +128,14 @@
     <Compile Include="Diagnostics\IDebugConsole.cs" />
     <Compile Include="Diagnostics\LoggerWebExtensions.cs" />
     <Compile Include="MenuItemMetadata.cs" />
+    <Compile Include="Presenters\ApplicationSettingFramePresenter.cs" />
     <Compile Include="Presenters\PagePresenterBase.cs" />
+    <Compile Include="Shell\ApplicationSettingViewsService.cs" />
+    <Compile Include="Shell\ApplicationSettingLayoutType.cs" />
+    <Compile Include="Shell\IApplicationSettingViewsService.cs" />
+    <Compile Include="Views\ApplicationSettingFrame.xaml.cs">
+      <DependentUpon>ApplicationSettingFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DataPageViewBase.cs" />
     <Compile Include="Models\DateTimeExtensions.cs" />
     <Compile Include="DelegateCommand.cs" />
@@ -142,6 +150,7 @@
     <Compile Include="Diagnostics\LogManager.cs" />
     <Compile Include="Diagnostics\TaskLogger.cs" />
     <Compile Include="DispatcherContainer.cs" />
+    <Compile Include="Views\IApplicationSettingsContent.cs" />
     <Compile Include="Views\IApplicationToolbar.cs" />
     <Compile Include="Views\IDataPageView.cs" />
     <Compile Include="IDispatcher.cs" />
@@ -180,6 +189,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Common\Base.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Common\Buttons.xaml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -189,6 +203,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\ApplicationSettingFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainFrame.xaml">
       <SubType>Designer</SubType>

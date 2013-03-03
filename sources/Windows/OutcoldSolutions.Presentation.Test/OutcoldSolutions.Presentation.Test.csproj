@@ -118,6 +118,9 @@
     <Compile Include="Diagnostics\DebugConsole.cs" />
     <Compile Include="Presenters\StartPageViewPresenter.cs" />
     <Compile Include="Presenters\TestDataPageViewPresenter.cs" />
+    <Compile Include="Views\ApplicationSettings\PrivacyView.xaml.cs">
+      <DependentUpon>PrivacyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StartPageView.xaml.cs">
       <DependentUpon>StartPageView.xaml</DependentUpon>
     </Compile>
@@ -147,6 +150,10 @@
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ApplicationSettings\PrivacyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StartPageView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -7,9 +7,10 @@
     <outcoldSolutions:ApplicationBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Common/StandardStyles.xaml"/>
+                <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Base.xaml"/>
                 <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Buttons.xaml"/>
                 <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Converters.xaml"/>
+                <ResourceDictionary Source="Common/StandardStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </outcoldSolutions:ApplicationBase.Resources>

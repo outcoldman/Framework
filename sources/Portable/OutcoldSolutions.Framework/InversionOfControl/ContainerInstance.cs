@@ -383,6 +383,15 @@ namespace OutcoldSolutions
                                         p.ContainerInstance = this.container.Get(p.Type);
                                     }
 
+                                    if (p.ContainerInstance == null)
+                                    {
+                                        throw new InvalidOperationException(
+                                            string.Format(
+                                                CultureInfo.CurrentCulture, 
+                                                InversionOfControlResources.ErrMsg_CannotResolveParameterType,
+                                                p.Type));
+                                    }
+
                                     value = p.ContainerInstance.Resolve(arguments);
                                 }
 
