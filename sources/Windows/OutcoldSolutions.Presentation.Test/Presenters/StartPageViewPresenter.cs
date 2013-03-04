@@ -10,8 +10,7 @@ namespace OutcoldSolutions.Presentation.Test.Presenters
     {
         private string title;
 
-        public StartPageViewPresenter(IDependencyResolverContainer container)
-            : base(container)
+        public StartPageViewPresenter()
         {
             this.Title = "Start View";
             this.ChangeTitleCommand = new DelegateCommand(() =>

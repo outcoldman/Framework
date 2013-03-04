@@ -5,6 +5,7 @@ namespace OutcoldSolutions.Presentation.Test
 {
     using System.Collections.Generic;
 
+    using OutcoldSolutions.BindingModels;
     using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Presentation.Test.BindingModel;
     using OutcoldSolutions.Presentation.Test.Diagnostics;
@@ -35,12 +36,12 @@ namespace OutcoldSolutions.Presentation.Test
                 registration.Register<IDebugConsole>().AsSingleton<DebugConsole>();
 
                 registration.Register<IStartPageView>()
-                    .InjectionRule<PresenterBase, StartPageViewPresenter>()
+                    .InjectionRule<BindingModelBase, StartPageViewPresenter>()
                     .AsSingleton<StartPageView>();
                 registration.Register<StartPageViewPresenter>().AsSingleton();
 
                 registration.Register<ITestDataPageView>()
-                    .InjectionRule<PresenterBase, TestDataPageViewPresenter>()
+                    .InjectionRule<BindingModelBase, TestDataPageViewPresenter>()
                     .AsSingleton<TestDataPageView>();
                 registration.Register<TestDataPageViewPresenter>().AsSingleton();
                 registration.Register<TestDataPageViewBindingModel>().AsSingleton();

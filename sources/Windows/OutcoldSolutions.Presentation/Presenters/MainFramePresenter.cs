@@ -11,9 +11,7 @@ namespace OutcoldSolutions.Presenters
         private readonly INavigationService navigationService;
 
         public MainFramePresenter(
-            IDependencyResolverContainer container,
             INavigationService navigationService)
-            : base(container)
         {
             this.BindingModel = new MainFrameBindingModel();
             this.navigationService = navigationService;

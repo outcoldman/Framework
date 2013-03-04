@@ -3,6 +3,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Views
 {
+    using OutcoldSolutions.BindingModels;
     using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Presenters;
 
@@ -26,7 +27,7 @@ namespace OutcoldSolutions.Views
         /// <summary>
         /// Gets the presenter.
         /// </summary>
-        protected PresenterBase Presenter { get; private set; }
+        protected BindingModelBase Presenter { get; private set; }
 
         /// <summary>
         /// The get presenter.
@@ -57,12 +58,12 @@ namespace OutcoldSolutions.Views
         [Inject]
         protected void Initialize(
             IDependencyResolverContainer container, 
-            ILogManager logManager, 
-            PresenterBase presenterBase)
+            ILogManager logManager,
+            BindingModelBase presenterBase)
         {
             this.Container = container;
             this.Presenter = presenterBase;
-            this.Logger = this.Container.Resolve<ILogManager>().CreateLogger(this.GetType().Name);
+            this.Logger = logManager.CreateLogger(this.GetType().Name);
             this.DataContext = presenterBase;
 
             var viewPresenterBase = presenterBase as IViewPresenterBase;

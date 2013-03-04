@@ -168,7 +168,6 @@
     <Compile Include="Views\MainFrameRegion.cs" />
     <Compile Include="Views\PageViewBase.cs" />
     <Compile Include="Views\PopupViewBase.cs" />
-    <Compile Include="Presenters\PresenterBase.cs" />
     <Compile Include="Presenters\MainFramePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyNameExtractor.cs" />

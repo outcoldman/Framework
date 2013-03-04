@@ -5,6 +5,7 @@ namespace OutcoldSolutions.Shell
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using OutcoldSolutions.Views;
 
@@ -52,6 +53,11 @@ namespace OutcoldSolutions.Shell
             {
                 this.CreatePopup(applicationSettingViewInfo);
             }
+        }
+
+        public IEnumerable<string> GetRegisteredViews()
+        {
+            return this.settingViewsOrder.ToList();
         }
 
         public void RegisterSettings<TApplicationSettingsView>(

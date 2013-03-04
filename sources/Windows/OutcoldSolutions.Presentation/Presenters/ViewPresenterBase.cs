@@ -3,19 +3,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Presenters
 {
+    using OutcoldSolutions.BindingModels;
+    using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Views;
 
     /// <summary>
     /// The ViewPresenterBase interface.
     /// </summary>
-    public interface IViewPresenterBase
+    internal interface IViewPresenterBase
     {
-        /// <summary>
-        /// The initialize.
-        /// </summary>
-        /// <param name="view">
-        /// The view.
-        /// </param>
         void Initialize(IView view);
     }
 
@@ -25,30 +21,42 @@ namespace OutcoldSolutions.Presenters
     /// <typeparam name="TView">
     /// The type of view.
     /// </typeparam>
-    public class ViewPresenterBase<TView> : PresenterBase, IViewPresenterBase
+    public class ViewPresenterBase<TView> : BindingModelBase, IViewPresenterBase
         where TView : IView
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ViewPresenterBase{TView}"/> class.
-        /// </summary>
-        /// <param name="container">
-        /// The container.
-        /// </param>
-        public ViewPresenterBase(IDependencyResolverContainer container)
-            : base(container)
-        {
-        }
+        internal IDependencyResolverContainer Container { get; private set; }
 
         /// <summary>
         /// Gets the view.
         /// </summary>
         public TView View { get; private set; }
 
+        /// <summary>
+        /// Gets the logger.
+        /// </summary>
+        protected ILogger Logger { get; private set; }
+
+        /// <summary>
+        /// Gets the dispatcher.
+        /// </summary>
+        protected IDispatcher Dispatcher { get; private set; }
+
         /// <inheritdoc />
         void IViewPresenterBase.Initialize(IView view)
         {
             this.View = (TView)view;
             this.OnInitialized();
+        }
+
+        [Inject]
+        internal void InjectMethod(
+            IDependencyResolverContainer container,
+            ILogManager logManager, 
+            IDispatcher dispatcher)
+        {
+            this.Logger = logManager.CreateLogger(this.GetType().Name);
+            this.Dispatcher = dispatcher;
+            this.Container = container;
         }
 
         /// <summary>

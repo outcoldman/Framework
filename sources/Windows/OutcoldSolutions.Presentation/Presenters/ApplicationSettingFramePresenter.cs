@@ -14,9 +14,7 @@ namespace OutcoldSolutions.Presenters
         private string title;
 
         public ApplicationSettingFramePresenter(
-            IDependencyResolverContainer container,
             IApplicationSettingViewsService applicationSettingViewsService)
-            : base(container)
         {
             this.applicationSettingViewsService = applicationSettingViewsService;
             this.GoBackCommand = new DelegateCommand(this.GoBack);

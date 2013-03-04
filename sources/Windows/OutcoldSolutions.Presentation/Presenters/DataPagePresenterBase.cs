@@ -34,8 +34,6 @@ namespace OutcoldSolutions.Presenters
         where TView : IDataPageView 
         where TBindingModel : BindingModelBase
     {
-        private readonly IDependencyResolverContainer container;
-
         private TBindingModel bindingModel;
 
         private bool isDataLoading;
@@ -47,9 +45,7 @@ namespace OutcoldSolutions.Presenters
         /// The container.
         /// </param>
         protected DataPagePresenterBase(IDependencyResolverContainer container)
-            : base(container)
         {
-            this.container = container;
             this.Toolbar = container.Resolve<IApplicationToolbar>();
         }
 
@@ -123,7 +119,7 @@ namespace OutcoldSolutions.Presenters
         {
             base.OnInitialized();
 
-            this.BindingModel = this.container.Resolve<TBindingModel>();
+            this.BindingModel = this.Container.Resolve<TBindingModel>();
         }
 
         /// <summary>

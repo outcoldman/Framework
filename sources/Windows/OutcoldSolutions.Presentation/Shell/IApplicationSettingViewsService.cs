@@ -3,6 +3,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Shell
 {
+    using System.Collections.Generic;
+
     using OutcoldSolutions.Views;
 
     /// <summary>
@@ -27,6 +29,14 @@ namespace OutcoldSolutions.Shell
         /// The name of setting view.
         /// </param>
         void Show(string name);
+
+        /// <summary>
+        /// Get registered view names.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerable{string}"/> (ordered by how they will be showed in settings).
+        /// </returns>
+        IEnumerable<string> GetRegisteredViews();
 
         /// <summary>
         /// Register settings view

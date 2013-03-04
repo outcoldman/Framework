@@ -10,6 +10,7 @@ namespace OutcoldSolutions.Views
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
+    using OutcoldSolutions.BindingModels;
     using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Presenters;
 
@@ -279,7 +280,7 @@ namespace OutcoldSolutions.Views
         {
             if (this.currentView != null)
             {
-                this.currentView.GetPresenter<PresenterBase>().Unsubscribe("IsDataLoading", this.OnIsDataLoadingChanged);
+                this.currentView.GetPresenter<BindingModelBase>().Unsubscribe("IsDataLoading", this.OnIsDataLoadingChanged);
             }
 
             this.ClearViewCommands();
@@ -340,7 +341,7 @@ namespace OutcoldSolutions.Views
             {
                 this.ProgressRing.IsActive = true;
                 this.ContentControl.Opacity = 0;
-                this.currentView.GetPresenter<PresenterBase>().Subscribe("IsDataLoading", this.OnIsDataLoadingChanged);
+                this.currentView.GetPresenter<BindingModelBase>().Subscribe("IsDataLoading", this.OnIsDataLoadingChanged);
             }
 
             this.ContentControl.Content = this.currentView;

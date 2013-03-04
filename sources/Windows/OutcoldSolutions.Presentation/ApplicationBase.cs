@@ -5,6 +5,7 @@ namespace OutcoldSolutions
 {
     using System.Threading.Tasks;
 
+    using OutcoldSolutions.BindingModels;
     using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Presenters;
     using OutcoldSolutions.Shell;
@@ -98,12 +99,12 @@ namespace OutcoldSolutions
                         registration.Register<IMainFrame>()
                                     .And<IApplicationToolbar>()
                                     .And<IMainFrameRegionProvider>()
-                                    .InjectionRule<PresenterBase, MainFramePresenter>()
+                                    .InjectionRule<BindingModelBase, MainFramePresenter>()
                                     .AsSingleton<MainFrame>();
                         registration.Register<MainFramePresenter>().AsSingleton();
 
                         registration.Register<IApplicationSettingFrame>()
-                                    .InjectionRule<PresenterBase, ApplicationSettingFramePresenter>()
+                                    .InjectionRule<BindingModelBase, ApplicationSettingFramePresenter>()
                                     .As<ApplicationSettingFrame>();
                         registration.Register<ApplicationSettingFramePresenter>();
 
