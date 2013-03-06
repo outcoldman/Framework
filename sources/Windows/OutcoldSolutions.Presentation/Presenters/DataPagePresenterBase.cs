@@ -35,19 +35,7 @@ namespace OutcoldSolutions.Presenters
         where TBindingModel : BindingModelBase
     {
         private TBindingModel bindingModel;
-
         private bool isDataLoading;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DataPagePresenterBase{TView,TBindingModel}"/> class.
-        /// </summary>
-        /// <param name="container">
-        /// The container.
-        /// </param>
-        protected DataPagePresenterBase(IDependencyResolverContainer container)
-        {
-            this.Toolbar = container.Resolve<IApplicationToolbar>();
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether is data loading.
@@ -80,11 +68,6 @@ namespace OutcoldSolutions.Presenters
                 this.SetValue(ref this.bindingModel, value);
             }
         }
-
-        /// <summary>
-        /// Gets the toolbar.
-        /// </summary>
-        protected IApplicationToolbar Toolbar { get; private set; }
 
         /// <inheritdoc />
         public override void OnNavigatedTo(NavigatedToEventArgs parameter)

@@ -118,6 +118,7 @@ namespace OutcoldSolutions
                 }
 
                 mainFrame = (MainFrame)ApplicationBase.Container.Resolve<IMainFrame>();
+                ((IViewPresenterBase)ApplicationBase.Container.Resolve<MainFramePresenter>()).Initialize(mainFrame);
                 Container.Resolve<INavigationService>().RegisterRegionProvider(mainFrame);
                 Window.Current.Content = mainFrame;
             }

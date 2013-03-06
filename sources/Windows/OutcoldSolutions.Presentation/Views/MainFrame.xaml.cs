@@ -255,8 +255,6 @@ namespace OutcoldSolutions.Views
             this.presenter = presenterObject;
             this.logger = logManager.CreateLogger("MainFrame");
             this.DataContext = this.presenter;
-
-            ((IViewPresenterBase)this.presenter).Initialize(this);
         }
 
         private void OnIsDataLoadingChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

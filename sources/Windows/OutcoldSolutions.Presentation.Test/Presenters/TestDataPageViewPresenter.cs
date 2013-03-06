@@ -12,8 +12,7 @@ namespace OutcoldSolutions.Presentation.Test.Presenters
 
     public class TestDataPageViewPresenter : DataPagePresenterBase<ITestDataPageView, TestDataPageViewBindingModel>
     {
-        public TestDataPageViewPresenter(IDependencyResolverContainer container)
-            : base(container)
+        public TestDataPageViewPresenter()
         {
             this.Command = new DelegateCommand(() =>
                 {

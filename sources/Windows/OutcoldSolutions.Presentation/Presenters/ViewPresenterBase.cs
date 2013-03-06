@@ -29,7 +29,12 @@ namespace OutcoldSolutions.Presenters
         /// <summary>
         /// Gets the view.
         /// </summary>
-        public TView View { get; private set; }
+        protected TView View { get; private set; }
+
+        /// <summary>
+        /// Gets the toolbar.
+        /// </summary>
+        protected IApplicationToolbar Toolbar { get; private set; }
 
         /// <summary>
         /// Gets the logger.
@@ -44,6 +49,7 @@ namespace OutcoldSolutions.Presenters
         /// <inheritdoc />
         void IViewPresenterBase.Initialize(IView view)
         {
+            this.Toolbar = this.Container.Resolve<IApplicationToolbar>();
             this.View = (TView)view;
             this.OnInitialized();
         }
