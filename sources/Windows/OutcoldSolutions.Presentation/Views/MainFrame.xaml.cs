@@ -81,6 +81,34 @@ namespace OutcoldSolutions.Views
         }
 
         /// <inheritdoc />
+        public bool IsTopAppBarOpen
+        {
+            get
+            {
+                return this.TopAppBar.IsOpen;
+            }
+
+            set
+            {
+                this.TopAppBar.IsOpen = value;
+            }
+        }
+
+        /// <inheritdoc />
+        public bool IsBottomAppBarOpen
+        {
+            get
+            {
+                return this.BottomAppBar.IsOpen;
+            }
+
+            set
+            {
+                this.BottomAppBar.IsOpen = value;
+            }
+        }
+
+        /// <inheritdoc />
         public void SetMenuItems(IEnumerable<MenuItemMetadata> menuItems)
         {
             this.MainMenuItemsControl.ItemsSource = menuItems;
@@ -245,24 +273,16 @@ namespace OutcoldSolutions.Views
             }
         }
 
-        private void MainMenuItem_Click(object sender, RoutedEventArgs e)
+        private void MainMenuItemClick(object sender, ItemClickEventArgs e)
         {
-            var button = sender as FrameworkElement;
-            if (button != null)
+            var menuItemMetadata = e.ClickedItem as MenuItemMetadata;
+            if (menuItemMetadata != null)
             {
-                var menuItemMetadata = button.DataContext as MenuItemMetadata;
-                if (menuItemMetadata != null)
-                {
-                    this.presenter.NavigateTo(menuItemMetadata);
-                }
-                else
-                {
-                    this.logger.Error("Could not find MenuItemMetadata in DataContext.");
-                }
+                this.presenter.NavigateTo(menuItemMetadata);
             }
             else
             {
-                this.logger.Error("Could not cast sender to FrameworkElement.");
+                this.logger.Error("Could not find MenuItemMetadata in ClickedItem.");
             }
 
             if (this.TopAppBar != null)
@@ -429,6 +449,14 @@ namespace OutcoldSolutions.Views
                     appBar.IsOpen = false;
                 }
             }
+        }
+
+        private void TopAppBarOpened(object sender, object e)
+        {
+            // This is stupid way to fix problem with that when we show Main Menu - we can see that one of the items will have On Hover state.
+            var itemsSource = this.MainMenuItemsControl.ItemsSource;
+            this.MainMenuItemsControl.ItemsSource = null;
+            this.MainMenuItemsControl.ItemsSource = itemsSource;
         }
     }
 }

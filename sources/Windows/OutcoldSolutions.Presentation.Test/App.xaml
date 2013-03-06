@@ -10,9 +10,13 @@
                 <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Base.xaml"/>
                 <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Buttons.xaml"/>
                 <ResourceDictionary Source="OutcoldSolutions.Presentation/Common/Converters.xaml"/>
+                
                 <ResourceDictionary Source="Common/StandardStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <x:String x:Key="ApplicationName">Test Application</x:String>
         </ResourceDictionary>
+        
     </outcoldSolutions:ApplicationBase.Resources>
     
 </outcoldSolutions:ApplicationBase>

@@ -2,8 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Name="ApplicationThemeBrush" Color="Gray" />
+    <SolidColorBrush x:Name="ApplicationThemeBrush" Color="CadetBlue" />
 
+    <x:String x:Key="ApplicationName">My Application</x:String>
+    
     <!-- RichTextBlock styles -->
 
     <Style x:Key="BasicRichTextStyle" TargetType="RichTextBlock">
@@ -149,5 +151,98 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Margin" Value="10,0,0,0"/>
     </Style>
+    
+    <!-- Main Title Style  -->
+
+    <Style x:Key="ApplicationTitleStyle" TargetType="TextBlock" BasedOn="{StaticResource TitleTextStyle}">
+        <Setter Property="Opacity" Value="0.7" />
+    </Style>
+
+    <!-- Main Menu List -->
+    <Style x:Key="ListViewMainMenu" TargetType="ListView">
+        <Setter Property="Transitions">
+            <Setter.Value>
+                <TransitionCollection />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Transitions">
+                        <Setter.Value>
+                            <TransitionCollection />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Margin" Value="0, 0, 15, 0" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+
+                                <Border Width="156" Height="98" Background="#FF3F3F3F" x:Name="MainBorder">
+
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal" />
+                                            <VisualState x:Name="Pressed">
+                                                <Storyboard>
+                                                    <PointerDownThemeAnimation TargetName="MainBorder" />
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainBorder" Storyboard.TargetProperty="Background">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="#242424"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PointerOver">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainBorder" Storyboard.TargetProperty="Background">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="#242424"/>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PointerOverPressed" />
+                                            <VisualState x:Name="Disabled" />
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <ContentPresenter Content="{TemplateBinding Content}" />
+
+                                </Border>
+                                
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Content, Mode=OneTime}" 
+                            VerticalAlignment="Bottom" 
+                            Margin="12, 0, 0, 20" 
+                            Style="{StaticResource TitleTextStyle}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="AppBar" x:Key="TopAppBarStyle">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <Style TargetType="AppBar" x:Key="BottomAppBarStyle"/>
 
 </ResourceDictionary>

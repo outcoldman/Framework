@@ -3,6 +3,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Controls
 {
+    using System.Collections.Generic;
+
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
 
@@ -43,6 +45,40 @@ namespace OutcoldSolutions.Controls
             }
 
             return child;
+        }
+
+        /// <summary>
+        /// Get visual child.
+        /// </summary>
+        /// <param name="parent">
+        /// The parent.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of loocking control.
+        /// </typeparam>
+        /// <returns>
+        /// The control.
+        /// </returns>
+        public static IEnumerable<T> GetVisualChilds<T>(DependencyObject parent) where T : DependencyObject
+        {
+            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < numVisuals; i++)
+            {
+                DependencyObject v = VisualTreeHelper.GetChild(parent, i);
+                T child = v as T;
+                if (child == null)
+                {
+                    foreach (var visualChild in GetVisualChilds<T>(v))
+                    {
+                        yield return visualChild;
+                    }
+                }
+
+                if (child != null)
+                {
+                    yield return child;
+                }
+            }
         }
     }
 }

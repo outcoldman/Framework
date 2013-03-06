@@ -11,6 +11,16 @@ namespace OutcoldSolutions.Views
     public interface IApplicationToolbar
     {
         /// <summary>
+        /// Gets or sets a value indicating whether is top app bar open.
+        /// </summary>
+        bool IsTopAppBarOpen { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is bottom app bar open.
+        /// </summary>
+        bool IsBottomAppBarOpen { get; set; }
+
+        /// <summary>
         /// Set menu items.
         /// </summary>
         /// <param name="menuItems">

@@ -12,7 +12,6 @@ namespace OutcoldSolutions.Presentation.Test
     using OutcoldSolutions.Presentation.Test.Presenters;
     using OutcoldSolutions.Presentation.Test.Views;
     using OutcoldSolutions.Presentation.Test.Views.ApplicationSettings;
-    using OutcoldSolutions.Presenters;
     using OutcoldSolutions.Shell;
     using OutcoldSolutions.Views;
 

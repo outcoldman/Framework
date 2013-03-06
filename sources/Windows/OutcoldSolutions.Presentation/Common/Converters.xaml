@@ -15,5 +15,6 @@
     <baseConverters:ValueToBooleanConverter x:Key="ValueToInvertBooleanConverter" Invert="True"/>
     <baseConverters:ValueToBooleanConverter x:Key="NullToBooleanConverter"/>
     <baseConverters:ValueToBooleanConverter x:Key="NullToInvertBooleanConverter" Invert="True"/>
+    <baseConverters:StringFormatConverter x:Key="StringFormatConverter" />
     
 </ResourceDictionary>

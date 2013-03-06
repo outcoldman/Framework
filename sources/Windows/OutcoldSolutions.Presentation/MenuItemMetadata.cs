@@ -25,7 +25,7 @@ namespace OutcoldSolutions
         /// <summary>
         /// Gets the title.
         /// </summary>
-        public object Title { get; private set; }
+        public object Content { get; private set; }
 
         /// <summary>
         /// Gets the parameter.
@@ -49,7 +49,7 @@ namespace OutcoldSolutions
         /// </returns>
         public static MenuItemMetadata FromViewType<TPageView>(object title, object parameter = null) where TPageView : IPageView
         {
-            return new MenuItemMetadata() { PageType = typeof(TPageView), Title = title, Parameter = parameter };
+            return new MenuItemMetadata() { PageType = typeof(TPageView), Content = title, Parameter = parameter };
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OutcoldSolutions
         /// </returns>
         public static MenuItemMetadata FromPageViewTypeResolver<TPageViewResolver>(object title, object parameter = null) where TPageViewResolver : IPageViewResolver
         {
-            return new MenuItemMetadata() { PageResolverType = typeof(TPageViewResolver), Title = title, Parameter = parameter };
+            return new MenuItemMetadata() { PageResolverType = typeof(TPageViewResolver), Content = title, Parameter = parameter };
         }
     }
 }

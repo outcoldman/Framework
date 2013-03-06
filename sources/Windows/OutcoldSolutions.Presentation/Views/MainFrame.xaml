@@ -18,28 +18,40 @@
     </Page.Resources>
 
     <Page.TopAppBar>
-        <AppBar IsSticky="False">
-            <ItemsControl x:Name="MainMenuItemsControl" Height="86">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+        <AppBar IsSticky="False" 
+                Opened="TopAppBarOpened"
+                Style="{StaticResource TopAppBarStyle}">
+            <Grid>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="37" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                        <Button Style="{StaticResource MainMenuButtonStyle}" 
-                                Click="MainMenuItem_Click"
-                                Content="{Binding Path=Title, Mode=OneTime}"/>
+                <Border Height="10" Background="{StaticResource ApplicationThemeBrush}"  />
 
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                <TextBlock Margin="30, 0, 0, 10" 
+                           VerticalAlignment="Bottom" 
+                           Text="{StaticResource ApplicationName}"
+                           Style="{StaticResource ApplicationTitleStyle}" 
+                           Grid.Row="1"  />
+
+                <ListView x:Name="MainMenuItemsControl" 
+                          Grid.Row="2" 
+                          Margin="20, 0, 0, 25" 
+                          ItemClick="MainMenuItemClick" 
+                          IsItemClickEnabled="True"
+                          SelectionMode="None"
+                          Style="{StaticResource ListViewMainMenu}"/>
+                
+            </Grid>
         </AppBar>
     </Page.TopAppBar>
     
     <Page.BottomAppBar>
-        <AppBar IsSticky="False">
+        <AppBar IsSticky="False"
+                Style="{StaticResource BottomAppBarStyle}">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
