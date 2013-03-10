@@ -16,6 +16,7 @@ namespace OutcoldSolutions.Diagnostics
 
     using Windows.Security.Cryptography;
     using Windows.Security.Cryptography.Core;
+    using Windows.Storage;
     using Windows.Storage.Streams;
 
     /// <summary>
@@ -23,6 +24,8 @@ namespace OutcoldSolutions.Diagnostics
     /// </summary>
     public static class LoggerWebExtensions
     {
+        private const string WebResponseLogs = "WebResponses_Logs";
+
         /// <summary>
         /// Log request.
         /// </summary>
@@ -189,10 +192,32 @@ namespace OutcoldSolutions.Diagnostics
                 {
                     var content = await httpContent.ReadAsStringAsync();
 
-                    log.AppendFormat("    CONTENT:{0}{1}", Environment.NewLine, content.Substring(0, Math.Min(4096, content.Length)));
-                    log.AppendLine();
-                    log.AppendFormat("    ENDCONTENT.");
-                    log.AppendLine();
+                    StorageFolder folder = null;
+
+                    try
+                    {
+                        folder = (await ApplicationData.Current.LocalFolder.GetFoldersAsync())
+                            .FirstOrDefault(x => string.Equals(x.Name, WebResponseLogs, StringComparison.OrdinalIgnoreCase));
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // Unit tests does not have package identity. We just ignore them.
+                    }
+
+                    if (folder != null)
+                    {
+                        var fileName = string.Format("{0}.log", Guid.NewGuid());
+                        var file = await folder.CreateFileAsync(fileName);
+                        await FileIO.WriteTextAsync(file, content);
+                        log.AppendFormat("    CONTENT FILE: {0}", file.Path);
+                    }
+                    else
+                    {
+                        log.AppendFormat("    CONTENT:{0}{1}", Environment.NewLine, content.Substring(0, Math.Min(4096, content.Length)));
+                        log.AppendLine();
+                        log.AppendFormat("    ENDCONTENT.");
+                        log.AppendLine();
+                    }
                 }
             }
             else
