@@ -10,8 +10,10 @@ namespace OutcoldSolutions.Presentation.Test
     using OutcoldSolutions.Presentation.Test.BindingModel;
     using OutcoldSolutions.Presentation.Test.Diagnostics;
     using OutcoldSolutions.Presentation.Test.Presenters;
+    using OutcoldSolutions.Presentation.Test.Presenters.Popups;
     using OutcoldSolutions.Presentation.Test.Views;
     using OutcoldSolutions.Presentation.Test.Views.ApplicationSettings;
+    using OutcoldSolutions.Presentation.Test.Views.Popups;
     using OutcoldSolutions.Shell;
     using OutcoldSolutions.Views;
 
@@ -46,12 +48,18 @@ namespace OutcoldSolutions.Presentation.Test
                 registration.Register<TestDataPageViewBindingModel>().AsSingleton();
 
                 registration.Register<PrivacyView>();
+
+                registration.Register<IPopupTest>()
+                    .InjectionRule<BindingModelBase, PopupTestPresenter>()
+                    .As<PopupTest>();
+
+                registration.Register<PopupTestPresenter>();
             }
         }
 
         protected override void OnActivated()
         {
-            Container.Resolve<IApplicationToolbar>().SetMenuItems(new List<MenuItemMetadata>()
+            Container.Resolve<IMainFrame>().SetMenuItems(new List<MenuItemMetadata>()
                                                                       {
                                                                           MenuItemMetadata.FromViewType<IStartPageView>("Start view"),
                                                                           MenuItemMetadata.FromViewType<ITestDataPageView>("Test Data Page")

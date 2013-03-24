@@ -92,12 +92,12 @@ namespace OutcoldSolutions
 
                     using (var registration = ApplicationBase.Container.Registration())
                     {
+                        registration.Register<IEventAggregator>().AsSingleton<EventAggregator>();
                         registration.Register<ILogManager>().AsSingleton<LogManager>();
                         registration.Register<INavigationService>().AsSingleton<NavigationService>();
                         registration.Register<IDispatcher>().AsSingleton(new DispatcherContainer(CoreWindow.GetForCurrentThread().Dispatcher));
 
                         registration.Register<IMainFrame>()
-                                    .And<IApplicationToolbar>()
                                     .And<IMainFrameRegionProvider>()
                                     .InjectionRule<BindingModelBase, MainFramePresenter>()
                                     .AsSingleton<MainFrame>();

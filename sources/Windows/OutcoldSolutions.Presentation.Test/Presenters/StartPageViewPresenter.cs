@@ -4,7 +4,9 @@
 namespace OutcoldSolutions.Presentation.Test.Presenters
 {
     using OutcoldSolutions.Presentation.Test.Views;
+    using OutcoldSolutions.Presentation.Test.Views.Popups;
     using OutcoldSolutions.Presenters;
+    using OutcoldSolutions.Views;
 
     public class StartPageViewPresenter : PagePresenterBase<IStartPageView>
     {
@@ -17,6 +19,8 @@ namespace OutcoldSolutions.Presentation.Test.Presenters
                 {
                     this.Title += " ;)";
                 });
+
+            this.ShowPopupCommand = new DelegateCommand(() => this.MainFrame.ShowPopup<IPopupTest>(PopupRegion.Full));
         }
 
         public string Title
@@ -34,5 +38,7 @@ namespace OutcoldSolutions.Presentation.Test.Presenters
         }
 
         public DelegateCommand ChangeTitleCommand { get; set; }
+
+        public DelegateCommand ShowPopupCommand { get; set; }
     }
 }

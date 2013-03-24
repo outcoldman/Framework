@@ -464,8 +464,8 @@ namespace OutcoldSolutions
                     LambdaExpression lambda = Expression.Lambda(newExp, parameterExpression);
                     this.factory = (Func<object[], object>)lambda.Compile();
                 }
-
-                this.methodInjections = this.implementation.GetTypeInfo().DeclaredMethods
+                
+                this.methodInjections = this.implementation.GetRuntimeMethods()
                     .Select(method => new { Method = method, Attributes = method.GetCustomAttributes(InjectAttributeType, inherit: true) })
                     .Where(method => method.Attributes != null && method.Attributes.Any())
                     .Select(method =>

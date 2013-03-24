@@ -32,9 +32,14 @@ namespace OutcoldSolutions.Presenters
         protected TView View { get; private set; }
 
         /// <summary>
-        /// Gets the toolbar.
+        /// Gets the main frame.
         /// </summary>
-        protected IApplicationToolbar Toolbar { get; private set; }
+        protected IMainFrame MainFrame { get; private set; }
+
+        /// <summary>
+        /// Gets event aggregator..
+        /// </summary>
+        protected IEventAggregator EventAggregator { get; private set; }
 
         /// <summary>
         /// Gets the logger.
@@ -49,7 +54,7 @@ namespace OutcoldSolutions.Presenters
         /// <inheritdoc />
         void IViewPresenterBase.Initialize(IView view)
         {
-            this.Toolbar = this.Container.Resolve<IApplicationToolbar>();
+            this.MainFrame = this.Container.Resolve<IMainFrame>();
             this.View = (TView)view;
             this.OnInitialized();
         }
@@ -57,12 +62,14 @@ namespace OutcoldSolutions.Presenters
         [Inject]
         internal void InjectMethod(
             IDependencyResolverContainer container,
+            IEventAggregator eventAggregator,
             ILogManager logManager, 
             IDispatcher dispatcher)
         {
             this.Logger = logManager.CreateLogger(this.GetType().Name);
             this.Dispatcher = dispatcher;
             this.Container = container;
+            this.EventAggregator = eventAggregator;
         }
 
         /// <summary>

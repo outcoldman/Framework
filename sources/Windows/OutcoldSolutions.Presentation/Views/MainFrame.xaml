@@ -44,7 +44,15 @@
                           IsItemClickEnabled="True"
                           SelectionMode="None"
                           Style="{StaticResource ListViewMainMenu}"/>
-                
+
+                <ContentControl 
+                        Margin="20, 0, 20, 0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Right"
+                        VerticalContentAlignment="Stretch"
+                        x:Name="TopAppBarRightZoneRegionContentControl"
+                        Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
             </Grid>
         </AppBar>
     </Page.TopAppBar>
@@ -81,6 +89,12 @@
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
 
+        <Popup x:Name="FullScreenPopup" 
+               HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch" 
+               IsLightDismissEnabled="False"
+               Closed="FullScreenPopupViewClosed"/>
+        
         <ContentControl x:Name="SnappedViewContentControl" Visibility="Collapsed" />
         
         <Grid x:Name="FullViewGrid">
@@ -185,8 +199,17 @@
                         Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
 
             <Popup IsLightDismissEnabled="True" 
-               x:Name="PopupView" 
+               x:Name="AppToolBarLeftPopup" 
                HorizontalAlignment="Left" 
+               VerticalAlignment="Bottom" 
+               Height="300" 
+               Closed="PopupViewClosed"
+               Grid.Row="1"
+               Grid.ColumnSpan="3" />
+
+            <Popup IsLightDismissEnabled="True" 
+               x:Name="AppToolBarRightPopup" 
+               HorizontalAlignment="Right" 
                VerticalAlignment="Bottom" 
                Height="300" 
                Closed="PopupViewClosed"

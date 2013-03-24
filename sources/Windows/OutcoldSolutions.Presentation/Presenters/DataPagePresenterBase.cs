@@ -86,13 +86,13 @@ namespace OutcoldSolutions.Presenters
                         await this.Dispatcher.RunAsync(
                             () =>
                                 {
-                                    this.Toolbar.SetViewCommands(this.GetViewCommands());
+                                    this.MainFrame.SetViewCommands(this.GetViewCommands());
                                     this.View.OnUnfreeze(parameter);
                                     this.BindingModel.UnfreezeNotifications();
                                     this.IsDataLoading = false;
                                 });
                         
-                        await Task.Delay(10);
+                        await Task.Yield();
                         await this.Dispatcher.RunAsync(() => this.View.OnDataLoaded(parameter));
                     }));
         }

@@ -152,7 +152,6 @@
     <Compile Include="Diagnostics\TaskLogger.cs" />
     <Compile Include="DispatcherContainer.cs" />
     <Compile Include="Views\IApplicationSettingsContent.cs" />
-    <Compile Include="Views\IApplicationToolbar.cs" />
     <Compile Include="Views\IDataPageView.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="INavigationService.cs" />
@@ -168,6 +167,7 @@
     <Compile Include="Presenters\DataPagePresenterBase.cs" />
     <Compile Include="Views\MainFrameRegion.cs" />
     <Compile Include="Views\PageViewBase.cs" />
+    <Compile Include="Views\PopupRegion.cs" />
     <Compile Include="Views\PopupViewBase.cs" />
     <Compile Include="Presenters\MainFramePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

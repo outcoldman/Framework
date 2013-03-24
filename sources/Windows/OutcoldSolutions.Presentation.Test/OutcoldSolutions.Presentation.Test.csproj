@@ -116,10 +116,14 @@
     </Compile>
     <Compile Include="BindingModel\TestDataPageViewBindingModel.cs" />
     <Compile Include="Diagnostics\DebugConsole.cs" />
+    <Compile Include="Presenters\Popups\PopupTestPresenter.cs" />
     <Compile Include="Presenters\StartPageViewPresenter.cs" />
     <Compile Include="Presenters\TestDataPageViewPresenter.cs" />
     <Compile Include="Views\ApplicationSettings\PrivacyView.xaml.cs">
       <DependentUpon>PrivacyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\PopupTest.xaml.cs">
+      <DependentUpon>PopupTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StartPageView.xaml.cs">
       <DependentUpon>StartPageView.xaml</DependentUpon>
@@ -152,6 +156,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ApplicationSettings\PrivacyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Popups\PopupTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

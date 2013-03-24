@@ -17,6 +17,7 @@ namespace OutcoldSolutions.Views
     using Windows.UI.ViewManagement;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Controls.Primitives;
     using Windows.UI.Xaml.Data;
     using Windows.UI.Xaml.Media.Animation;
 
@@ -25,13 +26,70 @@ namespace OutcoldSolutions.Views
     /// </summary>
     public interface IMainFrame : IView
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether is top app bar open.
+        /// </summary>
+        bool IsTopAppBarOpen { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is bottom app bar open.
+        /// </summary>
+        bool IsBottomAppBarOpen { get; set; }
+
+        /// <summary>
+        /// Set menu items.
+        /// </summary>
+        /// <param name="menuItems">
+        /// The menu items.
+        /// </param>
+        void SetMenuItems(IEnumerable<MenuItemMetadata> menuItems);
+
+        /// <summary>
+        /// Set view commands.
+        /// </summary>
+        /// <param name="commands">
+        /// The commands.
+        /// </param>
+        void SetViewCommands(IEnumerable<CommandMetadata> commands);
+
+        /// <summary>
+        /// The clear view commands.
+        /// </summary>
+        void ClearViewCommands();
+
+        /// <summary>
+        /// Set context commands.
+        /// </summary>
+        /// <param name="commands">
+        /// The commands.
+        /// </param>
+        void SetContextCommands(IEnumerable<CommandMetadata> commands);
+
+        /// <summary>
+        /// Clear context commands.
+        /// </summary>
+        void ClearContextCommands();
+
+        /// <summary>
+        /// Show popup.
+        /// </summary>
+        /// <param name="popupRegion">
+        /// The popup region.
+        /// </param>
+        /// <param name="injections">
+        /// The injections arguments.
+        /// </param>
+        /// <typeparam name="TPopup">
+        /// The type of popup view.
+        /// </typeparam>
+        void ShowPopup<TPopup>(PopupRegion popupRegion, params object[] injections) where TPopup : IPopupView;
     }
 
     /// <summary>
     /// The main frame.
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "View/Interface implementation.")]
-    public sealed partial class MainFrame : Page, IMainFrame, IApplicationToolbar, IMainFrameRegionProvider
+    public sealed partial class MainFrame : Page, IMainFrame, IMainFrameRegionProvider
     {
         private IDependencyResolverContainer container;
         private MainFramePresenter presenter;
@@ -75,6 +133,7 @@ namespace OutcoldSolutions.Views
                         this.SnappedViewContentControl.Visibility = Visibility.Collapsed;
                     }
 
+                    this.UpdateFullScreenPopupSize();
                     this.UpdateBottomAppBarVisibility();
                     this.UpdateTopAppBarVisibility();
                 };
@@ -153,14 +212,13 @@ namespace OutcoldSolutions.Views
         }
 
         /// <inheritdoc />
-        public void ShowPopup<TPopup>(params object[] arguments) where TPopup : IPopupView
+        public void ShowPopup<TPopup>(PopupRegion popupRegion, params object[] injections) where TPopup : IPopupView
         {
-            TPopup popupView = this.container.Resolve<TPopup>(arguments);
+            TPopup popupView = this.container.Resolve<TPopup>(injections);
             var uiElement = (UIElement)(object)popupView;
-            this.PopupView.Child = uiElement;
-            this.PopupView.IsOpen = true;
+            this.ShowPopup(popupRegion, uiElement);
         }
-
+       
         /// <inheritdoc />
         public TPresenter GetPresenter<TPresenter>()
         {
@@ -201,9 +259,26 @@ namespace OutcoldSolutions.Views
                     this.SetSnappedRegion(content);
                     break;
 
+                case MainFrameRegion.TopAppBarRightZone:
+                    this.SetTopAppBarRightZoneRegion(content);
+                    break;
+
                 default:
                     throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, "Region {0} is not supported.", region));
             }
+        }
+
+        /// <inheritdoc />
+        public void SetContent<TView>(MainFrameRegion region, params object[] injections)
+        {
+            if (this.logger.IsDebugEnabled)
+            {
+                this.logger.Debug("Trying to set {0} to region {1}.", typeof(TView), region);
+            }
+
+            object content = this.container.Resolve<TView>(injections);
+
+            this.SetContent(region, content);
         }
 
         /// <inheritdoc />
@@ -240,6 +315,10 @@ namespace OutcoldSolutions.Views
                     this.SnappedViewContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
                     break;
 
+                case MainFrameRegion.TopAppBarRightZone:
+                    this.TopAppBarRightZoneRegionContentControl.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                    break;
+
                 default:
                     throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, "Region {0} is not supported.", region));
             }
@@ -255,6 +334,42 @@ namespace OutcoldSolutions.Views
             this.presenter = presenterObject;
             this.logger = logManager.CreateLogger("MainFrame");
             this.DataContext = this.presenter;
+        }
+
+        private void ShowPopup(PopupRegion region, UIElement content)
+        {
+            switch (region)
+            {
+                case PopupRegion.AppToolBarRight:
+                    this.AppToolBarRightPopup.Child = content;
+                    this.AppToolBarRightPopup.IsOpen = true;
+                    break;
+                case PopupRegion.AppToolBarLeft:
+                    this.AppToolBarLeftPopup.Child = content;
+                    this.AppToolBarLeftPopup.IsOpen = true;
+                    break;
+                case PopupRegion.Full:
+                    this.FullScreenPopup.Child = content;
+                    this.UpdateFullScreenPopupSize();
+                    this.FullScreenPopup.IsOpen = true;
+                    this.UpdateBottomAppBarVisibility();
+                    this.UpdateTopAppBarVisibility();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("region");
+            }
+        }
+
+        private void UpdateFullScreenPopupSize()
+        {
+            this.FullScreenPopup.Width = Window.Current.Bounds.Width;
+            this.FullScreenPopup.Height = Window.Current.Bounds.Height;
+            var frameworkElement = this.FullScreenPopup.Child as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                frameworkElement.Height = this.FullScreenPopup.Height;
+                frameworkElement.Width = this.FullScreenPopup.Width;
+            }
         }
 
         private void OnIsDataLoadingChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -291,7 +406,18 @@ namespace OutcoldSolutions.Views
 
         private void PopupViewClosed(object sender, object e)
         {
-            this.PopupView.Child = null;
+            var popup = sender as Popup;
+            if (popup != null)
+            {
+                popup.Child = null;
+            }
+        }
+
+        private void FullScreenPopupViewClosed(object sender, object e)
+        {
+            this.PopupViewClosed(sender, e);
+            this.UpdateBottomAppBarVisibility();
+            this.UpdateTopAppBarVisibility();
         }
 
         private void SetContentRegion(object content)
@@ -385,6 +511,11 @@ namespace OutcoldSolutions.Views
             this.SnappedViewContentControl.Content = content;
         }
 
+        private void SetTopAppBarRightZoneRegion(object content)
+        {
+            this.TopAppBarRightZoneRegionContentControl.Content = content;
+        }
+
         private void SetBottomAppBarRightZoneRegion(object content)
         {
             this.BottomAppBarRightZoneRegionContentControl.Content = content;
@@ -438,7 +569,7 @@ namespace OutcoldSolutions.Views
             {
                 var currentVisibility = appBar.Visibility == Visibility.Visible && appBar.IsOpen;
 
-                var isVisible = ApplicationView.Value != ApplicationViewState.Snapped && isLogicalVisible;
+                var isVisible = ApplicationView.Value != ApplicationViewState.Snapped && !this.FullScreenPopup.IsOpen && isLogicalVisible;
 
                 appBar.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
 

@@ -19,6 +19,9 @@
             <ToggleButton IsChecked="{Binding IsTitleVisible, Mode=TwoWay, ElementName=This}">
                 Is Title Visible
             </ToggleButton>
+            <Button Command="{Binding Path=ShowPopupCommand}">
+                Show popup
+            </Button>
         </StackPanel>
     </Grid>
     
