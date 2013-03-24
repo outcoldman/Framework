@@ -433,7 +433,7 @@ namespace OutcoldSolutions
                     }
                 }
 
-                ConstructorInfo[] constructorInfos = this.implementation.GetTypeInfo().DeclaredConstructors.ToArray();
+                ConstructorInfo[] constructorInfos = this.implementation.GetTypeInfo().DeclaredConstructors.Where(c => !c.IsStatic).ToArray();
                 if (constructorInfos.Length > 1)
                 {
                     constructorInfos = constructorInfos.Where(info =>
