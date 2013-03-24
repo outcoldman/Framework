@@ -8,6 +8,7 @@ namespace OutcoldSolutions.Diagnostics
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// The verifier implementation.
@@ -17,8 +18,6 @@ namespace OutcoldSolutions.Diagnostics
         private readonly Dictionary<string, List<TrackingObject>> trackingObjects = new Dictionary<string, List<TrackingObject>>();
         private readonly object verificationLock = new object();
         private readonly IVerificationHandler verificationHandler;
-
-        private readonly Dictionary<Guid, Timer> timers = new Dictionary<Guid, Timer>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VerifierImplementation"/> class.
@@ -187,7 +186,7 @@ namespace OutcoldSolutions.Diagnostics
         /// </remarks>
         public void Verify(string context, int delay)
         {
-            this.AddTimer(delay, () => this.Verify(context));
+            this.VerifyOnDelay(delay, () => this.Verify(context));
         }
 
         /// <summary>
@@ -224,30 +223,14 @@ namespace OutcoldSolutions.Diagnostics
         /// </param>
         public void VerifyAll(int delay)
         {
-            this.AddTimer(delay, this.VerifyAll);
+            this.VerifyOnDelay(delay, this.VerifyAll);
         }
 
-        private void AddTimer(int delay, Action action)
+        private async void VerifyOnDelay(int delay, Action action)
         {
-            Guid timerId = Guid.NewGuid();
+            await Task.Delay(delay);
 
-            this.timers.Add(
-                timerId,
-                new Timer(
-                    (state) =>
-                    {
-                        action();
-                        Timer timer;
-                        if (this.timers.TryGetValue(timerId, out timer))
-                        {
-                            timer.Dispose();
-                        }
-
-                        this.timers.Remove(timerId);
-                    },
-                null,
-                delay,
-                Timeout.Infinite));
+            action();
         }
 
         private void HandleVerificationResult(List<TrackingObject> releasedObjects, List<TrackingObject> aliveObjects)

@@ -89,7 +89,7 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("typeImplementation");
             }
 
-            if (!type.IsAssignableFrom(typeImplementation))
+            if (!type.GetTypeInfo().IsAssignableFrom(typeImplementation.GetTypeInfo()))
             {
                 throw new ArgumentException(
                     string.Format(
@@ -132,7 +132,8 @@ namespace OutcoldSolutions
                 throw new ArgumentNullException("typeImplementation");
             }
 
-            if (typeImplementation.IsAbstract || typeImplementation.IsInterface)
+            TypeInfo typeInfo = typeImplementation.GetTypeInfo();
+            if (typeInfo.IsAbstract || typeInfo.IsInterface)
             {
                 throw new ArgumentException(
                         string.Format(
@@ -143,7 +144,7 @@ namespace OutcoldSolutions
 
             foreach (var registeredType in this.registeredTypes)
             {
-                if (!registeredType.IsAssignableFrom(typeImplementation))
+                if (!registeredType.GetTypeInfo().IsAssignableFrom(typeInfo))
                 {
                     throw new ArgumentException(
                         string.Format(
@@ -373,7 +374,16 @@ namespace OutcoldSolutions
                                 object value = null;
                                 if (arguments != null)
                                 {
-                                    value = arguments.FirstOrDefault(p.Type.IsInstanceOfType);
+                                    TypeInfo typeInfo = p.Type.GetTypeInfo();
+                                    value = arguments.FirstOrDefault(a =>
+                                        {
+                                            if (a != null)
+                                            {
+                                                return typeInfo.IsAssignableFrom(a.GetType().GetTypeInfo());
+                                            }
+
+                                            return false;
+                                        });
                                 }
 
                                 if (value == null)
@@ -412,7 +422,8 @@ namespace OutcoldSolutions
 
                     this.implementation = this.registeredTypes.First();
 
-                    if (this.implementation.IsAbstract || this.implementation.IsInterface)
+                    TypeInfo typeInfo = this.implementation.GetTypeInfo();
+                    if (typeInfo.IsAbstract || typeInfo.IsInterface)
                     {
                         throw new NotSupportedException(
                             string.Format(
@@ -422,13 +433,13 @@ namespace OutcoldSolutions
                     }
                 }
 
-                ConstructorInfo[] constructorInfos = this.implementation.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                ConstructorInfo[] constructorInfos = this.implementation.GetTypeInfo().DeclaredConstructors.ToArray();
                 if (constructorInfos.Length > 1)
                 {
                     constructorInfos = constructorInfos.Where(info =>
                     {
-                        object[] customAttributes = info.GetCustomAttributes(InjectAttributeType, false);
-                        return customAttributes != null && customAttributes.Length > 0;
+                        IEnumerable<Attribute> customAttributes = info.GetCustomAttributes(InjectAttributeType, false);
+                        return customAttributes != null && customAttributes.Any();
                     }).ToArray();
                 }
 
@@ -454,9 +465,9 @@ namespace OutcoldSolutions
                     this.factory = (Func<object[], object>)lambda.Compile();
                 }
 
-                this.methodInjections = this.implementation.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                this.methodInjections = this.implementation.GetTypeInfo().DeclaredMethods
                     .Select(method => new { Method = method, Attributes = method.GetCustomAttributes(InjectAttributeType, inherit: true) })
-                    .Where(method => method.Attributes != null && method.Attributes.Length > 0)
+                    .Where(method => method.Attributes != null && method.Attributes.Any())
                     .Select(method =>
                     {
                         var methodInfo = method.Method;
