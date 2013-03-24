@@ -59,6 +59,7 @@
     
     <Page.BottomAppBar>
         <AppBar IsSticky="False"
+                Canvas.ZIndex="1000"
                 Style="{StaticResource BottomAppBarStyle}">
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -202,19 +203,29 @@
                x:Name="AppToolBarLeftPopup" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Bottom" 
-               Height="300" 
                Closed="PopupViewClosed"
                Grid.Row="1"
-               Grid.ColumnSpan="3" />
+               Grid.ColumnSpan="3" >
+                <Popup.ChildTransitions>
+                    <TransitionCollection>
+                        <PopupThemeTransition FromHorizontalOffset="0" FromVerticalOffset="30" />
+                    </TransitionCollection>
+                </Popup.ChildTransitions>
+            </Popup>
 
             <Popup IsLightDismissEnabled="True" 
                x:Name="AppToolBarRightPopup" 
                HorizontalAlignment="Right" 
                VerticalAlignment="Bottom" 
-               Height="300" 
                Closed="PopupViewClosed"
                Grid.Row="1"
-               Grid.ColumnSpan="3" />
+               Grid.ColumnSpan="3">
+                <Popup.ChildTransitions>
+                    <TransitionCollection>
+                        <PopupThemeTransition FromHorizontalOffset="0" FromVerticalOffset="30" />
+                    </TransitionCollection>
+                </Popup.ChildTransitions>
+            </Popup>
 
             <Border Grid.Row="2" 
                 Grid.Column="0"

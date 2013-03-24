@@ -44,6 +44,7 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DisposeExtensions.cs" />
     <Compile Include="EventAggregator\EventAggregator.cs" />
     <Compile Include="EventAggregator\IEventAggregator.cs" />
     <Compile Include="InversionOfControl\DependencyResolverContainerBehavior.cs" />

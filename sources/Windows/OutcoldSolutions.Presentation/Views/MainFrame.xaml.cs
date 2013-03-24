@@ -215,7 +215,7 @@ namespace OutcoldSolutions.Views
         public void ShowPopup<TPopup>(PopupRegion popupRegion, params object[] injections) where TPopup : IPopupView
         {
             TPopup popupView = this.container.Resolve<TPopup>(injections);
-            var uiElement = (UIElement)(object)popupView;
+            var uiElement = (FrameworkElement)(object)popupView;
             this.ShowPopup(popupRegion, uiElement);
         }
        
@@ -336,16 +336,20 @@ namespace OutcoldSolutions.Views
             this.DataContext = this.presenter;
         }
 
-        private void ShowPopup(PopupRegion region, UIElement content)
+        private void ShowPopup(PopupRegion region, FrameworkElement content)
         {
             switch (region)
             {
                 case PopupRegion.AppToolBarRight:
                     this.AppToolBarRightPopup.Child = content;
+                    this.AppToolBarRightPopup.Width = content.Width;
+                    this.AppToolBarRightPopup.Height = content.Height;
                     this.AppToolBarRightPopup.IsOpen = true;
                     break;
                 case PopupRegion.AppToolBarLeft:
                     this.AppToolBarLeftPopup.Child = content;
+                    this.AppToolBarLeftPopup.Width = content.Width;
+                    this.AppToolBarLeftPopup.Height = content.Height;
                     this.AppToolBarLeftPopup.IsOpen = true;
                     break;
                 case PopupRegion.Full:
@@ -409,7 +413,30 @@ namespace OutcoldSolutions.Views
             var popup = sender as Popup;
             if (popup != null)
             {
+                UIElement content = popup.Child;
                 popup.Child = null;
+
+                var popupViewBase = content as PopupViewBase;
+                if (popupViewBase != null)
+                {
+                    try
+                    {
+                        popupViewBase.GetPresenter<BindingModelBase>().DisposeIfDisposable();
+                    }
+                    catch (Exception exp)
+                    {
+                        this.logger.LogErrorException(exp);
+                    }
+                }
+
+                try
+                {
+                    content.DisposeIfDisposable();
+                }
+                catch (Exception exp)
+                {
+                    this.logger.LogErrorException(exp);
+                }
             }
         }
 
@@ -425,6 +452,26 @@ namespace OutcoldSolutions.Views
             if (this.currentView != null)
             {
                 this.currentView.GetPresenter<BindingModelBase>().Unsubscribe("IsDataLoading", this.OnIsDataLoadingChanged);
+
+                try
+                {
+                    this.currentView.GetPresenter<BindingModelBase>().DisposeIfDisposable();
+                }
+                catch (Exception exp)
+                {
+                    this.logger.LogErrorException(exp);
+                }
+
+                try
+                {
+                    this.currentView.DisposeIfDisposable();
+                }
+                catch (Exception exp)
+                {
+                    this.logger.LogErrorException(exp);
+                }
+                
+                this.currentView = null;
             }
 
             this.ClearViewCommands();

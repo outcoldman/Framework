@@ -52,8 +52,17 @@ namespace OutcoldSolutions.Presentation.Test
                 registration.Register<IPopupTest>()
                     .InjectionRule<BindingModelBase, PopupTestPresenter>()
                     .As<PopupTest>();
-
                 registration.Register<PopupTestPresenter>();
+
+                registration.Register<ILeftPopupTest>()
+                    .InjectionRule<BindingModelBase, LeftPopupTestPresenter>()
+                    .As<LeftPopupTest>();
+                registration.Register<LeftPopupTestPresenter>();
+
+                registration.Register<IRightPopupTest>()
+                    .InjectionRule<BindingModelBase, RightPopupTestPresenter>()
+                    .As<RightPopupTest>();
+                registration.Register<RightPopupTestPresenter>();
             }
         }
 

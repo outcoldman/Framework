@@ -216,6 +216,12 @@
         <Setter Property="Content" Value="&#xE14C;"/>
     </Style>
 
+    <Style x:Key="MoreAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="MoreAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="More"/>
+        <Setter Property="Content" Value="&#xE10C;"/>
+    </Style>
+
     <!--<Style x:Key="SkipBackAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="SkipBackAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Skip Back"/>
