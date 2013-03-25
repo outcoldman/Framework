@@ -10,7 +10,7 @@ namespace OutcoldSolutions.Presentation.Test.Presenters
     using OutcoldSolutions.Presentation.Test.Views;
     using OutcoldSolutions.Presenters;
 
-    public class TestDataPageViewPresenter : DataPagePresenterBase<ITestDataPageView, TestDataPageViewBindingModel>
+    public class TestDataPageViewPresenter : PagePresenterBase<ITestDataPageView, TestDataPageViewBindingModel>
     {
         public TestDataPageViewPresenter()
         {

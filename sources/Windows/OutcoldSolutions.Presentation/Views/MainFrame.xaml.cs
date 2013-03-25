@@ -380,9 +380,9 @@ namespace OutcoldSolutions.Views
         private void OnIsDataLoadingChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             var view = this.currentView;
-            if (view is IDataPageView)
+            if (view is IPageView)
             {
-                var viewPresenter = view.GetPresenter<IDataPagePresenterBase>();
+                var viewPresenter = view.GetPresenter<IPagePresenterBase>();
                 this.ProgressRing.IsActive = viewPresenter.IsDataLoading;
                 if (!this.ProgressRing.IsActive)
                 {
@@ -528,7 +528,7 @@ namespace OutcoldSolutions.Views
                     });
             }
 
-            var dataPageView = this.currentView as IDataPageView;
+            var dataPageView = this.currentView as IPageView;
             if (dataPageView != null)
             {
                 this.ProgressRing.IsActive = true;

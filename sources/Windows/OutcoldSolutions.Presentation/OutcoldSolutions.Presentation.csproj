@@ -130,14 +130,14 @@
     <Compile Include="Diagnostics\LoggerWebExtensions.cs" />
     <Compile Include="MenuItemMetadata.cs" />
     <Compile Include="Presenters\ApplicationSettingFramePresenter.cs" />
-    <Compile Include="Presenters\PagePresenterBase.cs" />
+    <Compile Include="Presenters\DisposablePagePresenterBase.cs" />
+    <Compile Include="Presenters\DisposableViewPresenterBase.cs" />
     <Compile Include="Shell\ApplicationSettingViewsService.cs" />
     <Compile Include="Shell\ApplicationSettingLayoutType.cs" />
     <Compile Include="Shell\IApplicationSettingViewsService.cs" />
     <Compile Include="Views\ApplicationSettingFrame.xaml.cs">
       <DependentUpon>ApplicationSettingFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DataPageViewBase.cs" />
     <Compile Include="Models\DateTimeExtensions.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Diagnostics\DebugLogWriter.cs" />
@@ -151,8 +151,9 @@
     <Compile Include="Diagnostics\LogManager.cs" />
     <Compile Include="Diagnostics\TaskLogger.cs" />
     <Compile Include="DispatcherContainer.cs" />
+    <Compile Include="Views\DisposablePageViewBase.cs" />
+    <Compile Include="Views\DisposablePopupViewBase.cs" />
     <Compile Include="Views\IApplicationSettingsContent.cs" />
-    <Compile Include="Views\IDataPageView.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="INavigationService.cs" />
     <Compile Include="Presenters\IPagePresenterBase.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="NavigatedToEventArgs.cs" />
     <Compile Include="NavigatingFromEventArgs.cs" />
     <Compile Include="NavigationService.cs" />
-    <Compile Include="Presenters\DataPagePresenterBase.cs" />
+    <Compile Include="Presenters\PagePresenterBase.cs" />
     <Compile Include="Views\MainFrameRegion.cs" />
     <Compile Include="Views\PageViewBase.cs" />
     <Compile Include="Views\PopupRegion.cs" />

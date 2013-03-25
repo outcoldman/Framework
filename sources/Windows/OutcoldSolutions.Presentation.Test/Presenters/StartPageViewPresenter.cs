@@ -4,6 +4,7 @@
 namespace OutcoldSolutions.Presentation.Test.Presenters
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using OutcoldSolutions.Presentation.Test.Views;
     using OutcoldSolutions.Presentation.Test.Views.Popups;
@@ -49,14 +50,12 @@ namespace OutcoldSolutions.Presentation.Test.Presenters
 
         public DelegateCommand ShowRightPopupCommand { get; set; }
 
-        public override void OnNavigatedTo(NavigatedToEventArgs parameter)
+        protected override Task LoadDataAsync(NavigatedToEventArgs navigatedToEventArgs)
         {
-            base.OnNavigatedTo(parameter);
-
-            this.MainFrame.SetViewCommands(this.GetContextCommands());
+            return Task.FromResult<object>(null);
         }
 
-        private IEnumerable<CommandMetadata> GetContextCommands()
+        protected override IEnumerable<CommandMetadata> GetViewCommands()
         {
             yield return new CommandMetadata("MoreAppBarButtonStyle", "Left popup", this.ShowLeftPopupCommand);
             yield return new CommandMetadata("MoreAppBarButtonStyle", "Right popup", this.ShowRightPopupCommand);

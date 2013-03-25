@@ -9,6 +9,11 @@ namespace OutcoldSolutions.Presenters
     public interface IPagePresenterBase
     {
         /// <summary>
+        /// Gets a value indicating whether is data loading.
+        /// </summary>
+        bool IsDataLoading { get; }
+
+        /// <summary>
         /// On navigated to.
         /// </summary>
         /// <param name="parameter">
