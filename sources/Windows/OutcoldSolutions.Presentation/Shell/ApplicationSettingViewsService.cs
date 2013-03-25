@@ -7,6 +7,7 @@ namespace OutcoldSolutions.Shell
     using System.Collections.Generic;
     using System.Linq;
 
+    using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Views;
 
     using Windows.UI.ApplicationSettings;
@@ -24,12 +25,16 @@ namespace OutcoldSolutions.Shell
         private readonly Dictionary<string, ApplicationSettingViewInfo> settingViewInfos = new Dictionary<string, ApplicationSettingViewInfo>();
         private readonly List<Popup> activePopups = new List<Popup>();
 
+        private readonly ILogger logger;
         private readonly IDependencyResolverContainer container;
 
         private bool isSubscribed = false;
 
-        public ApplicationSettingViewsService(IDependencyResolverContainer container)
+        public ApplicationSettingViewsService(
+            ILogManager logManager,
+            IDependencyResolverContainer container)
         {
+            this.logger = logManager.CreateLogger("ApplicationSettingViewsService");
             this.container = container;
         }
 
@@ -165,6 +170,16 @@ namespace OutcoldSolutions.Shell
                 Window.Current.Activated -= this.OnWindowActivated;
                 popup.Closed -= this.OnPopupClosed;
                 this.activePopups.Remove(popup);
+
+                try
+                {
+                    popup.Child.DisposeIfDisposable();
+                }
+                catch (Exception exception)
+                {
+                    this.logger.Error("Exception while tried to dispose popup view content.");
+                    this.logger.LogErrorException(exception);
+                }
             }
         }
 

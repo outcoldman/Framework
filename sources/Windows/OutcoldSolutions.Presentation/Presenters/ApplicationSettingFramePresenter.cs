@@ -3,10 +3,13 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Presenters
 {
+    using System;
+
+    using OutcoldSolutions.BindingModels;
     using OutcoldSolutions.Shell;
     using OutcoldSolutions.Views;
 
-    internal class ApplicationSettingFramePresenter : ViewPresenterBase<IApplicationSettingFrame>
+    internal class ApplicationSettingFramePresenter : ViewPresenterBase<IApplicationSettingFrame>, IDisposable
     {
         private readonly IApplicationSettingViewsService applicationSettingViewsService;
 
@@ -18,6 +21,11 @@ namespace OutcoldSolutions.Presenters
         {
             this.applicationSettingViewsService = applicationSettingViewsService;
             this.GoBackCommand = new DelegateCommand(this.GoBack);
+        }
+
+        ~ApplicationSettingFramePresenter()
+        {
+            this.Dispose(disposing: false);
         }
 
         public DelegateCommand GoBackCommand { get; set; }
@@ -54,11 +62,31 @@ namespace OutcoldSolutions.Presenters
             this.Content = viewContent;
         }
 
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
         private void GoBack()
         {
             this.View.Close();
 
             this.applicationSettingViewsService.Show();
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.Content.DisposeIfDisposable();
+                var viewBase = this.Content as ViewBase;
+                if (viewBase != null)
+                {
+                    viewBase.GetPresenter<BindingModelBase>().DisposeIfDisposable();
+                }
+            }
         }
     }
 }

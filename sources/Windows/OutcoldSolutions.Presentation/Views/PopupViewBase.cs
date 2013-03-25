@@ -15,21 +15,12 @@ namespace OutcoldSolutions.Views
         /// <inheritdoc />
         public void Close()
         {
-            this.OnClose();
-
             var popup = this.Parent as Popup;
             Debug.Assert(popup != null, "popup != null");
             if (popup != null)
             {
                 popup.IsOpen = false;
             }
-        }
-
-        /// <summary>
-        /// Invoked when popup view going to be closed.
-        /// </summary>
-        protected virtual void OnClose()
-        {
         }
     }
 }

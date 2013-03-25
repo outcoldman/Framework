@@ -3,6 +3,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OutcoldSolutions.Views
 {
+    using System;
+
     using OutcoldSolutions.Presenters;
 
     internal interface IApplicationSettingFrame : IPopupView
@@ -10,7 +12,7 @@ namespace OutcoldSolutions.Views
         void SetContent(string title, object content);
     }
 
-    internal sealed partial class ApplicationSettingFrame : PopupViewBase, IApplicationSettingFrame
+    internal sealed partial class ApplicationSettingFrame : PopupViewBase, IApplicationSettingFrame, IDisposable
     {
         private ApplicationSettingFramePresenter presenter;
 
@@ -19,9 +21,21 @@ namespace OutcoldSolutions.Views
             this.InitializeComponent();
         }
 
+        ~ApplicationSettingFrame()
+        {
+            this.Dispose(disposing: false);
+        }
+
         public void SetContent(string title, object content)
         {
             this.presenter.SetContent(title, content);
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         protected override void OnInitialized()
@@ -29,6 +43,14 @@ namespace OutcoldSolutions.Views
             base.OnInitialized();
 
             this.presenter = this.GetPresenter<ApplicationSettingFramePresenter>();
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.presenter.DisposeIfDisposable();
+            }
         }
     }
 }
