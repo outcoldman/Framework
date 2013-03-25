@@ -358,6 +358,7 @@ namespace OutcoldSolutions.Views
                     this.FullScreenPopup.IsOpen = true;
                     this.UpdateBottomAppBarVisibility();
                     this.UpdateTopAppBarVisibility();
+                    ((Storyboard)this.Resources["ActivateFullScreenPopup"]).Begin();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("region");

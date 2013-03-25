@@ -15,6 +15,14 @@
                 <LinearDoubleKeyFrame KeyTime="0:0:0.300" Value="1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
+        <Storyboard x:Key="ActivateFullScreenPopup">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FullScreenPopup" Storyboard.TargetProperty="Opacity" >
+                <LinearDoubleKeyFrame KeyTime="0:0:0.000" Value="0" />
+                <LinearDoubleKeyFrame KeyTime="0:0:0.100" Value="0" />
+                <LinearDoubleKeyFrame KeyTime="0:0:0.300" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Page.Resources>
 
     <Page.TopAppBar>
@@ -96,7 +104,12 @@
                IsLightDismissEnabled="False"
                Closed="FullScreenPopupViewClosed"/>
         
-        <ContentControl x:Name="SnappedViewContentControl" Visibility="Collapsed" />
+        <ContentControl x:Name="SnappedViewContentControl" 
+                        Visibility="Collapsed"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"/>
         
         <Grid x:Name="FullViewGrid">
             <Grid.RowDefinitions>
