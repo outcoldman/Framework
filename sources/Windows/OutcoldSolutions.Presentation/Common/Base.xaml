@@ -170,6 +170,31 @@
                 <TransitionCollection />
             </Setter.Value>
         </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Content, Mode=OneTime}" 
+                            VerticalAlignment="Bottom" 
+                            Margin="12, 0, 0, 20" 
+                            Style="{StaticResource TitleTextStyle}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="SelectionMode" Value="None"/>
+        <Setter Property="IsItemClickEnabled" Value="True"/>
+        <Setter Property="Margin" Value="20, 0, 0, 10"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListViewItem">
@@ -178,7 +203,7 @@
                             <TransitionCollection />
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="Margin" Value="0, 0, 15, 0" />
+                    <Setter Property="Margin" Value="0, 0, 15, 15" />
                     <Setter Property="Padding" Value="0" />
                     <Setter Property="Template">
                         <Setter.Value>
@@ -217,23 +242,6 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=Content, Mode=OneTime}" 
-                            VerticalAlignment="Bottom" 
-                            Margin="12, 0, 0, 20" 
-                            Style="{StaticResource TitleTextStyle}" />
-                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>

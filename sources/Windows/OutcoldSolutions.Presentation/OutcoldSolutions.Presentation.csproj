@@ -115,6 +115,7 @@
     </Compile>
     <Compile Include="ApplicationBase.cs" />
     <Compile Include="BindingModels\BindingModelBase.cs" />
+    <Compile Include="BindingModels\DisposableBindingModelBase.cs" />
     <Compile Include="BindingModels\MainFrameBindingModel.cs" />
     <Compile Include="CommandMetadata.cs" />
     <Compile Include="Controls\AppBarToggleButton.cs" />

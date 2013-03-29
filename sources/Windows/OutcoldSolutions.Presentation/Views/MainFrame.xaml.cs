@@ -112,6 +112,8 @@ namespace OutcoldSolutions.Views
 
             this.BottomAppBar.Closed += (sender, o) =>
                 {
+                    this.AppToolBarRightPopup.IsOpen = false;
+                    this.AppToolBarLeftPopup.IsOpen = false;
                     this.BottomAppBarFakeBorder.Visibility = Visibility.Collapsed;
                 };
 

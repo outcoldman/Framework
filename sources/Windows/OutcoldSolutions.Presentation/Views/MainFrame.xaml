@@ -28,7 +28,8 @@
     <Page.TopAppBar>
         <AppBar IsSticky="False" 
                 Opened="TopAppBarOpened"
-                Style="{StaticResource TopAppBarStyle}">
+                Style="{StaticResource TopAppBarStyle}"
+                Height="Auto">
             <Grid>
                 
                 <Grid.RowDefinitions>
@@ -36,8 +37,13 @@
                     <RowDefinition Height="37" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                <Border Height="10" Background="{StaticResource ApplicationThemeBrush}"  />
+                <Border Height="10" Background="{StaticResource ApplicationThemeBrush}" Grid.ColumnSpan="2"  />
 
                 <TextBlock Margin="30, 0, 0, 10" 
                            VerticalAlignment="Bottom" 
@@ -47,20 +53,19 @@
 
                 <ListView x:Name="MainMenuItemsControl" 
                           Grid.Row="2" 
-                          Margin="20, 0, 0, 25" 
                           ItemClick="MainMenuItemClick" 
                           IsItemClickEnabled="True"
-                          SelectionMode="None"
                           Style="{StaticResource ListViewMainMenu}"/>
 
-                <ContentControl 
-                        Margin="20, 0, 20, 0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Stretch"
-                        HorizontalContentAlignment="Right"
-                        VerticalContentAlignment="Stretch"
-                        x:Name="TopAppBarRightZoneRegionContentControl"
-                        Visibility="{Binding Path=Content, RelativeSource={RelativeSource Self}, Converter={StaticResource NullToInvisibilityConverter}}"/>
+                <ContentControl Grid.Column="1"
+                                Grid.RowSpan="2"
+                                Grid.Row="2"
+                                Margin="20, 0, 20, 0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Right"
+                                VerticalContentAlignment="Stretch"
+                                x:Name="TopAppBarRightZoneRegionContentControl" />
             </Grid>
         </AppBar>
     </Page.TopAppBar>
