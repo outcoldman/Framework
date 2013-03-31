@@ -68,7 +68,10 @@ namespace OutcoldSolutions
         /// <summary>
         /// The activated event.
         /// </summary>
-        protected abstract void OnActivated();
+        /// <param name="isFirstTimeActivate">
+        /// The is first time activate.
+        /// </param>
+        protected abstract void OnActivated(bool isFirstTimeActivate);
 
         /// <summary>
         /// The on suspending async.
@@ -83,9 +86,13 @@ namespace OutcoldSolutions
 
         private void InitializeInternal()
         {
+            bool isFirstTimeActivate = false;
+
             MainFrame mainFrame = Window.Current.Content as MainFrame;
             if (mainFrame == null)
             {
+                isFirstTimeActivate = true;
+
                 if (ApplicationBase.Container == null)
                 {
                     ApplicationBase.Container = new DependencyResolverContainer();
@@ -125,7 +132,7 @@ namespace OutcoldSolutions
 
             Window.Current.Activate();
 
-            this.OnActivated();
+            this.OnActivated(isFirstTimeActivate);
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs suspendingEventArgs)

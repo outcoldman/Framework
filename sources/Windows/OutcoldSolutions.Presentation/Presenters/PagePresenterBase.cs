@@ -11,6 +11,8 @@ namespace OutcoldSolutions.Presenters
     using OutcoldSolutions.Diagnostics;
     using OutcoldSolutions.Views;
 
+    using Windows.UI.Core;
+
     /// <summary>
     /// The page presenter base.
     /// </summary>
@@ -59,8 +61,8 @@ namespace OutcoldSolutions.Presenters
                             this.IsDataLoading = false;
                         });
 
-                    await Task.Yield();
-                    await this.Dispatcher.RunAsync(() => this.View.OnDataLoaded(parameter));
+                    await Task.Delay(1);
+                    await this.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => this.View.OnDataLoaded(parameter));
                 }));
         }
 

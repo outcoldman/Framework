@@ -66,17 +66,20 @@ namespace OutcoldSolutions.Presentation.Test
             }
         }
 
-        protected override void OnActivated()
+        protected override void OnActivated(bool isFirstTimeActivate)
         {
-            Container.Resolve<IMainFrame>().SetMenuItems(new List<MenuItemMetadata>()
+            if (isFirstTimeActivate)
+            {
+                Container.Resolve<IMainFrame>().SetMenuItems(new List<MenuItemMetadata>()
                                                                       {
                                                                           MenuItemMetadata.FromViewType<IStartPageView>("Start view"),
                                                                           MenuItemMetadata.FromViewType<ITestDataPageView>("Test Data Page")
                                                                       });
 
-            Container.Resolve<IApplicationSettingViewsService>().RegisterSettings<PrivacyView>("privacy", "Privacy");
+                Container.Resolve<IApplicationSettingViewsService>().RegisterSettings<PrivacyView>("privacy", "Privacy");
 
-            Container.Resolve<INavigationService>().NavigateTo<IStartPageView>();
+                Container.Resolve<INavigationService>().NavigateTo<IStartPageView>();
+            }
         }
     }
 }
