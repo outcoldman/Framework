@@ -343,18 +343,21 @@ namespace OutcoldSolutions.Views
             switch (region)
             {
                 case PopupRegion.AppToolBarRight:
+                    this.DisposePopupContent(this.AppToolBarRightPopup);
                     this.AppToolBarRightPopup.Child = content;
                     this.AppToolBarRightPopup.Width = content.Width;
                     this.AppToolBarRightPopup.Height = content.Height;
                     this.AppToolBarRightPopup.IsOpen = true;
                     break;
                 case PopupRegion.AppToolBarLeft:
+                    this.DisposePopupContent(this.AppToolBarLeftPopup);
                     this.AppToolBarLeftPopup.Child = content;
                     this.AppToolBarLeftPopup.Width = content.Width;
                     this.AppToolBarLeftPopup.Height = content.Height;
                     this.AppToolBarLeftPopup.IsOpen = true;
                     break;
                 case PopupRegion.Full:
+                    this.DisposePopupContent(this.FullScreenPopup);
                     this.FullScreenPopup.Child = content;
                     this.UpdateFullScreenPopupSize();
                     this.FullScreenPopup.IsOpen = true;
@@ -416,30 +419,35 @@ namespace OutcoldSolutions.Views
             var popup = sender as Popup;
             if (popup != null)
             {
-                UIElement content = popup.Child;
-                popup.Child = null;
+                this.DisposePopupContent(popup);
+            }
+        }
 
-                var popupViewBase = content as PopupViewBase;
-                if (popupViewBase != null)
-                {
-                    try
-                    {
-                        popupViewBase.GetPresenter<BindingModelBase>().DisposeIfDisposable();
-                    }
-                    catch (Exception exp)
-                    {
-                        this.logger.LogErrorException(exp);
-                    }
-                }
+        private void DisposePopupContent(Popup popup)
+        {
+            UIElement content = popup.Child;
+            popup.Child = null;
 
+            var popupViewBase = content as PopupViewBase;
+            if (popupViewBase != null)
+            {
                 try
                 {
-                    content.DisposeIfDisposable();
+                    popupViewBase.GetPresenter<BindingModelBase>().DisposeIfDisposable();
                 }
                 catch (Exception exp)
                 {
                     this.logger.LogErrorException(exp);
                 }
+            }
+
+            try
+            {
+                content.DisposeIfDisposable();
+            }
+            catch (Exception exp)
+            {
+                this.logger.LogErrorException(exp);
             }
         }
 
