@@ -102,9 +102,6 @@
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\Logger.cs">
       <Link>_sources\Diagnostics\Logger.cs</Link>
     </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LoggerEx.cs">
-      <Link>_sources\Diagnostics\LoggerEx.cs</Link>
-    </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\LoggerWebExtensions.cs">
       <Link>_sources\Diagnostics\LoggerWebExtensions.cs</Link>
     </Compile>

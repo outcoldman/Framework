@@ -4,12 +4,9 @@
 
 namespace OutcoldSolutions.Diagnostics
 {
-    using System;
-
     /// <summary>
     /// The log level.
     /// </summary>
-    [Flags]
     public enum LogLevel
     {
         /// <summary>
@@ -18,43 +15,23 @@ namespace OutcoldSolutions.Diagnostics
         None = 0,
 
         /// <summary>
-        /// The only error.
-        /// </summary>
-        OnlyError = 1,
-
-        /// <summary>
-        /// The error.
-        /// </summary>
-        Error = OnlyError,
-
-        /// <summary>
-        /// The only warning.
-        /// </summary>
-        OnlyWarning = 2,
-
-        /// <summary>
         /// The warning.
         /// </summary>
-        Warning = OnlyWarning | Error,
-
-        /// <summary>
-        /// The only debug.
-        /// </summary>
-        OnlyDebug = 3,
+        Warning = 3,
 
         /// <summary>
         /// The debug.
         /// </summary>
-        Debug = OnlyDebug | Warning,
+        Debug = 2,
 
         /// <summary>
-        /// The only info.
+        /// The error.
         /// </summary>
-        OnlyInfo = 4,
+        Error = 4,
 
         /// <summary>
         /// The info.
         /// </summary>
-        Info = OnlyInfo | Debug,
+        Info = 1
     }
 }

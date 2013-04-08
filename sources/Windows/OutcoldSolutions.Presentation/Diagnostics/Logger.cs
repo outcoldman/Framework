@@ -4,6 +4,7 @@
 
 namespace OutcoldSolutions.Diagnostics
 {
+    using System;
     using System.Diagnostics;
 
     /// <summary>
@@ -75,6 +76,18 @@ namespace OutcoldSolutions.Diagnostics
         public void Error(string message, params object[] parameters)
         {
             this.logManager.Error(this.context, message, parameters);
+        }
+
+        /// <inheritdoc/>
+        public void Warning(Exception exception, string message, params object[] parameters)
+        {
+            this.logManager.Warning(this.context, exception, message, parameters);
+        }
+
+        /// <inheritdoc/>
+        public void Error(Exception exception, string message, params object[] parameters)
+        {
+            this.logManager.Error(this.context, exception, message, parameters);
         }
     }
 }

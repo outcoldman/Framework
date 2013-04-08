@@ -4,6 +4,8 @@
 
 namespace OutcoldSolutions.Diagnostics
 {
+    using System;
+
     /// <summary>
     /// The Logger interface.
     /// </summary>
@@ -72,5 +74,33 @@ namespace OutcoldSolutions.Diagnostics
         /// The parameters.
         /// </param>
         void Error(string message, params object[] parameters);
+
+        /// <summary>
+        /// Log warning message.
+        /// </summary>
+        /// <param name="exception">
+        /// The exception.
+        /// </param>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="parameters">
+        /// The parameters.
+        /// </param>
+        void Warning(Exception exception, string message, params object[] parameters);
+
+        /// <summary>
+        /// Log error message.
+        /// </summary>
+        /// <param name="exception">
+        /// The exception.
+        /// </param>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="parameters">
+        /// The parameters.
+        /// </param>
+        void Error(Exception exception, string message, params object[] parameters);
     }
 }

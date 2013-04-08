@@ -437,7 +437,7 @@ namespace OutcoldSolutions.Views
                 }
                 catch (Exception exp)
                 {
-                    this.logger.LogErrorException(exp);
+                    this.logger.Error(exp, "Exception while tried to dispose presenter for popup view base.");
                 }
             }
 
@@ -447,7 +447,7 @@ namespace OutcoldSolutions.Views
             }
             catch (Exception exp)
             {
-                this.logger.LogErrorException(exp);
+                this.logger.Error(exp, "Exception while tried to dispose content of popup view base.");
             }
         }
 
@@ -470,7 +470,7 @@ namespace OutcoldSolutions.Views
                 }
                 catch (Exception exp)
                 {
-                    this.logger.LogErrorException(exp);
+                    this.logger.Error(exp, "Exception while tried to dispose presenter for curren view.");
                 }
 
                 try
@@ -479,7 +479,7 @@ namespace OutcoldSolutions.Views
                 }
                 catch (Exception exp)
                 {
-                    this.logger.LogErrorException(exp);
+                    this.logger.Error(exp, "Exception while tried to dispose current view.");
                 }
                 
                 this.currentView = null;

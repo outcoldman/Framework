@@ -28,11 +28,11 @@ namespace OutcoldSolutions.Diagnostics
             {
                 if (task.IsFaulted)
                 {
-                    logger.LogErrorException(task.Exception);
+                    logger.Error(task.Exception, "Task failed");
                 }
                 else if (task.IsCanceled)
                 {
-                    logger.Warning("Task is cancelled.");
+                    logger.Debug("Task is cancelled.");
                 }
                 else if (task.IsCompleted)
                 {
@@ -61,7 +61,7 @@ namespace OutcoldSolutions.Diagnostics
             {
                 if (task.IsFaulted)
                 {
-                    logger.LogErrorException(task.Exception);
+                    logger.Error(task.Exception, "Task failed");
                 }
                 else if (task.IsCanceled)
                 {

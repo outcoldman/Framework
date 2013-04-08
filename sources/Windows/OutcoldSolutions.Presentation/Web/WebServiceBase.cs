@@ -62,7 +62,7 @@ namespace OutcoldSolutions.Web
             }
             catch (Exception exception)
             {
-                this.Logger.LogErrorException(exception);
+                this.Logger.Error(exception, "Exception while sending request, Method: {0}, Uri: {1}.", requestMessage.Method, requestMessage.RequestUri);
                 throw;
             }
         }

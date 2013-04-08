@@ -40,7 +40,13 @@ namespace OutcoldSolutions.Diagnostics
         }
 
         /// <inheritdoc />
-        public void Log(DateTime dateTime, string level, string context, string message, params object[] parameters)
+        public void Log(DateTime dateTime, LogLevel level, string context, string message, params object[] parameters)
+        {
+            this.Log(dateTime, level, context, null, message, parameters);
+        }
+
+        /// <inheritdoc />
+        public void Log(DateTime dateTime, LogLevel level, string context, Exception exception, string message, params object[] parameters)
         {
             lock (this.locker)
             {
@@ -53,13 +59,13 @@ namespace OutcoldSolutions.Diagnostics
                 {
                     if (parameters.Length == 0)
                     {
-                        this.writer.WriteLine(
-                            "{0:o}: {1}::: {2} --- {3}", dateTime, level, context, message);
+                        this.writer.WriteLine("{0:o}: {1}::: {2} --- {3}", dateTime, level, context, message);
+                        this.writer.WriteLine("\t {0}", exception);
                     }
                     else
                     {
-                        this.writer.WriteLine(
-                            "{0:o}: {1}::: {2} --- {3}", dateTime, level, context, string.Format(message, parameters));
+                        this.writer.WriteLine("{0:o}: {1}::: {2} --- {3}", dateTime, level, context, string.Format(message, parameters));
+                        this.writer.WriteLine("\t {0}", exception);
                     }
 
                     this.writer.Flush();

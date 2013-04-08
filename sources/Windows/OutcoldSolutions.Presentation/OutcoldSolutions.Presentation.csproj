@@ -147,7 +147,6 @@
     <Compile Include="Diagnostics\ILogManager.cs" />
     <Compile Include="Diagnostics\ILogWriter.cs" />
     <Compile Include="Diagnostics\Logger.cs" />
-    <Compile Include="Diagnostics\LoggerEx.cs" />
     <Compile Include="Diagnostics\LogLevel.cs" />
     <Compile Include="Diagnostics\LogManager.cs" />
     <Compile Include="Diagnostics\TaskLogger.cs" />

@@ -29,22 +29,22 @@ namespace OutcoldSolutions.Diagnostics
 
         internal bool IsInfoEnabled
         {
-            get { return (this.LogLevel & LogLevel.OnlyInfo) == LogLevel.OnlyInfo; }
+            get { return this.LogLevel >= LogLevel.Info; }
         }
 
         internal bool IsDebugEnabled
         {
-            get { return (this.LogLevel & LogLevel.OnlyDebug) == LogLevel.OnlyDebug; }
+            get { return this.LogLevel >= LogLevel.Debug; }
         }
 
         internal bool IsWarningEnabled
         {
-            get { return (this.LogLevel & LogLevel.OnlyWarning) == LogLevel.OnlyWarning; }
+            get { return this.LogLevel >= LogLevel.Warning; }
         }
 
         internal bool IsErrorEnabled
         {
-            get { return (this.LogLevel & LogLevel.OnlyError) == LogLevel.OnlyError; }
+            get { return this.LogLevel >= LogLevel.Error; }
         }
 
         /// <inheritdoc />
@@ -57,7 +57,7 @@ namespace OutcoldSolutions.Diagnostics
         {
             if (this.IsInfoEnabled)
             {
-                this.Log("Info", context, message, parameters);
+                this.Log(LogLevel.Info, context, message, parameters);
             }
         }
 
@@ -65,7 +65,7 @@ namespace OutcoldSolutions.Diagnostics
         {
             if (this.IsDebugEnabled)
             {
-                this.Log("Debug", context, message, parameters);
+                this.Log(LogLevel.Debug, context, message, parameters);
             }
         }
 
@@ -73,7 +73,7 @@ namespace OutcoldSolutions.Diagnostics
         {
             if (this.IsWarningEnabled)
             {
-                this.Log("Warning", context, message, parameters);
+                this.Log(LogLevel.Warning, context, message, parameters);
             }
         }
 
@@ -81,11 +81,27 @@ namespace OutcoldSolutions.Diagnostics
         {
             if (this.IsErrorEnabled)
             {
-                this.Log("Error", context, message, parameters);
+                this.Log(LogLevel.Error, context, message, parameters);
             }
         }
 
-        private void Log(string level, string context, string message, params object[] parameters)
+        internal void Warning(string context, Exception exception, string message, params object[] parameters)
+        {
+            if (this.IsWarningEnabled)
+            {
+                this.Log(LogLevel.Warning, context, exception, message, parameters);
+            }
+        }
+
+        internal void Error(string context, Exception exception, string message, params object[] parameters)
+        {
+            if (this.IsErrorEnabled)
+            {
+                this.Log(LogLevel.Error, context, exception, message, parameters);
+            }
+        }
+
+        private void Log(LogLevel level, string context, string message, params object[] parameters)
         {
             DateTime dateTime = DateTime.Now;
 
@@ -108,6 +124,31 @@ namespace OutcoldSolutions.Diagnostics
                             }
                         }
                     });
+        }
+
+        private void Log(LogLevel level, string context, Exception exception, string message, params object[] parameters)
+        {
+            DateTime dateTime = DateTime.Now;
+
+            Task.Factory.StartNew(
+                () =>
+                {
+                    var enumerator = this.Writers.GetEnumerator();
+
+                    while (enumerator.MoveNext())
+                    {
+                        if (enumerator.Current.Value.IsEnabled)
+                        {
+                            try
+                            {
+                                enumerator.Current.Value.Log(dateTime, level, context, exception, message, parameters);
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
+                });
         }
     }
 }

@@ -177,8 +177,7 @@ namespace OutcoldSolutions.Shell
                 }
                 catch (Exception exception)
                 {
-                    this.logger.Error("Exception while tried to dispose popup view content.");
-                    this.logger.LogErrorException(exception);
+                    this.logger.Error(exception, "Exception while tried to dispose popup view content.");
                 }
             }
         }

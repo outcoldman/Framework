@@ -38,7 +38,7 @@ namespace OutcoldSolutions.Diagnostics
         }
 
         /// <inheritdoc />
-        public void Log(DateTime dateTime, string level, string context, string messageFormat, params object[] parameters)
+        public void Log(DateTime dateTime, LogLevel level, string context, string messageFormat, params object[] parameters)
         {
             if (this.debugConsole == null)
             {
@@ -57,6 +57,29 @@ namespace OutcoldSolutions.Diagnostics
             }
 
             this.debugConsole.WriteLine(string.Format("{0:o}: {1} - {2}:: {3}", dateTime, level, context, message));
+        }
+
+        /// <inheritdoc />
+        public void Log(DateTime dateTime, LogLevel level, string context, Exception exception, string messageFormat, params object[] parameters)
+        {
+            if (this.debugConsole == null)
+            {
+                return;
+            }
+
+            string message;
+
+            if (parameters.Length == 0)
+            {
+                message = messageFormat;
+            }
+            else
+            {
+                message = string.Format(messageFormat, parameters);
+            }
+
+            this.debugConsole.WriteLine(string.Format("{0:o}: {1} - {2}:: {3}", dateTime, level, context, message));
+            this.debugConsole.WriteLine(string.Format("\t {0}", exception));
         }
     }
 }
