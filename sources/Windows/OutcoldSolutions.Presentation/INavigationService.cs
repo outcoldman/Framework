@@ -117,6 +117,9 @@ namespace OutcoldSolutions
         /// <summary>
         /// The clear history.
         /// </summary>
-        void ClearHistory();
+        /// <param name="keepFirst">
+        /// Keep first item in history.
+        /// </param>
+        void ClearHistory(bool keepFirst = true);
     }
 }

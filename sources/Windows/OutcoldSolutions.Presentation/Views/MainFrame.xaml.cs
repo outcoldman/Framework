@@ -82,7 +82,10 @@ namespace OutcoldSolutions.Views
         /// <typeparam name="TPopup">
         /// The type of popup view.
         /// </typeparam>
-        void ShowPopup<TPopup>(PopupRegion popupRegion, params object[] injections) where TPopup : IPopupView;
+        /// <returns>
+        /// The <see cref="TPopup"/>.
+        /// </returns>
+        TPopup ShowPopup<TPopup>(PopupRegion popupRegion, params object[] injections) where TPopup : IPopupView;
     }
 
     /// <summary>
@@ -139,6 +142,9 @@ namespace OutcoldSolutions.Views
                     this.UpdateBottomAppBarVisibility();
                     this.UpdateTopAppBarVisibility();
                 };
+
+            InputPane.GetForCurrentView().Showing += this.InputPane_OnShowing;
+            InputPane.GetForCurrentView().Hiding += this.InputPane_OnHiding;
         }
 
         /// <inheritdoc />
@@ -214,11 +220,12 @@ namespace OutcoldSolutions.Views
         }
 
         /// <inheritdoc />
-        public void ShowPopup<TPopup>(PopupRegion popupRegion, params object[] injections) where TPopup : IPopupView
+        public TPopup ShowPopup<TPopup>(PopupRegion popupRegion, params object[] injections) where TPopup : IPopupView
         {
             TPopup popupView = this.container.Resolve<TPopup>(injections);
             var uiElement = (FrameworkElement)(object)popupView;
             this.ShowPopup(popupRegion, uiElement);
+            return popupView;
         }
        
         /// <inheritdoc />
@@ -344,6 +351,7 @@ namespace OutcoldSolutions.Views
             {
                 case PopupRegion.AppToolBarRight:
                     this.DisposePopupContent(this.AppToolBarRightPopup);
+                    this.AppToolBarRightPopup.VerticalOffset = 0;
                     this.AppToolBarRightPopup.Child = content;
                     this.AppToolBarRightPopup.Width = content.Width;
                     this.AppToolBarRightPopup.Height = content.Height;
@@ -351,6 +359,7 @@ namespace OutcoldSolutions.Views
                     break;
                 case PopupRegion.AppToolBarLeft:
                     this.DisposePopupContent(this.AppToolBarLeftPopup);
+                    this.AppToolBarLeftPopup.VerticalOffset = 0;
                     this.AppToolBarLeftPopup.Child = content;
                     this.AppToolBarLeftPopup.Width = content.Width;
                     this.AppToolBarLeftPopup.Height = content.Height;
@@ -644,6 +653,32 @@ namespace OutcoldSolutions.Views
             var itemsSource = this.MainMenuItemsControl.ItemsSource;
             this.MainMenuItemsControl.ItemsSource = null;
             this.MainMenuItemsControl.ItemsSource = itemsSource;
+        }
+
+        private void InputPane_OnShowing(InputPane sender, InputPaneVisibilityEventArgs args)
+        {
+            if (this.AppToolBarLeftPopup.IsOpen)
+            {
+                this.AppToolBarLeftPopup.VerticalOffset -= this.BottomAppBar.ActualHeight;
+            }
+
+            if (this.AppToolBarRightPopup.IsOpen)
+            {
+                this.AppToolBarRightPopup.VerticalOffset -= this.BottomAppBar.ActualHeight;
+            }
+        }
+
+        private void InputPane_OnHiding(InputPane sender, InputPaneVisibilityEventArgs args)
+        {
+            if (this.AppToolBarLeftPopup.IsOpen)
+            {
+                this.AppToolBarLeftPopup.VerticalOffset = 0;
+            }
+
+            if (this.AppToolBarRightPopup.IsOpen)
+            {
+                this.AppToolBarRightPopup.VerticalOffset = 0;
+            }
         }
     }
 }

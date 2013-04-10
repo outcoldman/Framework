@@ -115,9 +115,19 @@ namespace OutcoldSolutions
         }
 
         /// <inheritdoc />
-        public void ClearHistory()
+        public void ClearHistory(bool keepFirst = true)
         {
-            this.viewsHistory.Clear();
+            if (keepFirst)
+            {
+                while (this.viewsHistory.Count > 1)
+                {
+                    this.viewsHistory.RemoveLast();
+                }
+            }
+            else
+            {
+                this.viewsHistory.Clear();
+            }
         }
 
         private IPageView NavigateToInternal(Type pageViewType, object parameter = null, bool keepInHistory = true)

@@ -9,9 +9,9 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     Width="300" 
-    Height="400">
+    Height="200">
     
     <Grid Background="Blue">
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Left popup test</TextBlock>
+        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Text="Test" />
     </Grid>
 </views:PopupViewBase>
