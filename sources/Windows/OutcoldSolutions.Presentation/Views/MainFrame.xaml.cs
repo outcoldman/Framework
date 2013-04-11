@@ -131,11 +131,23 @@ namespace OutcoldSolutions.Views
                     {
                         this.FullViewGrid.Visibility = Visibility.Collapsed;
                         this.SnappedViewContentControl.Visibility = Visibility.Visible;
+
+                        var control = this.SnappedViewContentControl.Content as Control;
+                        if (control != null)
+                        {
+                            control.Focus(FocusState.Programmatic);
+                        }
                     }
                     else
                     {
                         this.FullViewGrid.Visibility = Visibility.Visible;
                         this.SnappedViewContentControl.Visibility = Visibility.Collapsed;
+
+                        var control = this.ContentControl.Content as Control;
+                        if (control != null)
+                        {
+                            control.Focus(FocusState.Programmatic);
+                        }
                     }
 
                     this.UpdateFullScreenPopupSize();

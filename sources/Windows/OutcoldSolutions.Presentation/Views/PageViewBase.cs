@@ -148,6 +148,8 @@ namespace OutcoldSolutions.Views
             {
                 if (eventArgs.IsNavigationBack)
                 {
+                    this.trackingItemsControl.UpdateLayout();
+
                     object offset;
                     if (eventArgs.State.TryGetValue(HorizontalScrollOffset, out offset))
                     {
