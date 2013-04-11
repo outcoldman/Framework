@@ -29,22 +29,22 @@ namespace OutcoldSolutions.Diagnostics
 
         internal bool IsInfoEnabled
         {
-            get { return this.LogLevel >= LogLevel.Info; }
+            get { return LogLevel.Info >= this.LogLevel; }
         }
 
         internal bool IsDebugEnabled
         {
-            get { return this.LogLevel >= LogLevel.Debug; }
+            get { return LogLevel.Debug >= this.LogLevel; }
         }
 
         internal bool IsWarningEnabled
         {
-            get { return this.LogLevel >= LogLevel.Warning; }
+            get { return LogLevel.Warning >= this.LogLevel; }
         }
 
         internal bool IsErrorEnabled
         {
-            get { return this.LogLevel >= LogLevel.Error; }
+            get { return LogLevel.Error >= this.LogLevel; }
         }
 
         /// <inheritdoc />
