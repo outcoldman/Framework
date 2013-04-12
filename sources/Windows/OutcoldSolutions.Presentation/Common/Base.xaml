@@ -159,6 +159,13 @@
     </Style>
 
     <!-- Main Menu List -->
+    <DataTemplate x:Key="ListViewMainMenuItemTemplate">
+        <TextBlock Text="{Binding Path=Content, Mode=OneTime}" 
+                   VerticalAlignment="Bottom" 
+                   Margin="12, 0, 0, 20" 
+                   Style="{StaticResource TitleTextStyle}" />
+    </DataTemplate>
+    
     <Style x:Key="ListViewMainMenu" TargetType="ListView">
         <Setter Property="Transitions">
             <Setter.Value>
@@ -177,16 +184,7 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Path=Content, Mode=OneTime}" 
-                            VerticalAlignment="Bottom" 
-                            Margin="12, 0, 0, 20" 
-                            Style="{StaticResource TitleTextStyle}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource ListViewMainMenuItemTemplate}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
