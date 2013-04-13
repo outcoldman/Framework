@@ -100,6 +100,8 @@ namespace OutcoldSolutions.Views
 
         private IView currentView;
 
+        private bool bottomToolWasOpen;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainFrame"/> class.
         /// </summary>
@@ -137,6 +139,8 @@ namespace OutcoldSolutions.Views
                         {
                             control.Focus(FocusState.Programmatic);
                         }
+
+                        this.bottomToolWasOpen = this.BottomAppBar.IsOpen;
                     }
                     else
                     {
@@ -153,6 +157,12 @@ namespace OutcoldSolutions.Views
                     this.UpdateFullScreenPopupSize();
                     this.UpdateBottomAppBarVisibility();
                     this.UpdateTopAppBarVisibility();
+
+                    if (ApplicationView.Value != ApplicationViewState.Snapped && this.bottomToolWasOpen)
+                    {
+                        this.BottomAppBar.IsOpen = bottomToolWasOpen;
+                        this.bottomToolWasOpen = false;
+                    }
                 };
 
             InputPane.GetForCurrentView().Showing += this.InputPane_OnShowing;
