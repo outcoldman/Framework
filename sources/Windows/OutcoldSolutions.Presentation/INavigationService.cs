@@ -60,40 +60,6 @@ namespace OutcoldSolutions
         object NavigateTo(Type type, object parameter = null, bool keepInHistory = true);
 
         /// <summary>
-        /// The navigate to view.
-        /// </summary>
-        /// <param name="parameter">
-        /// The parameter.
-        /// </param>
-        /// <param name="keepInHistory">
-        /// The keep in history.
-        /// </param>
-        /// <typeparam name="TViewResolver">
-        /// Type resolver.
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="IPageView"/>.
-        /// </returns>
-        IPageView ResolveAndNavigateTo<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IPageViewResolver;
-
-        /// <summary>
-        /// The navigate to view.
-        /// </summary>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="parameter">
-        /// The parameter.
-        /// </param>
-        /// <param name="keepInHistory">
-        /// The keep in history.
-        /// </param>
-        /// <returns>
-        /// The <see cref="object"/>.
-        /// </returns>
-        object ResolveAndNavigateTo(Type type, object parameter, bool keepInHistory = true);
-
-        /// <summary>
         /// Go back.
         /// </summary>
         void GoBack();

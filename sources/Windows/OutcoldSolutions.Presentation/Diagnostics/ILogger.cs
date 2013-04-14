@@ -76,6 +76,34 @@ namespace OutcoldSolutions.Diagnostics
         void Error(string message, params object[] parameters);
 
         /// <summary>
+        /// Log info message.
+        /// </summary>
+        /// <param name="exception">
+        /// The exception.
+        /// </param>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="parameters">
+        /// The parameters.
+        /// </param>
+        void Info(Exception exception, string message, params object[] parameters);
+
+        /// <summary>
+        /// Log debug message.
+        /// </summary>
+        /// <param name="exception">
+        /// The exception.
+        /// </param>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="parameters">
+        /// The parameters.
+        /// </param>
+        void Debug(Exception exception, string message, params object[] parameters);
+
+        /// <summary>
         /// Log warning message.
         /// </summary>
         /// <param name="exception">

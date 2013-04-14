@@ -78,6 +78,16 @@ namespace OutcoldSolutions.Diagnostics
             this.logManager.Error(this.context, message, parameters);
         }
 
+        public void Info(Exception exception, string message, params object[] parameters)
+        {
+            this.logManager.Info(this.context, exception, message, parameters);
+        }
+
+        public void Debug(Exception exception, string message, params object[] parameters)
+        {
+            this.logManager.Debug(this.context, exception, message, parameters);
+        }
+
         /// <inheritdoc/>
         public void Warning(Exception exception, string message, params object[] parameters)
         {

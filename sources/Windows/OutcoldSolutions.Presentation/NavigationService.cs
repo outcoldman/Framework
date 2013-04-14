@@ -53,22 +53,6 @@ namespace OutcoldSolutions
         }
 
         /// <inheritdoc />
-        public IPageView ResolveAndNavigateTo<TViewResolver>(object parameter, bool keepInHistory = true) where TViewResolver : IPageViewResolver
-        {
-            var viewResolver = this.container.Resolve<TViewResolver>();
-            var pageViewType = viewResolver.GetViewType(parameter);
-            return this.NavigateToInternal(pageViewType, parameter, keepInHistory);
-        }
-
-        /// <inheritdoc />
-        public object ResolveAndNavigateTo(Type type, object parameter, bool keepInHistory = true)
-        {
-            var viewResolver = (IPageViewResolver)this.container.Resolve(type);
-            var pageViewType = viewResolver.GetViewType(parameter);
-            return this.NavigateToInternal(pageViewType, parameter, keepInHistory);
-        }
-
-        /// <inheritdoc />
         public TView NavigateTo<TView>(object parameter = null, bool keepInHistory = true) where TView : IPageView
         {
             return (TView)this.NavigateTo(typeof(TView), parameter, keepInHistory);

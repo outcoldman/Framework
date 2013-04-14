@@ -27,14 +27,7 @@ namespace OutcoldSolutions.Presenters
         {
             if (menuItemMetadata != null)
             {
-                if (menuItemMetadata.PageType != null)
-                {
-                    this.navigationService.NavigateTo(menuItemMetadata.PageType, menuItemMetadata.Parameter);
-                }
-                else
-                {
-                    this.navigationService.ResolveAndNavigateTo(menuItemMetadata.PageResolverType, menuItemMetadata.Parameter);
-                }
+                this.navigationService.NavigateTo(menuItemMetadata.PageType, menuItemMetadata.Parameter);
             }
         }
 

@@ -85,6 +85,22 @@ namespace OutcoldSolutions.Diagnostics
             }
         }
 
+        internal void Info(string context, Exception exception, string message, params object[] parameters)
+        {
+            if (this.IsInfoEnabled)
+            {
+                this.Log(LogLevel.Info, context, exception, message, parameters);
+            }
+        }
+
+        internal void Debug(string context, Exception exception, string message, params object[] parameters)
+        {
+            if (this.IsDebugEnabled)
+            {
+                this.Log(LogLevel.Debug, context, exception, message, parameters);
+            }
+        }
+
         internal void Warning(string context, Exception exception, string message, params object[] parameters)
         {
             if (this.IsWarningEnabled)

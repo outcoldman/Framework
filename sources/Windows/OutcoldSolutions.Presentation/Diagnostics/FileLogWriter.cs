@@ -9,6 +9,8 @@ namespace OutcoldSolutions.Diagnostics
 
     using Windows.Storage;
 
+    using TaskExtensions = OutcoldSolutions.TaskExtensions;
+
     /// <summary>
     /// The file log writer.
     /// </summary>
@@ -76,7 +78,7 @@ namespace OutcoldSolutions.Diagnostics
         private void EnableLogging()
         {
             var enableLoggingAsync = this.EnableLoggingAsync();
-            TaskEx.WaitAllSafe(enableLoggingAsync);
+            TaskExtensions.WaitAllSafe(enableLoggingAsync);
 
             if (enableLoggingAsync.IsCompleted && !enableLoggingAsync.IsFaulted)
             {

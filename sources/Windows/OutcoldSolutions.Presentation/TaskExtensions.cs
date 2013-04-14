@@ -11,7 +11,7 @@ namespace OutcoldSolutions
     /// <summary>
     /// The task ex.
     /// </summary>
-    public static class TaskEx
+    public static class TaskExtensions
     {
         /// <summary>
         /// Continue when all tasks are completed. This method ignores <see cref="TaskCanceledException"/>.
