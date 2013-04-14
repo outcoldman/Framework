@@ -164,9 +164,6 @@ namespace OutcoldSolutions.Views
                         this.bottomToolWasOpen = false;
                     }
                 };
-
-            InputPane.GetForCurrentView().Showing += this.InputPane_OnShowing;
-            InputPane.GetForCurrentView().Hiding += this.InputPane_OnHiding;
         }
 
         /// <inheritdoc />
@@ -675,32 +672,6 @@ namespace OutcoldSolutions.Views
             var itemsSource = this.MainMenuItemsControl.ItemsSource;
             this.MainMenuItemsControl.ItemsSource = null;
             this.MainMenuItemsControl.ItemsSource = itemsSource;
-        }
-
-        private void InputPane_OnShowing(InputPane sender, InputPaneVisibilityEventArgs args)
-        {
-            if (this.AppToolBarLeftPopup.IsOpen)
-            {
-                this.AppToolBarLeftPopup.VerticalOffset -= this.BottomAppBar.ActualHeight;
-            }
-
-            if (this.AppToolBarRightPopup.IsOpen)
-            {
-                this.AppToolBarRightPopup.VerticalOffset -= this.BottomAppBar.ActualHeight;
-            }
-        }
-
-        private void InputPane_OnHiding(InputPane sender, InputPaneVisibilityEventArgs args)
-        {
-            if (this.AppToolBarLeftPopup.IsOpen)
-            {
-                this.AppToolBarLeftPopup.VerticalOffset = 0;
-            }
-
-            if (this.AppToolBarRightPopup.IsOpen)
-            {
-                this.AppToolBarRightPopup.VerticalOffset = 0;
-            }
         }
     }
 }
