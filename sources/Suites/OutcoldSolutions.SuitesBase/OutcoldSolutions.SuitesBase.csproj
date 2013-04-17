@@ -82,6 +82,9 @@
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\BindingModels\BindingModelBase.cs">
       <Link>_sources\BindingModels\BindingModelBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\DateTimeExtensions.cs">
+      <Link>_sources\DateTimeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\DebugLogWriter.cs">
       <Link>_sources\Diagnostics\DebugLogWriter.cs</Link>
     </Compile>
@@ -115,14 +118,11 @@
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Diagnostics\TaskLogger.cs">
       <Link>_sources\Diagnostics\TaskLogger.cs</Link>
     </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Models\DateTimeExtensions.cs">
-      <Link>_sources\Models\DateTimeExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\PropertyNameExtractor.cs">
       <Link>_sources\PropertyNameExtractor.cs</Link>
     </Compile>
-    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\TaskEx.cs">
-      <Link>_sources\TaskEx.cs</Link>
+    <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\TaskExtensions.cs">
+      <Link>_sources\TaskExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Windows\OutcoldSolutions.Presentation\Web\HttpContentExtensions.cs">
       <Link>_sources\Web\HttpContentExtensions.cs</Link>
