@@ -53,8 +53,8 @@ namespace OutcoldSolutions.Shell
 
         public void Show(string name)
         {
-            var applicationSettingViewInfo = this.settingViewInfos[name];
-            if (applicationSettingViewInfo != null)
+            ApplicationSettingViewInfo applicationSettingViewInfo;
+            if (this.settingViewInfos.TryGetValue(name, out applicationSettingViewInfo))
             {
                 this.CreatePopup(applicationSettingViewInfo);
             }
