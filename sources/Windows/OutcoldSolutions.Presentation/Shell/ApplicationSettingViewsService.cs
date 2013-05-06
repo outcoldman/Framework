@@ -69,7 +69,8 @@ namespace OutcoldSolutions.Shell
             string name, 
             string title, 
             ApplicationSettingLayoutType layoutType = ApplicationSettingLayoutType.Standard,
-            string insertAfterName = null) 
+            string insertAfterName = null,
+            bool visibleInSettings = false) 
             where TApplicationSettingsView : IApplicationSettingsContent
         {
             int newIndex = this.settingViewsOrder.Count;
@@ -84,7 +85,7 @@ namespace OutcoldSolutions.Shell
             }
 
             this.settingViewsOrder.Insert(newIndex, name);
-            this.settingViewInfos[name] = new ApplicationSettingViewInfo(title, layoutType, typeof(TApplicationSettingsView));
+            this.settingViewInfos[name] = new ApplicationSettingViewInfo(title, layoutType, typeof(TApplicationSettingsView), visibleInSettings);
             this.VerifyCommandsRequestedSubscription();
         }
 
@@ -98,7 +99,7 @@ namespace OutcoldSolutions.Shell
 
         private void VerifyCommandsRequestedSubscription()
         {
-            if (this.settingViewInfos.Count > 0)
+            if (this.GetVisibleSettings().Any())
             {
                 if (!this.isSubscribed)
                 {
@@ -118,12 +119,17 @@ namespace OutcoldSolutions.Shell
 
         private void CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
         {
-            foreach (var viewInfo in this.settingViewInfos)
+            foreach (var viewInfo in this.GetVisibleSettings())
             {
                 ApplicationSettingViewInfo info = viewInfo.Value;
-                var cmd = new SettingsCommand(viewInfo.Key, info.Title, (x) => this.CreatePopup(info));
-                args.Request.ApplicationCommands.Add(cmd);
+                var command = new SettingsCommand(viewInfo.Key, info.Title, (x) => this.CreatePopup(info));
+                args.Request.ApplicationCommands.Add(command);
             }
+        }
+
+        private IEnumerable<KeyValuePair<string, ApplicationSettingViewInfo>> GetVisibleSettings()
+        {
+            return this.settingViewInfos.Where(i => i.Value.VisibleInSettings);
         }
 
         private void CreatePopup(ApplicationSettingViewInfo viewInfo)
@@ -187,11 +193,13 @@ namespace OutcoldSolutions.Shell
             public ApplicationSettingViewInfo(
                 string title, 
                 ApplicationSettingLayoutType layoutType, 
-                Type viewType)
+                Type viewType, 
+                bool visibleInSettings)
             {
                 this.Title = title;
                 this.LayoutType = layoutType;
                 this.ViewType = viewType;
+                VisibleInSettings = visibleInSettings;
             }
 
             public string Title { get; private set; }
@@ -199,6 +207,8 @@ namespace OutcoldSolutions.Shell
             public ApplicationSettingLayoutType LayoutType { get; private set; }
 
             public Type ViewType { get; private set; }
+
+            public bool VisibleInSettings { get; private set; }
         }
     }
 }

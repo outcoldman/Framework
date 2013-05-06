@@ -46,11 +46,13 @@ namespace OutcoldSolutions.Shell
         /// <param name="title">The title of the application settings view.</param>
         /// <param name="layoutType">The view type.</param>
         /// <param name="insertAfterName">Set the name of the settings which you want to see before this one.</param>
+        /// <param name="visibleInSettings">Should be visible in settings.</param>
         void RegisterSettings<TApplicationSettingsContent>(
             string name, 
             string title, 
             ApplicationSettingLayoutType layoutType = ApplicationSettingLayoutType.Standard,
-            string insertAfterName = null)
+            string insertAfterName = null,
+            bool visibleInSettings = false)
             where TApplicationSettingsContent : IApplicationSettingsContent;
 
         /// <summary>
