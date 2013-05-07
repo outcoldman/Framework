@@ -70,7 +70,7 @@ namespace OutcoldSolutions.Shell
             string title, 
             ApplicationSettingLayoutType layoutType = ApplicationSettingLayoutType.Standard,
             string insertAfterName = null,
-            bool visibleInSettings = false) 
+            bool visibleInSettings = true) 
             where TApplicationSettingsView : IApplicationSettingsContent
         {
             int newIndex = this.settingViewsOrder.Count;

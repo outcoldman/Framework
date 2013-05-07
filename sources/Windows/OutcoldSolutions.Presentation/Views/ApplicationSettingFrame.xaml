@@ -53,13 +53,12 @@
 
             </Grid>
 
-            <ScrollViewer Grid.Row="1" Margin="40,24,23,0" 
-                          VerticalAlignment="Top" 
-                          HorizontalScrollBarVisibility="Disabled" 
-                          HorizontalScrollMode="Disabled"
-                          VerticalScrollBarVisibility="Auto" 
-                          VerticalScrollMode="Auto" 
-                          Content="{Binding Path=Content, Mode=OneWay}" />
+            <ContentControl Grid.Row="1" Margin="40,24,23,0" 
+                            VerticalAlignment="Stretch" 
+                            HorizontalAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Content="{Binding Path=Content, Mode=OneWay}" />
 
         </Grid>
     </Border>
