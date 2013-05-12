@@ -77,12 +77,7 @@ namespace OutcoldSolutions
             if (this.CanGoBack())
             {
                 this.viewsHistory.RemoveLast();
-                var item = this.viewsHistory.Last.Value;
-
-                this.mainFrameRegionProvider.SetContent(MainFrameRegion.Content, item.View);
-                var navigatedToEventArgs = new NavigatedToEventArgs(item.View, item.State, item.Parameter, isBack: true);
-                item.View.OnNavigatedTo(navigatedToEventArgs);
-                this.RaiseNavigatedTo(navigatedToEventArgs);
+                this.NavigateToCurrentView();
             }
         }
 
@@ -112,6 +107,24 @@ namespace OutcoldSolutions
             {
                 this.viewsHistory.Clear();
             }
+        }
+
+        /// <inheritdoc />
+        public void RefreshCurrentView()
+        {
+            if (this.viewsHistory.Count > 0)
+            {
+                this.NavigateToCurrentView();
+            }
+        }
+
+        private void NavigateToCurrentView()
+        {
+            var item = this.viewsHistory.Last.Value;
+            this.mainFrameRegionProvider.SetContent(MainFrameRegion.Content, item.View);
+            var navigatedToEventArgs = new NavigatedToEventArgs(item.View, item.State, item.Parameter, isBack: true);
+            item.View.OnNavigatedTo(navigatedToEventArgs);
+            this.RaiseNavigatedTo(navigatedToEventArgs);
         }
 
         private IPageView NavigateToInternal(Type pageViewType, object parameter = null, bool keepInHistory = true)

@@ -87,5 +87,10 @@ namespace OutcoldSolutions
         /// Keep first item in history.
         /// </param>
         void ClearHistory(bool keepFirst = true);
+
+        /// <summary>
+        /// Navigate to current view again (if you need to refresh current view).
+        /// </summary>
+        void RefreshCurrentView();
     }
 }
