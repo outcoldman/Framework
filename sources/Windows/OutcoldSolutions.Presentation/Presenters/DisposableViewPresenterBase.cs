@@ -14,7 +14,7 @@ namespace OutcoldSolutions.Presenters
     /// <typeparam name="TView">
     /// The type of view.
     /// </typeparam>
-    public class DisposableViewPresenterBase<TView> : ViewPresenterBase<TView>
+    public class DisposableViewPresenterBase<TView> : ViewPresenterBase<TView>, IDisposable
         where TView : IView
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
